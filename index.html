@@ -103,12 +103,21 @@
 
     main {
       flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       padding: 40px 20px;
+      overflow-y: auto;
     }
 
+    .page {
+      display: none;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* HOME PAGE */
     .contact-section {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
@@ -165,6 +174,162 @@
       text-decoration: underline;
     }
 
+    /* DOCUMENTS PAGE */
+    .page-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .upload-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .upload-section h3 {
+      margin-bottom: 20px;
+      color: #64b5f6;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1em;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #64b5f6;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(100, 181, 246, 0.4);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ef5350 0%, #e53935 100%);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #90a4ae 0%, #78909c 100%);
+    }
+
+    .search-section {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .search-section input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1em;
+    }
+
+    .search-section input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .search-section input:focus {
+      outline: none;
+      border-color: #64b5f6;
+    }
+
+    .table-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table thead {
+      background: rgba(100, 181, 246, 0.2);
+    }
+
+    table th {
+      padding: 15px;
+      text-align: left;
+      color: #64b5f6;
+      font-weight: 600;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    table td {
+      padding: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    table tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-small {
+      padding: 8px 15px;
+      font-size: 0.9em;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px 20px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1em;
+    }
+
     footer {
       background: rgba(0, 0, 0, 0.3);
       padding: 20px;
@@ -172,6 +337,7 @@
       font-size: 0.9em;
       color: rgba(255, 255, 255, 0.8);
       border-top: 1px solid rgba(255, 255, 255, 0.2);
+      margin-top: auto;
     }
 
     /* RESPONSIVE */
@@ -194,22 +360,8 @@
         font-size: 2em;
       }
 
-      .contact-section {
-        padding: 25px;
-      }
-
       .contact-grid {
         grid-template-columns: 1fr;
-      }
-
-      .sidebar h2 {
-        padding: 0 15px 10px 15px;
-        font-size: 1em;
-      }
-
-      .sidebar a {
-        padding: 10px 15px;
-        font-size: 0.9em;
       }
 
       .sidebar ul {
@@ -223,6 +375,15 @@
         flex: 1;
         min-width: 120px;
       }
+
+      table {
+        font-size: 0.9em;
+      }
+
+      table th,
+      table td {
+        padding: 10px;
+      }
     }
   </style>
 </head>
@@ -231,11 +392,12 @@
   <aside class="sidebar">
     <h2>Menu</h2>
     <ul>
-      <li><a href="#faktury-zakupu" class="active">📄 Faktury Zakupu</a></li>
-      <li><a href="#faktury-sprzedazy">📋 Faktury Sprzedaży</a></li>
-      <li><a href="#rachunki">💰 Rachunki</a></li>
-      <li><a href="#wplaty">✅ Wpłaty</a></li>
-      <li><a href="#raporty">📊 Raporty</a></li>
+      <li><a href="#" class="menu-link active" data-page="home">🏠 Home</a></li>
+      <li><a href="#" class="menu-link" data-page="faktury-zakupu">📄 Faktury Zakupu</a></li>
+      <li><a href="#" class="menu-link" data-page="faktury-sprzedazy">📋 Faktury Sprzedaży</a></li>
+      <li><a href="#" class="menu-link" data-page="rachunki">💰 Rachunki</a></li>
+      <li><a href="#" class="menu-link" data-page="wplaty">✅ Wpłaty</a></li>
+      <li><a href="#" class="menu-link" data-page="raporty">📊 Raporty</a></li>
     </ul>
   </aside>
 
@@ -249,25 +411,156 @@
     </header>
 
     <main>
-      <div class="contact-section">
-        <h2 style="text-align: center;">Skontaktuj się z nami</h2>
-        
-        <div class="contact-grid">
-          <div class="contact-item">
-            <h3>📞 Telefon</h3>
-            <p><a href="tel:+48791145824">791-145-824</a></p>
-          </div>
+      <!-- HOME PAGE -->
+      <div class="page active" id="home">
+        <div class="contact-section">
+          <h2 style="text-align: center;">Skontaktuj się z nami</h2>
+          
+          <div class="contact-grid">
+            <div class="contact-item">
+              <h3>📞 Telefon</h3>
+              <p><a href="tel:+48791145824">791-145-824</a></p>
+            </div>
 
-          <div class="contact-item">
-            <h3>📧 Email</h3>
-            <p><a href="mailto:oskar.maewski@wp.pl">oskar.maewski@wp.pl</a></p>
-          </div>
+            <div class="contact-item">
+              <h3>📧 Email</h3>
+              <p><a href="mailto:oskar.maewski@wp.pl">oskar.maewski@wp.pl</a></p>
+            </div>
 
-          <div class="contact-item">
-            <h3>📋 O nas</h3>
-            <p>Oferujemy kompleksowe rozwiązania do weryfikacji i analizy dokumentów księgowych</p>
+            <div class="contact-item">
+              <h3>📋 O nas</h3>
+              <p>Oferujemy kompleksowe rozwiązania do weryfikacji i analizy dokumentów księgowych</p>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- FAKTURY ZAKUPU PAGE -->
+      <div class="page" id="faktury-zakupu">
+        <h2 class="page-title">📄 Faktury Zakupu</h2>
+
+        <div class="upload-section">
+          <h3>Dodaj nowy dokument</h3>
+          <form id="formFakturyZakupu">
+            <div class="form-group">
+              <label>Nazwa firmy (dostawcy)</label>
+              <input type="text" id="companiaNameZakup" placeholder="Np. ABC Sp. z o.o." required>
+            </div>
+            <div class="form-group">
+              <label>Data dokumentu</label>
+              <input type="date" id="dateZakup" required>
+            </div>
+            <div class="form-group">
+              <label>Kwota (PLN)</label>
+              <input type="number" id="amountZakup" placeholder="0.00" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label>Plik (PDF, Excel, JPG)</label>
+              <input type="file" id="fileZakup" accept=".pdf,.xlsx,.xls,.jpg,.jpeg" required>
+            </div>
+            <div class="form-group">
+              <label>Notatki (opcjonalnie)</label>
+              <textarea id="notesZakup" placeholder="Dodatkowe informacje..." rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn">➕ Dodaj dokument</button>
+          </form>
+        </div>
+
+        <div class="table-section">
+          <div class="search-section">
+            <input type="text" id="searchZakup" placeholder="🔍 Szukaj po nazwie firmy...">
+          </div>
+          <table id="tableZakup">
+            <thead>
+              <tr>
+                <th>Nazwa firmy</th>
+                <th>Data</th>
+                <th>Kwota (PLN)</th>
+                <th>Plik</th>
+                <th>Notatki</th>
+                <th>Akcje</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyZakup">
+              <tr>
+                <td colspan="6" class="no-data">Brak dokumentów. Dodaj pierwszy!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAKTURY SPRZEDAZY PAGE -->
+      <div class="page" id="faktury-sprzedazy">
+        <h2 class="page-title">📋 Faktury Sprzedaży</h2>
+
+        <div class="upload-section">
+          <h3>Dodaj nowy dokument</h3>
+          <form id="formFakturySprzedazy">
+            <div class="form-group">
+              <label>Nazwa firmy (klienta)</label>
+              <input type="text" id="companiaNameSprzedazy" placeholder="Np. XYZ Sp. z o.o." required>
+            </div>
+            <div class="form-group">
+              <label>Data dokumentu</label>
+              <input type="date" id="dateSprzedazy" required>
+            </div>
+            <div class="form-group">
+              <label>Kwota (PLN)</label>
+              <input type="number" id="amountSprzedazy" placeholder="0.00" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label>Plik (PDF, Excel, JPG)</label>
+              <input type="file" id="fileSprzedazy" accept=".pdf,.xlsx,.xls,.jpg,.jpeg" required>
+            </div>
+            <div class="form-group">
+              <label>Notatki (opcjonalnie)</label>
+              <textarea id="notesSprzedazy" placeholder="Dodatkowe informacje..." rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn">➕ Dodaj dokument</button>
+          </form>
+        </div>
+
+        <div class="table-section">
+          <div class="search-section">
+            <input type="text" id="searchSprzedazy" placeholder="🔍 Szukaj po nazwie firmy...">
+          </div>
+          <table id="tableSprzedazy">
+            <thead>
+              <tr>
+                <th>Nazwa firmy</th>
+                <th>Data</th>
+                <th>Kwota (PLN)</th>
+                <th>Plik</th>
+                <th>Notatki</th>
+                <th>Akcje</th>
+              </tr>
+            </thead>
+            <tbody id="tbodySprzedazy">
+              <tr>
+                <td colspan="6" class="no-data">Brak dokumentów. Dodaj pierwszy!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RACHUNKI PAGE -->
+      <div class="page" id="rachunki">
+        <h2 class="page-title">💰 Rachunki</h2>
+        <div class="no-data">Ta sekcja jest w przygotowaniu...</div>
+      </div>
+
+      <!-- WPŁATY PAGE -->
+      <div class="page" id="wplaty">
+        <h2 class="page-title">✅ Wpłaty</h2>
+        <div class="no-data">Ta sekcja jest w przygotowaniu...</div>
+      </div>
+
+      <!-- RAPORTY PAGE -->
+      <div class="page" id="raporty">
+        <h2 class="page-title">📊 Raporty</h2>
+        <div class="no-data">Ta sekcja jest w przygotowaniu...</div>
       </div>
     </main>
 
@@ -277,15 +570,208 @@
   </div>
 
   <script>
-    // Prosty skrypt do zaznaczania aktywnego menu
-    const menuLinks = document.querySelectorAll('.sidebar a');
-    
+    // Menu navigation
+    const menuLinks = document.querySelectorAll('.menu-link');
+    const pages = document.querySelectorAll('.page');
+
     menuLinks.forEach(link => {
-      link.addEventListener('click', function() {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const pageId = this.dataset.page;
+
+        // Remove active class from all links and pages
         menuLinks.forEach(l => l.classList.remove('active'));
+        pages.forEach(p => p.classList.remove('active'));
+
+        // Add active class to clicked link and corresponding page
         this.classList.add('active');
+        document.getElementById(pageId).classList.add('active');
       });
     });
+
+    // Local storage for documents
+    let dokumentyZakup = JSON.parse(localStorage.getItem('dokumentyZakup')) || [];
+    let dokumentySprzedazy = JSON.parse(localStorage.getItem('dokumentySprzedazy')) || [];
+
+    // Function to save file
+    function saveFile(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        return e.target.result;
+      };
+      reader.readAsDataURL(file);
+      return reader.result;
+    }
+
+    // Add document - Faktury Zakupu
+    document.getElementById('formFakturyZakupu').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const file = document.getElementById('fileZakup').files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dokument = {
+          id: Date.now(),
+          companyName: document.getElementById('companiaNameZakup').value,
+          date: document.getElementById('dateZakup').value,
+          amount: document.getElementById('amountZakup').value,
+          fileName: file.name,
+          fileData: e.target.result,
+          notes: document.getElementById('notesZakup').value
+        };
+
+        dokumentyZakup.push(dokument);
+        localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
+        
+        // Reset form
+        document.getElementById('formFakturyZakupu').reset();
+        
+        // Refresh table
+        renderTableZakup(dokumentyZakup);
+        
+        alert('✅ Dokument dodany pomyślnie!');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Add document - Faktury Sprzedazy
+    document.getElementById('formFakturySprzedazy').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const file = document.getElementById('fileSprzedazy').files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dokument = {
+          id: Date.now(),
+          companyName: document.getElementById('companiaNameSprzedazy').value,
+          date: document.getElementById('dateSprzedazy').value,
+          amount: document.getElementById('amountSprzedazy').value,
+          fileName: file.name,
+          fileData: e.target.result,
+          notes: document.getElementById('notesSprzedazy').value
+        };
+
+        dokumentySprzedazy.push(dokument);
+        localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
+        
+        // Reset form
+        document.getElementById('formFakturySprzedazy').reset();
+        
+        // Refresh table
+        renderTableSprzedazy(dokumentySprzedazy);
+        
+        alert('✅ Dokument dodany pomyślnie!');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Render table - Faktury Zakupu
+    function renderTableZakup(data) {
+      const tbody = document.getElementById('tbodyZakup');
+      
+      if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="no-data">Brak dokumentów. Dodaj pierwszy!</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = data.map(doc => `
+        <tr>
+          <td>${doc.companyName}</td>
+          <td>${doc.date}</td>
+          <td>${parseFloat(doc.amount).toFixed(2)} zł</td>
+          <td>${doc.fileName}</td>
+          <td>${doc.notes || '-'}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-secondary btn-small" onclick="downloadFile('${doc.id}', 'zakup')">📥 Pobierz</button>
+              <button class="btn btn-danger btn-small" onclick="deleteDocument('${doc.id}', 'zakup')">🗑️ Usuń</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Render table - Faktury Sprzedazy
+    function renderTableSprzedazy(data) {
+      const tbody = document.getElementById('tbodySprzedazy');
+      
+      if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="no-data">Brak dokumentów. Dodaj pierwszy!</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = data.map(doc => `
+        <tr>
+          <td>${doc.companyName}</td>
+          <td>${doc.date}</td>
+          <td>${parseFloat(doc.amount).toFixed(2)} zł</td>
+          <td>${doc.fileName}</td>
+          <td>${doc.notes || '-'}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-secondary btn-small" onclick="downloadFile('${doc.id}', 'sprzedazy')">📥 Pobierz</button>
+              <button class="btn btn-danger btn-small" onclick="deleteDocument('${doc.id}', 'sprzedazy')">🗑️ Usuń</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Download file
+    function downloadFile(id, type) {
+      const data = type === 'zakup' ? dokumentyZakup : dokumentySprzedazy;
+      const doc = data.find(d => d.id == id);
+      
+      if (!doc) return;
+
+      const link = document.createElement('a');
+      link.href = doc.fileData;
+      link.download = doc.fileName;
+      link.click();
+    }
+
+    // Delete document
+    function deleteDocument(id, type) {
+      if (!confirm('🗑️ Na pewno chcesz usunąć ten dokument?')) return;
+
+      if (type === 'zakup') {
+        dokumentyZakup = dokumentyZakup.filter(d => d.id != id);
+        localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
+        renderTableZakup(dokumentyZakup);
+      } else {
+        dokumentySprzedazy = dokumentySprzedazy.filter(d => d.id != id);
+        localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
+        renderTableSprzedazy(dokumentySprzedazy);
+      }
+      
+      alert('✅ Dokument usunięty!');
+    }
+
+    // Search - Faktury Zakupu
+    document.getElementById('searchZakup').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const filtered = dokumentyZakup.filter(doc => 
+        doc.companyName.toLowerCase().includes(searchTerm)
+      );
+      renderTableZakup(filtered);
+    });
+
+    // Search - Faktury Sprzedazy
+    document.getElementById('searchSprzedazy').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const filtered = dokumentySprzedazy.filter(doc => 
+        doc.companyName.toLowerCase().includes(searchTerm)
+      );
+      renderTableSprzedazy(filtered);
+    });
+
+    // Initial render
+    renderTableZakup(dokumentyZakup);
+    renderTableSprzedazy(dokumentySprzedazy);
   </script>
 </body>
 </html>
