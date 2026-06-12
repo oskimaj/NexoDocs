@@ -181,6 +181,100 @@
       text-align: center;
     }
 
+    /* SEARCH SECTION - TOP */
+    .search-section-top {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .search-section-top input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1em;
+    }
+
+    .search-section-top input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .search-section-top input:focus {
+      outline: none;
+      border-color: #64b5f6;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* SUMMARY TABLE */
+    .summary-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow-x: auto;
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .summary-table thead {
+      background: rgba(100, 181, 246, 0.2);
+    }
+
+    .summary-table th {
+      padding: 15px;
+      text-align: left;
+      color: #64b5f6;
+      font-weight: 600;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .summary-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .summary-table tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      gap: 20px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .summary-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .summary-item label {
+      color: #64b5f6;
+      font-weight: 600;
+      min-width: 80px;
+    }
+
+    .summary-item span {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* UPLOAD SECTION */
     .upload-section {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
@@ -253,31 +347,12 @@
       background: linear-gradient(135deg, #90a4ae 0%, #78909c 100%);
     }
 
-    .search-section {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
+    .btn-small {
+      padding: 8px 15px;
+      font-size: 0.9em;
     }
 
-    .search-section input {
-      flex: 1;
-      padding: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-size: 1em;
-    }
-
-    .search-section input::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .search-section input:focus {
-      outline: none;
-      border-color: #64b5f6;
-    }
-
+    /* TABLE SECTION */
     .table-section {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
@@ -316,11 +391,6 @@
     .action-buttons {
       display: flex;
       gap: 10px;
-    }
-
-    .btn-small {
-      padding: 8px 15px;
-      font-size: 0.9em;
     }
 
     .no-data {
@@ -374,6 +444,10 @@
       .sidebar li {
         flex: 1;
         min-width: 120px;
+      }
+
+      .summary-row {
+        grid-template-columns: 1fr;
       }
 
       table {
@@ -439,8 +513,32 @@
       <div class="page" id="faktury-zakupu">
         <h2 class="page-title">📄 Faktury Zakupu</h2>
 
+        <!-- SEARCH ON TOP -->
+        <div class="search-section-top">
+          <input type="text" id="searchZakup" placeholder="🔍 Szukaj po nazwie firmy...">
+        </div>
+
+        <!-- SUMMARY TABLE -->
+        <div class="summary-section" id="summaryZakupContainer">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Kwota (PLN)</th>
+                <th>Numer ID</th>
+              </tr>
+            </thead>
+            <tbody id="summaryZakupTable">
+              <tr>
+                <td colspan="3" class="no-data">Brak danych</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- UPLOAD SECTION -->
         <div class="upload-section">
-          <h3>Dodaj nowy dokument</h3>
+          <h3>➕ Dodaj nowy dokument</h3>
           <form id="formFakturyZakupu">
             <div class="form-group">
               <label>Nazwa firmy (dostawcy)</label>
@@ -466,10 +564,9 @@
           </form>
         </div>
 
+        <!-- FULL TABLE -->
         <div class="table-section">
-          <div class="search-section">
-            <input type="text" id="searchZakup" placeholder="🔍 Szukaj po nazwie firmy...">
-          </div>
+          <h3 style="margin-bottom: 20px; color: #64b5f6;">📊 Wszystkie dokumenty</h3>
           <table id="tableZakup">
             <thead>
               <tr>
@@ -494,8 +591,32 @@
       <div class="page" id="faktury-sprzedazy">
         <h2 class="page-title">📋 Faktury Sprzedaży</h2>
 
+        <!-- SEARCH ON TOP -->
+        <div class="search-section-top">
+          <input type="text" id="searchSprzedazy" placeholder="🔍 Szukaj po nazwie firmy...">
+        </div>
+
+        <!-- SUMMARY TABLE -->
+        <div class="summary-section" id="summarySprzedazyContainer">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Kwota (PLN)</th>
+                <th>Numer ID</th>
+              </tr>
+            </thead>
+            <tbody id="summarySprzedazyTable">
+              <tr>
+                <td colspan="3" class="no-data">Brak danych</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- UPLOAD SECTION -->
         <div class="upload-section">
-          <h3>Dodaj nowy dokument</h3>
+          <h3>➕ Dodaj nowy dokument</h3>
           <form id="formFakturySprzedazy">
             <div class="form-group">
               <label>Nazwa firmy (klienta)</label>
@@ -521,10 +642,9 @@
           </form>
         </div>
 
+        <!-- FULL TABLE -->
         <div class="table-section">
-          <div class="search-section">
-            <input type="text" id="searchSprzedazy" placeholder="🔍 Szukaj po nazwie firmy...">
-          </div>
+          <h3 style="margin-bottom: 20px; color: #64b5f6;">📊 Wszystkie dokumenty</h3>
           <table id="tableSprzedazy">
             <thead>
               <tr>
@@ -593,16 +713,6 @@
     let dokumentyZakup = JSON.parse(localStorage.getItem('dokumentyZakup')) || [];
     let dokumentySprzedazy = JSON.parse(localStorage.getItem('dokumentySprzedazy')) || [];
 
-    // Function to save file
-    function saveFile(file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        return e.target.result;
-      };
-      reader.readAsDataURL(file);
-      return reader.result;
-    }
-
     // Add document - Faktury Zakupu
     document.getElementById('formFakturyZakupu').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -628,8 +738,9 @@
         // Reset form
         document.getElementById('formFakturyZakupu').reset();
         
-        // Refresh table
+        // Refresh tables
         renderTableZakup(dokumentyZakup);
+        renderSummaryZakup(dokumentyZakup);
         
         alert('✅ Dokument dodany pomyślnie!');
       };
@@ -661,15 +772,52 @@
         // Reset form
         document.getElementById('formFakturySprzedazy').reset();
         
-        // Refresh table
+        // Refresh tables
         renderTableSprzedazy(dokumentySprzedazy);
+        renderSummarySprzedazy(dokumentySprzedazy);
         
         alert('✅ Dokument dodany pomyślnie!');
       };
       reader.readAsDataURL(file);
     });
 
-    // Render table - Faktury Zakupu
+    // Render summary table - Faktury Zakupu
+    function renderSummaryZakup(data) {
+      const tbody = document.getElementById('summaryZakupTable');
+      
+      if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="no-data">Brak danych</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = data.map(doc => `
+        <tr>
+          <td>${doc.date}</td>
+          <td>${parseFloat(doc.amount).toFixed(2)} zł</td>
+          <td>${doc.id}</td>
+        </tr>
+      `).join('');
+    }
+
+    // Render summary table - Faktury Sprzedazy
+    function renderSummarySprzedazy(data) {
+      const tbody = document.getElementById('summarySprzedazyTable');
+      
+      if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="no-data">Brak danych</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = data.map(doc => `
+        <tr>
+          <td>${doc.date}</td>
+          <td>${parseFloat(doc.amount).toFixed(2)} zł</td>
+          <td>${doc.id}</td>
+        </tr>
+      `).join('');
+    }
+
+    // Render full table - Faktury Zakupu
     function renderTableZakup(data) {
       const tbody = document.getElementById('tbodyZakup');
       
@@ -695,7 +843,7 @@
       `).join('');
     }
 
-    // Render table - Faktury Sprzedazy
+    // Render full table - Faktury Sprzedazy
     function renderTableSprzedazy(data) {
       const tbody = document.getElementById('tbodySprzedazy');
       
@@ -742,10 +890,12 @@
         dokumentyZakup = dokumentyZakup.filter(d => d.id != id);
         localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
         renderTableZakup(dokumentyZakup);
+        renderSummaryZakup(dokumentyZakup);
       } else {
         dokumentySprzedazy = dokumentySprzedazy.filter(d => d.id != id);
         localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
         renderTableSprzedazy(dokumentySprzedazy);
+        renderSummarySprzedazy(dokumentySprzedazy);
       }
       
       alert('✅ Dokument usunięty!');
@@ -758,6 +908,7 @@
         doc.companyName.toLowerCase().includes(searchTerm)
       );
       renderTableZakup(filtered);
+      renderSummaryZakup(filtered);
     });
 
     // Search - Faktury Sprzedazy
@@ -767,11 +918,14 @@
         doc.companyName.toLowerCase().includes(searchTerm)
       );
       renderTableSprzedazy(filtered);
+      renderSummarySprzedazy(filtered);
     });
 
     // Initial render
     renderTableZakup(dokumentyZakup);
+    renderSummaryZakup(dokumentyZakup);
     renderTableSprzedazy(dokumentySprzedazy);
+    renderSummarySprzedazy(dokumentySprzedazy);
   </script>
 </body>
 </html>
