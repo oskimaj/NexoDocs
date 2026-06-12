@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NexoDocs</title>
+</head>
+<body>
+  <h1>NexoDocs</h1>
+  <p>Moja pierwsza strona na GitHub Pages</p>
+</body>
+</html>
