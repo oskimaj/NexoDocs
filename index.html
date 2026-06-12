@@ -310,6 +310,53 @@
       background: rgba(255, 255, 255, 0.05);
     }
 
+    /* KSEF SECTION */
+    .ksef-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ksef-info {
+      flex: 1;
+    }
+
+    .ksef-info h3 {
+      margin-bottom: 10px;
+      color: #64b5f6;
+      font-size: 1.3em;
+    }
+
+    .ksef-info p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95em;
+    }
+
+    .ksef-button {
+      background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+      margin-left: 20px;
+    }
+
+    .ksef-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+    }
+
     /* SUBMITTED DOCUMENTS SECTION */
     .submitted-section {
       background: rgba(255, 255, 255, 0.1);
@@ -401,47 +448,6 @@
       font-size: 0.85em;
     }
 
-    /* TABLE SECTION */
-    .table-section {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    table thead {
-      background: rgba(100, 181, 246, 0.2);
-    }
-
-    table th {
-      padding: 15px;
-      text-align: left;
-      color: #64b5f6;
-      font-weight: 600;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-    }
-
-    table td {
-      padding: 15px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    table tr:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 10px;
-    }
-
     .no-data {
       text-align: center;
       padding: 40px 20px;
@@ -501,13 +507,14 @@
         grid-template-columns: 1fr;
       }
 
-      table {
-        font-size: 0.9em;
+      .ksef-section {
+        flex-direction: column;
+        gap: 20px;
       }
 
-      table th,
-      table td {
-        padding: 10px;
+      .ksef-button {
+        margin-left: 0;
+        width: 100%;
       }
     }
   </style>
@@ -566,7 +573,7 @@
               <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'%3E%3Ctext x='10' y='80' font-size='24' font-weight='bold' fill='%23333'%3EBIURO%3C/text%3E%3Ctext x='100' y='80' font-size='24' font-weight='bold' fill='%23d32f2f'%3E%25%3C/text%3E%3Ctext x='130' y='80' font-size='24' font-weight='bold' fill='%23666'%3EOSKAR%3C/text%3E%3C/svg%3E" alt="Biuro Oskar">
             </div>
             <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.9); font-size: 1.1em;">Profesjonalne usługi księgowe</p>
-            <a href="https://www.bing.com/search?q=biuro+oskar+ksiegowsc+powstancow+slaskich+nip&qs=HS&pq=biuro+oskar+ksiegowsc&sk=HS1&sc=3-21&cvid=309A5A3DA9FC45D99E1E16C8DCDB54FE&FORM=QBRE&sp=2&lq=0" target="_blank" class="cooperation-link">🔗 Odwiedź Biuro Oskar</a>
+            <a href="https://biurooskar.pl" target="_blank" class="cooperation-link">🔗 Odwiedź Biuro Oskar</a>
           </div>
         </div>
       </div>
@@ -598,6 +605,15 @@
           </table>
         </div>
 
+        <!-- KSEF SECTION -->
+        <div class="ksef-section">
+          <div class="ksef-info">
+            <h3>🔗 Krajowy System e-Faktur (KSeF)</h3>
+            <p>Pobierz dokumenty bezpośrednio z Krajowego Systemu e-Faktur</p>
+          </div>
+          <button class="ksef-button" onclick="openKSeFModal('zakup')">📥 Pobierz z KSeF</button>
+        </div>
+
         <!-- SUBMITTED DOCUMENTS SECTION -->
         <div class="submitted-section">
           <h3>📥 Przesłane dokumenty</h3>
@@ -606,28 +622,6 @@
               Oczekiwanie na dokumenty...
             </div>
           </div>
-        </div>
-
-        <!-- FULL TABLE -->
-        <div class="table-section">
-          <h3 style="margin-bottom: 20px; color: #64b5f6;">📊 Wszystkie dokumenty</h3>
-          <table id="tableZakup">
-            <thead>
-              <tr>
-                <th>Nazwa firmy</th>
-                <th>Data</th>
-                <th>Kwota (PLN)</th>
-                <th>Plik</th>
-                <th>Notatki</th>
-                <th>Akcje</th>
-              </tr>
-            </thead>
-            <tbody id="tbodyZakup">
-              <tr>
-                <td colspan="6" class="no-data">Brak dokumentów. Dodaj pierwszy!</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
 
@@ -658,6 +652,15 @@
           </table>
         </div>
 
+        <!-- KSEF SECTION -->
+        <div class="ksef-section">
+          <div class="ksef-info">
+            <h3>🔗 Krajowy System e-Faktur (KSeF)</h3>
+            <p>Pobierz dokumenty bezpośrednio z Krajowego Systemu e-Faktur</p>
+          </div>
+          <button class="ksef-button" onclick="openKSeFModal('sprzedazy')">📥 Pobierz z KSeF</button>
+        </div>
+
         <!-- SUBMITTED DOCUMENTS SECTION -->
         <div class="submitted-section">
           <h3>📥 Przesłane dokumenty</h3>
@@ -666,28 +669,6 @@
               Oczekiwanie na dokumenty...
             </div>
           </div>
-        </div>
-
-        <!-- FULL TABLE -->
-        <div class="table-section">
-          <h3 style="margin-bottom: 20px; color: #64b5f6;">📊 Wszystkie dokumenty</h3>
-          <table id="tableSprzedazy">
-            <thead>
-              <tr>
-                <th>Nazwa firmy</th>
-                <th>Data</th>
-                <th>Kwota (PLN)</th>
-                <th>Plik</th>
-                <th>Notatki</th>
-                <th>Akcje</th>
-              </tr>
-            </thead>
-            <tbody id="tbodySprzedazy">
-              <tr>
-                <td colspan="6" class="no-data">Brak dokumentów. Dodaj pierwszy!</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
 
@@ -841,56 +822,13 @@
       return '📎';
     }
 
-    // Render full table - Faktury Zakupu
-    function renderTableZakup(data) {
-      const tbody = document.getElementById('tbodyZakup');
+    // KSeF Modal
+    function openKSeFModal(type) {
+      const message = type === 'zakup' 
+        ? 'Integracja z KSeF dla Faktur Zakupu\n\nTa funkcja umożliwi Ci pobranie faktur bezpośrednio z Krajowego Systemu e-Faktur.'
+        : 'Integracja z KSeF dla Faktur Sprzedaży\n\nTa funkcja umożliwi Ci pobranie faktur bezpośrednio z Krajowego Systemu e-Faktur.';
       
-      if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="no-data">Brak dokumentów. Dodaj pierwszy!</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = data.map(doc => `
-        <tr>
-          <td>${doc.companyName}</td>
-          <td>${doc.date}</td>
-          <td>${parseFloat(doc.amount).toFixed(2)} zł</td>
-          <td>${doc.fileName}</td>
-          <td>${doc.notes || '-'}</td>
-          <td>
-            <div class="action-buttons">
-              <button class="btn btn-secondary btn-small" onclick="downloadFile('${doc.id}', 'zakup')">📥 Pobierz</button>
-              <button class="btn btn-danger btn-small" onclick="deleteDocument('${doc.id}', 'zakup')">🗑️ Usuń</button>
-            </div>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    // Render full table - Faktury Sprzedazy
-    function renderTableSprzedazy(data) {
-      const tbody = document.getElementById('tbodySprzedazy');
-      
-      if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="no-data">Brak dokumentów. Dodaj pierwszy!</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = data.map(doc => `
-        <tr>
-          <td>${doc.companyName}</td>
-          <td>${doc.date}</td>
-          <td>${parseFloat(doc.amount).toFixed(2)} zł</td>
-          <td>${doc.fileName}</td>
-          <td>${doc.notes || '-'}</td>
-          <td>
-            <div class="action-buttons">
-              <button class="btn btn-secondary btn-small" onclick="downloadFile('${doc.id}', 'sprzedazy')">📥 Pobierz</button>
-              <button class="btn btn-danger btn-small" onclick="deleteDocument('${doc.id}', 'sprzedazy')">🗑️ Usuń</button>
-            </div>
-          </td>
-        </tr>
-      `).join('');
+      alert(message);
     }
 
     // Download file
@@ -917,25 +855,6 @@
       link.click();
     }
 
-    // Delete document
-    function deleteDocument(id, type) {
-      if (!confirm('🗑️ Na pewno chcesz usunąć ten dokument?')) return;
-
-      if (type === 'zakup') {
-        dokumentyZakup = dokumentyZakup.filter(d => d.id != id);
-        localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
-        renderTableZakup(dokumentyZakup);
-        renderSummaryZakup(dokumentyZakup);
-      } else {
-        dokumentySprzedazy = dokumentySprzedazy.filter(d => d.id != id);
-        localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
-        renderTableSprzedazy(dokumentySprzedazy);
-        renderSummarySprzedazy(dokumentySprzedazy);
-      }
-      
-      alert('✅ Dokument usunięty!');
-    }
-
     // Delete submitted file
     function deleteSubmittedFile(id, type) {
       if (!confirm('🗑️ Na pewno chcesz usunąć ten plik?')) return;
@@ -959,7 +878,6 @@
       const filtered = dokumentyZakup.filter(doc => 
         doc.companyName.toLowerCase().includes(searchTerm)
       );
-      renderTableZakup(filtered);
       renderSummaryZakup(filtered);
     });
 
@@ -969,15 +887,12 @@
       const filtered = dokumentySprzedazy.filter(doc => 
         doc.companyName.toLowerCase().includes(searchTerm)
       );
-      renderTableSprzedazy(filtered);
       renderSummarySprzedazy(filtered);
     });
 
     // Initial render
-    renderTableZakup(dokumentyZakup);
     renderSummaryZakup(dokumentyZakup);
     renderSubmittedZakup(submittedZakup);
-    renderTableSprzedazy(dokumentySprzedazy);
     renderSummarySprzedazy(dokumentySprzedazy);
     renderSubmittedSprzedazy(submittedSprzedazy);
 
