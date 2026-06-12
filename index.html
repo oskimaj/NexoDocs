@@ -118,22 +118,31 @@
     }
 
     /* HOME PAGE */
+    .home-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
     .contact-section {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       border-radius: 15px;
       padding: 40px;
-      max-width: 900px;
-      width: 100%;
       border: 1px solid rgba(255, 255, 255, 0.2);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
 
+    .contact-section h2 {
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 1.8em;
+    }
+
     .contact-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-      margin-top: 30px;
+      grid-template-columns: 1fr;
+      gap: 20px;
     }
 
     .contact-item {
@@ -172,6 +181,59 @@
     .contact-item a:hover {
       color: #90caf9;
       text-decoration: underline;
+    }
+
+    /* COOPERATION SECTION */
+    .cooperation-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .cooperation-section h2 {
+      margin-bottom: 30px;
+      font-size: 1.8em;
+      color: #64b5f6;
+    }
+
+    .cooperation-logo {
+      width: 200px;
+      height: 150px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cooperation-logo img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: brightness(1.1);
+    }
+
+    .cooperation-link {
+      background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: inline-block;
+    }
+
+    .cooperation-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(100, 181, 246, 0.4);
     }
 
     /* DOCUMENTS PAGE */
@@ -248,34 +310,8 @@
       background: rgba(255, 255, 255, 0.05);
     }
 
-    .summary-row {
-      display: grid;
-      grid-template-columns: auto auto auto;
-      gap: 20px;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    .summary-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .summary-item label {
-      color: #64b5f6;
-      font-weight: 600;
-      min-width: 80px;
-    }
-
-    .summary-item span {
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    /* UPLOAD SECTION */
-    .upload-section {
+    /* SUBMITTED DOCUMENTS SECTION */
+    .submitted-section {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       border-radius: 15px;
@@ -284,52 +320,65 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .upload-section h3 {
+    .submitted-section h3 {
       margin-bottom: 20px;
       color: #64b5f6;
+      font-size: 1.3em;
     }
 
-    .form-group {
+    .submitted-files {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .file-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid rgba(100, 181, 246, 0.3);
+      transition: transform 0.3s, background 0.3s;
+      text-align: center;
+    }
+
+    .file-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #64b5f6;
+    }
+
+    .file-icon {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+
+    .file-name {
+      color: #64b5f6;
+      font-weight: 600;
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+
+    .file-info {
+      font-size: 0.9em;
+      color: rgba(255, 255, 255, 0.7);
       margin-bottom: 15px;
     }
 
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-size: 1em;
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: #64b5f6;
-      background: rgba(255, 255, 255, 0.15);
+    .file-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
     }
 
     .btn {
       background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
       color: white;
       border: none;
-      padding: 12px 25px;
+      padding: 10px 15px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 1em;
+      font-size: 0.9em;
       font-weight: 600;
       transition: transform 0.2s, box-shadow 0.2s;
     }
@@ -348,8 +397,8 @@
     }
 
     .btn-small {
-      padding: 8px 15px;
-      font-size: 0.9em;
+      padding: 8px 12px;
+      font-size: 0.85em;
     }
 
     /* TABLE SECTION */
@@ -411,6 +460,12 @@
     }
 
     /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .home-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 768px) {
       .sidebar {
         width: 100%;
@@ -430,10 +485,6 @@
         font-size: 2em;
       }
 
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-
       .sidebar ul {
         display: flex;
         flex-wrap: wrap;
@@ -446,7 +497,7 @@
         min-width: 120px;
       }
 
-      .summary-row {
+      .submitted-files {
         grid-template-columns: 1fr;
       }
 
@@ -487,24 +538,35 @@
     <main>
       <!-- HOME PAGE -->
       <div class="page active" id="home">
-        <div class="contact-section">
-          <h2 style="text-align: center;">Skontaktuj się z nami</h2>
-          
-          <div class="contact-grid">
-            <div class="contact-item">
-              <h3>📞 Telefon</h3>
-              <p><a href="tel:+48791145824">791-145-824</a></p>
-            </div>
+        <div class="home-container">
+          <div class="contact-section">
+            <h2>Skontaktuj się z nami</h2>
+            
+            <div class="contact-grid">
+              <div class="contact-item">
+                <h3>📞 Telefon</h3>
+                <p><a href="tel:+48791145824">791-145-824</a></p>
+              </div>
 
-            <div class="contact-item">
-              <h3>📧 Email</h3>
-              <p><a href="mailto:oskar.maewski@wp.pl">oskar.maewski@wp.pl</a></p>
-            </div>
+              <div class="contact-item">
+                <h3>📧 Email</h3>
+                <p><a href="mailto:oskar.maewski@wp.pl">oskar.maewski@wp.pl</a></p>
+              </div>
 
-            <div class="contact-item">
-              <h3>📋 O nas</h3>
-              <p>Oferujemy kompleksowe rozwiązania do weryfikacji i analizy dokumentów księgowych</p>
+              <div class="contact-item">
+                <h3>📋 O nas</h3>
+                <p>Oferujemy kompleksowe rozwiązania do weryfikacji i analizy dokumentów księgowych</p>
+              </div>
             </div>
+          </div>
+
+          <div class="cooperation-section">
+            <h2>Współpraca</h2>
+            <div class="cooperation-logo">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'%3E%3Ctext x='10' y='80' font-size='24' font-weight='bold' fill='%23333'%3EBIURO%3C/text%3E%3Ctext x='100' y='80' font-size='24' font-weight='bold' fill='%23d32f2f'%3E%25%3C/text%3E%3Ctext x='130' y='80' font-size='24' font-weight='bold' fill='%23666'%3EOSKAR%3C/text%3E%3C/svg%3E" alt="Biuro Oskar">
+            </div>
+            <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.9); font-size: 1.1em;">Profesjonalne usługi księgowe</p>
+            <a href="https://www.bing.com/search?q=biuro+oskar+ksiegowsc+powstancow+slaskich+nip&qs=HS&pq=biuro+oskar+ksiegowsc&sk=HS1&sc=3-21&cvid=309A5A3DA9FC45D99E1E16C8DCDB54FE&FORM=QBRE&sp=2&lq=0" target="_blank" class="cooperation-link">🔗 Odwiedź Biuro Oskar</a>
           </div>
         </div>
       </div>
@@ -536,32 +598,14 @@
           </table>
         </div>
 
-        <!-- UPLOAD SECTION -->
-        <div class="upload-section">
-          <h3>➕ Dodaj nowy dokument</h3>
-          <form id="formFakturyZakupu">
-            <div class="form-group">
-              <label>Nazwa firmy (dostawcy)</label>
-              <input type="text" id="companiaNameZakup" placeholder="Np. ABC Sp. z o.o." required>
+        <!-- SUBMITTED DOCUMENTS SECTION -->
+        <div class="submitted-section">
+          <h3>📥 Przesłane dokumenty</h3>
+          <div class="submitted-files" id="submittedZakup">
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">
+              Oczekiwanie na dokumenty...
             </div>
-            <div class="form-group">
-              <label>Data dokumentu</label>
-              <input type="date" id="dateZakup" required>
-            </div>
-            <div class="form-group">
-              <label>Kwota (PLN)</label>
-              <input type="number" id="amountZakup" placeholder="0.00" step="0.01" required>
-            </div>
-            <div class="form-group">
-              <label>Plik (PDF, Excel, JPG)</label>
-              <input type="file" id="fileZakup" accept=".pdf,.xlsx,.xls,.jpg,.jpeg" required>
-            </div>
-            <div class="form-group">
-              <label>Notatki (opcjonalnie)</label>
-              <textarea id="notesZakup" placeholder="Dodatkowe informacje..." rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn">➕ Dodaj dokument</button>
-          </form>
+          </div>
         </div>
 
         <!-- FULL TABLE -->
@@ -614,32 +658,14 @@
           </table>
         </div>
 
-        <!-- UPLOAD SECTION -->
-        <div class="upload-section">
-          <h3>➕ Dodaj nowy dokument</h3>
-          <form id="formFakturySprzedazy">
-            <div class="form-group">
-              <label>Nazwa firmy (klienta)</label>
-              <input type="text" id="companiaNameSprzedazy" placeholder="Np. XYZ Sp. z o.o." required>
+        <!-- SUBMITTED DOCUMENTS SECTION -->
+        <div class="submitted-section">
+          <h3>📥 Przesłane dokumenty</h3>
+          <div class="submitted-files" id="submittedSprzedazy">
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">
+              Oczekiwanie na dokumenty...
             </div>
-            <div class="form-group">
-              <label>Data dokumentu</label>
-              <input type="date" id="dateSprzedazy" required>
-            </div>
-            <div class="form-group">
-              <label>Kwota (PLN)</label>
-              <input type="number" id="amountSprzedazy" placeholder="0.00" step="0.01" required>
-            </div>
-            <div class="form-group">
-              <label>Plik (PDF, Excel, JPG)</label>
-              <input type="file" id="fileSprzedazy" accept=".pdf,.xlsx,.xls,.jpg,.jpeg" required>
-            </div>
-            <div class="form-group">
-              <label>Notatki (opcjonalnie)</label>
-              <textarea id="notesSprzedazy" placeholder="Dodatkowe informacje..." rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn">➕ Dodaj dokument</button>
-          </form>
+          </div>
         </div>
 
         <!-- FULL TABLE -->
@@ -713,73 +739,9 @@
     let dokumentyZakup = JSON.parse(localStorage.getItem('dokumentyZakup')) || [];
     let dokumentySprzedazy = JSON.parse(localStorage.getItem('dokumentySprzedazy')) || [];
 
-    // Add document - Faktury Zakupu
-    document.getElementById('formFakturyZakupu').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const file = document.getElementById('fileZakup').files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const dokument = {
-          id: Date.now(),
-          companyName: document.getElementById('companiaNameZakup').value,
-          date: document.getElementById('dateZakup').value,
-          amount: document.getElementById('amountZakup').value,
-          fileName: file.name,
-          fileData: e.target.result,
-          notes: document.getElementById('notesZakup').value
-        };
-
-        dokumentyZakup.push(dokument);
-        localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
-        
-        // Reset form
-        document.getElementById('formFakturyZakupu').reset();
-        
-        // Refresh tables
-        renderTableZakup(dokumentyZakup);
-        renderSummaryZakup(dokumentyZakup);
-        
-        alert('✅ Dokument dodany pomyślnie!');
-      };
-      reader.readAsDataURL(file);
-    });
-
-    // Add document - Faktury Sprzedazy
-    document.getElementById('formFakturySprzedazy').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const file = document.getElementById('fileSprzedazy').files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const dokument = {
-          id: Date.now(),
-          companyName: document.getElementById('companiaNameSprzedazy').value,
-          date: document.getElementById('dateSprzedazy').value,
-          amount: document.getElementById('amountSprzedazy').value,
-          fileName: file.name,
-          fileData: e.target.result,
-          notes: document.getElementById('notesSprzedazy').value
-        };
-
-        dokumentySprzedazy.push(dokument);
-        localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
-        
-        // Reset form
-        document.getElementById('formFakturySprzedazy').reset();
-        
-        // Refresh tables
-        renderTableSprzedazy(dokumentySprzedazy);
-        renderSummarySprzedazy(dokumentySprzedazy);
-        
-        alert('✅ Dokument dodany pomyślnie!');
-      };
-      reader.readAsDataURL(file);
-    });
+    // Sample submitted files (can be filled by external process)
+    let submittedZakup = JSON.parse(localStorage.getItem('submittedZakup')) || [];
+    let submittedSprzedazy = JSON.parse(localStorage.getItem('submittedSprzedazy')) || [];
 
     // Render summary table - Faktury Zakupu
     function renderSummaryZakup(data) {
@@ -815,6 +777,68 @@
           <td>${doc.id}</td>
         </tr>
       `).join('');
+    }
+
+    // Render submitted documents - Faktury Zakupu
+    function renderSubmittedZakup(data) {
+      const container = document.getElementById('submittedZakup');
+      
+      if (data.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">
+          Oczekiwanie na dokumenty...
+        </div>`;
+        return;
+      }
+
+      container.innerHTML = data.map(doc => `
+        <div class="file-card">
+          <div class="file-icon">${getFileIcon(doc.fileName)}</div>
+          <div class="file-name">${doc.fileName}</div>
+          <div class="file-info">
+            <div>${doc.companyName}</div>
+            <div>${doc.date}</div>
+          </div>
+          <div class="file-actions">
+            <button class="btn btn-secondary btn-small" onclick="downloadFile('${doc.id}', 'submitted-zakup')">📥 Pobierz</button>
+            <button class="btn btn-danger btn-small" onclick="deleteSubmittedFile('${doc.id}', 'zakup')">🗑️ Usuń</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render submitted documents - Faktury Sprzedazy
+    function renderSubmittedSprzedazy(data) {
+      const container = document.getElementById('submittedSprzedazy');
+      
+      if (data.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">
+          Oczekiwanie na dokumenty...
+        </div>`;
+        return;
+      }
+
+      container.innerHTML = data.map(doc => `
+        <div class="file-card">
+          <div class="file-icon">${getFileIcon(doc.fileName)}</div>
+          <div class="file-name">${doc.fileName}</div>
+          <div class="file-info">
+            <div>${doc.companyName}</div>
+            <div>${doc.date}</div>
+          </div>
+          <div class="file-actions">
+            <button class="btn btn-secondary btn-small" onclick="downloadFile('${doc.id}', 'submitted-sprzedazy')">📥 Pobierz</button>
+            <button class="btn btn-danger btn-small" onclick="deleteSubmittedFile('${doc.id}', 'sprzedazy')">🗑️ Usuń</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Get file icon based on extension
+    function getFileIcon(fileName) {
+      if (fileName.endsWith('.pdf')) return '📄';
+      if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) return '📊';
+      if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) return '🖼️';
+      return '📎';
     }
 
     // Render full table - Faktury Zakupu
@@ -871,8 +895,19 @@
 
     // Download file
     function downloadFile(id, type) {
-      const data = type === 'zakup' ? dokumentyZakup : dokumentySprzedazy;
-      const doc = data.find(d => d.id == id);
+      let data, doc;
+
+      if (type === 'zakup') {
+        data = dokumentyZakup;
+      } else if (type === 'sprzedazy') {
+        data = dokumentySprzedazy;
+      } else if (type === 'submitted-zakup') {
+        data = submittedZakup;
+      } else if (type === 'submitted-sprzedazy') {
+        data = submittedSprzedazy;
+      }
+
+      doc = data.find(d => d.id == id);
       
       if (!doc) return;
 
@@ -901,6 +936,23 @@
       alert('✅ Dokument usunięty!');
     }
 
+    // Delete submitted file
+    function deleteSubmittedFile(id, type) {
+      if (!confirm('🗑️ Na pewno chcesz usunąć ten plik?')) return;
+
+      if (type === 'zakup') {
+        submittedZakup = submittedZakup.filter(d => d.id != id);
+        localStorage.setItem('submittedZakup', JSON.stringify(submittedZakup));
+        renderSubmittedZakup(submittedZakup);
+      } else {
+        submittedSprzedazy = submittedSprzedazy.filter(d => d.id != id);
+        localStorage.setItem('submittedSprzedazy', JSON.stringify(submittedSprzedazy));
+        renderSubmittedSprzedazy(submittedSprzedazy);
+      }
+      
+      alert('✅ Plik usunięty!');
+    }
+
     // Search - Faktury Zakupu
     document.getElementById('searchZakup').addEventListener('input', function(e) {
       const searchTerm = e.target.value.toLowerCase();
@@ -924,8 +976,34 @@
     // Initial render
     renderTableZakup(dokumentyZakup);
     renderSummaryZakup(dokumentyZakup);
+    renderSubmittedZakup(submittedZakup);
     renderTableSprzedazy(dokumentySprzedazy);
     renderSummarySprzedazy(dokumentySprzedazy);
+    renderSubmittedSprzedazy(submittedSprzedazy);
+
+    // Add test data to submitted section (for demo)
+    function addTestSubmittedFile(type) {
+      const testFile = {
+        id: Date.now(),
+        fileName: 'dokument_test_' + Date.now() + '.pdf',
+        companyName: 'Test Sp. z o.o.',
+        date: new Date().toISOString().split('T')[0],
+        fileData: 'data:application/pdf;base64,JVBERi0xLjQKJeLj...' // dummy PDF
+      };
+
+      if (type === 'zakup') {
+        submittedZakup.push(testFile);
+        localStorage.setItem('submittedZakup', JSON.stringify(submittedZakup));
+        renderSubmittedZakup(submittedZakup);
+      } else {
+        submittedSprzedazy.push(testFile);
+        localStorage.setItem('submittedSprzedazy', JSON.stringify(submittedSprzedazy));
+        renderSubmittedSprzedazy(submittedSprzedazy);
+      }
+    }
+
+    // Expose to global scope for testing
+    window.addTestSubmittedFile = addTestSubmittedFile;
   </script>
 </body>
 </html>
