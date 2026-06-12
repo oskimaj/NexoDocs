@@ -1,10 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
-  <title>NexoDocs</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexoDocs - Weryfikacja Dokumentów Księgowych</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 40px 20px;
+      text-align: center;
+      border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .logo h1 {
+      font-size: 3em;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      letter-spacing: 2px;
+    }
+
+    .logo p {
+      font-size: 1.2em;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 300;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .contact-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 40px;
+      max-width: 800px;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .contact-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 25px;
+      border-radius: 10px;
+      border-left: 4px solid #64b5f6;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .contact-item:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .contact-item h3 {
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      color: #64b5f6;
+    }
+
+    .contact-item p {
+      font-size: 1em;
+      color: rgba(255, 255, 255, 0.9);
+      word-break: break-all;
+    }
+
+    .contact-item a {
+      color: #64b5f6;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .contact-item a:hover {
+      color: #90caf9;
+      text-decoration: underline;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9em;
+      color: rgba(255, 255, 255, 0.8);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .logo h1 {
+        font-size: 2em;
+      }
+
+      .contact-section {
+        padding: 25px;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>NexoDocs</h1>
-  <p>Moja pierwsza strona na GitHub Pages</p>
+  <header>
+    <div class="logo">
+      <h1>NexoDocs</h1>
+      <p>Weryfikacja Dokumentów Księgowych</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="contact-section">
+      <h2 style="text-align: center; margin-bottom: 10px;">Skontaktuj się z nami</h2>
+      
+      <div class="contact-grid">
+        <div class="contact-item">
+          <h3>📞 Telefon</h3>
+          <p><a href="tel:+48123456789">+48 123 456 789</a></p>
+        </div>
+
+        <div class="contact-item">
+          <h3>📧 Email</h3>
+          <p><a href="mailto:info@nexodocs.pl">info@nexodocs.pl</a></p>
+        </div>
+
+        <div class="contact-item">
+          <h3>📋 O nas</h3>
+          <p>Oferujemy kompleksowe rozwiązania do weryfikacji i analizy dokumentów księgowych</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 NexoDocs. Wszelkie prawa zastrzeżone.</p>
+  </footer>
 </body>
 </html>
