@@ -54,7 +54,9 @@
     .page.active { display: block; }
     .page-title { font-size: 2em; margin-bottom: 30px; text-align: center; }
 
-    /* ── HOME ───────────────────────────────────────────────── */
+    /* ── HOME LAYOUT ─────────────────────────────────────────── */
+    .home-layout { display: flex; gap: 28px; align-items: flex-start; }
+    .home-left { flex: 1; min-width: 0; }
     .home-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
     .contact-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 40px; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 8px 32px rgba(0,0,0,.3); }
     .contact-section h2 { margin-bottom: 30px; text-align: center; font-size: 1.8em; }
@@ -71,6 +73,27 @@
     .cooperation-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .cooperation-link { background: linear-gradient(135deg,#64b5f6,#42a5f5); color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform .3s, box-shadow .3s; display: inline-block; }
     .cooperation-link:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(100,181,246,.4); }
+
+    /* ── NEXOCHAT ────────────────────────────────────────────── */
+    .nexochat-panel { width: 370px; flex-shrink: 0; background: rgba(0,0,0,.4); border: 1px solid rgba(255,255,255,.18); border-radius: 16px; display: flex; flex-direction: column; height: calc(100vh - 170px); min-height: 520px; position: sticky; top: 20px; }
+    .nexochat-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,.12); }
+    .nexochat-header span { font-size: 1.1em; font-weight: 700; color: #ce93d8; }
+    .nexochat-clear { background: none; border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.45); border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: .78em; transition: all .2s; }
+    .nexochat-clear:hover { background: rgba(255,255,255,.1); color: white; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .chat-msg { padding: 10px 14px; border-radius: 12px; font-size: .87em; line-height: 1.55; max-width: 92%; word-break: break-word; }
+    .chat-msg-user { background: linear-gradient(135deg,rgba(74,20,140,.8),rgba(106,27,154,.6)); border: 1px solid rgba(171,71,188,.3); align-self: flex-end; border-bottom-right-radius: 3px; }
+    .chat-msg-bot { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1); align-self: flex-start; border-bottom-left-radius: 3px; color: rgba(255,255,255,.92); }
+    .chat-msg-thinking { color: rgba(255,255,255,.4); font-style: italic; animation: chatpulse 1s infinite; }
+    @keyframes chatpulse { 0%,100%{opacity:.35}50%{opacity:.9} }
+    .chat-input-row { display: flex; gap: 8px; padding: 12px 14px; border-top: 1px solid rgba(255,255,255,.1); }
+    .chat-input-row input { flex:1; padding: 10px 12px; border: 1px solid rgba(255,255,255,.2); border-radius: 8px; background: rgba(255,255,255,.08); color: white; font-size: .88em; }
+    .chat-input-row input::placeholder { color: rgba(255,255,255,.38); }
+    .chat-input-row input:focus { outline: none; border-color: #ab47bc; }
+    .chat-send-btn { background: linear-gradient(135deg,#ab47bc,#7b1fa2); color: white; border: none; border-radius: 8px; padding: 10px 15px; cursor: pointer; font-size: 1.1em; transition: transform .15s, box-shadow .15s; }
+    .chat-send-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(123,31,162,.4); }
+    .chat-send-btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
+    @media(max-width:1200px) { .home-layout { flex-direction: column; } .nexochat-panel { width:100%; height:500px; position:static; } }
 
     /* ── SEARCH/FILTER ───────────────────────────────────────── */
     .search-filter-row { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 20px 25px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); display: flex; gap: 15px; align-items: center; }
@@ -107,6 +130,10 @@
     .summary-table thead { background: rgba(100,181,246,.2); }
     .summary-table th { padding: 13px 12px; text-align: left; color: #64b5f6; font-weight: 600; border-bottom: 2px solid rgba(255,255,255,.2); white-space: nowrap; }
     .summary-table td { padding: 11px 12px; border-bottom: 1px solid rgba(255,255,255,.1); white-space: nowrap; }
+    .tbl-actions { display: flex; gap: 4px; }
+    .btn-ta { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); color: white; border-radius: 6px; padding: 4px 8px; cursor: pointer; font-size: .9em; transition: background .2s; }
+    .btn-ta:hover { background: rgba(255,255,255,.22); }
+    .btn-ta-del:hover { background: rgba(239,83,80,.35); border-color: rgba(239,83,80,.4); }
     .summary-table tr:hover { background: rgba(255,255,255,.05); }
     .lp-col { color: rgba(255,255,255,.4); font-size: .88em; width: 45px; }
 
@@ -249,6 +276,14 @@
     .ai-error-box h3 { font-size: 1.3em; margin-bottom: 12px; }
     .ai-error-box p { margin-bottom: 20px; color: rgba(255,255,255,.6); font-size: .9em; }
 
+    /* two-column panel layout */
+    .ai-body-layout { display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: start; }
+    .ai-doc-preview { position: sticky; top: 20px; background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 16px; }
+    .ai-doc-preview img { width: 100%; border-radius: 8px; object-fit: contain; max-height: 78vh; display: block; }
+    .ai-doc-preview .pdf-icon { text-align: center; padding: 30px 10px; font-size: 4em; line-height: 1; }
+    .ai-doc-preview .preview-name { text-align: center; color: rgba(255,255,255,.55); font-size: .8em; margin-top: 10px; word-break: break-all; line-height: 1.4; }
+    @media(max-width:820px) { .ai-body-layout { grid-template-columns: 1fr; } .ai-doc-preview { position: static; } }
+
     /* form */
     .ai-form-wrap {
       background: rgba(255,255,255,.06);
@@ -375,11 +410,11 @@
     <span class="modal-close" onclick="closeModal('apiKeyModal')">✕</span>
     <h2>🔑 Klucz API OpenRouter</h2>
     <p style="margin-bottom:15px;color:rgba(255,255,255,.75);font-size:.92em;">
-      Wymagany do funkcji <strong>Uzupełnij AI</strong>. Przechowywany tylko lokalnie w przeglądarce. Klucz jest <strong>bezpłatny</strong>.
+      Wymagany do funkcji <strong>Uzupełnij AI</strong> i <strong>NexoChat</strong>. Przechowywany tylko lokalnie w przeglądarce.
     </p>
     <input type="password" id="apiKeyInput" placeholder="sk-or-...">
     <p class="modal-note">
-      Pobierz darmowy klucz na <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai</a>. Używany model: <strong>google/gemini-2.0-flash-exp:free</strong>.
+      Pobierz darmowy klucz na <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai</a>. Używany model: <strong>openai/gpt-4o-mini</strong>.
     </p>
     <div class="modal-btns">
       <button class="btn-modal-save" onclick="saveApiKey()">💾 Zapisz</button>
@@ -423,48 +458,70 @@
 
     <!-- HOME -->
     <div class="page active" id="home">
-      <div class="home-container">
-        <div class="contact-section">
-          <h2>Skontaktuj się z nami</h2>
-          <div class="contact-grid">
-            <div class="contact-item"><h3>📞 Telefon</h3><p><a href="tel:+48791145824">791-145-824</a></p></div>
-            <div class="contact-item"><h3>📧 Email</h3><p><a href="mailto:oskar.maewski@wp.pl">oskar.maewski@wp.pl</a></p></div>
-            <div class="contact-item"><h3>📋 O nas</h3><p>Kompleksowe rozwiązania do weryfikacji i analizy dokumentów księgowych</p></div>
-          </div>
-        </div>
-        <div class="cooperation-section">
-          <h2>Współpraca</h2>
-          <div class="cooperation-logo">
-            <img src="http://biurooskar.pl/wp-content/uploads/2016/10/biuro-oskar.png" alt="Biuro Oskar"
-              onerror="this.onerror=null;this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.8em;font-weight:700;color:#d32f2f;\'>BIURO <span style=\'color:#333\'>OSKAR</span></span>'">
-          </div>
-          <p style="margin-bottom:20px;color:rgba(255,255,255,.9);font-size:1.1em;">Profesjonalne usługi księgowe</p>
-          <a href="https://biurooskar.pl" target="_blank" class="cooperation-link">🔗 Odwiedź Biuro Oskar</a>
-        </div>
-      </div>
+      <div class="home-layout">
 
-      <!-- O NAS -->
-      <div class="about-section">
-        <h2>ℹ️ O nas i zakres usług</h2>
-        <div class="about-grid">
-          <div class="about-card">
-            <h3>📋 Czym się zajmujemy</h3>
-            <p>NexoDocs to system do weryfikacji i zarządzania dokumentami księgowymi. Umożliwia sprawne przyjmowanie faktur, wyciągów bankowych i innych dokumentów finansowych.</p>
+        <!-- LEFT: informacje -->
+        <div class="home-left">
+          <div class="home-container">
+            <div class="contact-section">
+              <h2>Skontaktuj się z nami</h2>
+              <div class="contact-grid">
+                <div class="contact-item"><h3>📞 Telefon</h3><p><a href="tel:+48791145824">791-145-824</a></p></div>
+                <div class="contact-item"><h3>📧 Email</h3><p><a href="mailto:oskar.maewski@wp.pl">oskar.maewski@wp.pl</a></p></div>
+                <div class="contact-item"><h3>📋 O nas</h3><p>Kompleksowe rozwiązania do weryfikacji i analizy dokumentów księgowych</p></div>
+              </div>
+            </div>
+            <div class="cooperation-section">
+              <h2>Współpraca</h2>
+              <div class="cooperation-logo">
+                <img src="http://biurooskar.pl/wp-content/uploads/2016/10/biuro-oskar.png" alt="Biuro Oskar"
+                  onerror="this.onerror=null;this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.8em;font-weight:700;color:#d32f2f;\'>BIURO <span style=\'color:#333\'>OSKAR</span></span>'">
+              </div>
+              <p style="margin-bottom:20px;color:rgba(255,255,255,.9);font-size:1.1em;">Profesjonalne usługi księgowe</p>
+              <a href="https://biurooskar.pl" target="_blank" class="cooperation-link">🔗 Odwiedź Biuro Oskar</a>
+            </div>
           </div>
-          <div class="about-card">
-            <h3>🤖 Automatyzacja z AI</h3>
-            <p>Dzięki integracji z AI automatycznie odczytujemy dane z faktur — kontrahent, kwoty, daty, stawki VAT — bez ręcznego przepisywania.</p>
+
+          <!-- O NAS -->
+          <div class="about-section">
+            <h2>ℹ️ O nas i zakres usług</h2>
+            <div class="about-grid">
+              <div class="about-card">
+                <h3>📋 Czym się zajmujemy</h3>
+                <p>NexoDocs to system do weryfikacji i zarządzania dokumentami księgowymi. Umożliwia sprawne przyjmowanie faktur, wyciągów bankowych i innych dokumentów finansowych.</p>
+              </div>
+              <div class="about-card">
+                <h3>🤖 Automatyzacja z AI</h3>
+                <p>Dzięki integracji z AI automatycznie odczytujemy dane z faktur — kontrahent, kwoty, daty, stawki VAT — bez ręcznego przepisywania.</p>
+              </div>
+              <div class="about-card">
+                <h3>🔗 Integracja z KSeF</h3>
+                <p>Bezpośrednie pobieranie faktur z Krajowego Systemu e-Faktur. Wszystkie dokumenty w jednym miejscu, gotowe do weryfikacji i archiwizacji.</p>
+              </div>
+              <div class="about-card">
+                <h3>🏦 Wyciągi bankowe</h3>
+                <p>Import wyciągów w formatach PDF, XML, CSV i MT940. Automatyczne przypisywanie operacji do kontrahentów i kategorii księgowych.</p>
+              </div>
+            </div>
           </div>
-          <div class="about-card">
-            <h3>🔗 Integracja z KSeF</h3>
-            <p>Bezpośrednie pobieranie faktur z Krajowego Systemu e-Faktur. Wszystkie dokumenty w jednym miejscu, gotowe do weryfikacji i archiwizacji.</p>
+        </div><!-- /home-left -->
+
+        <!-- RIGHT: NexoChat AI -->
+        <div class="nexochat-panel">
+          <div class="nexochat-header">
+            <span>💬 NexoChat AI</span>
+            <button class="nexochat-clear" onclick="clearChat()">🗑️ Wyczyść</button>
           </div>
-          <div class="about-card">
-            <h3>🏦 Wyciągi bankowe</h3>
-            <p>Import wyciągów w formatach PDF, XML, CSV i MT940. Automatyczne przypisywanie operacji do kontrahentów i kategorii księgowych.</p>
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg chat-msg-bot">Cześć! Jestem <strong>NexoChat AI</strong> — asystent systemu NexoDocs. Mogę pomóc w kwestiach księgowych, podatkowych lub obsługi systemu. W czym mogę pomóc? 😊</div>
           </div>
-        </div>
-      </div>
+          <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="Zadaj pytanie..." onkeydown="if(event.key==='Enter'&&!event.shiftKey)sendChat()">
+            <button class="chat-send-btn" id="chatSendBtn" onclick="sendChat()">➤</button>
+          </div>
+        </div><!-- /nexochat-panel -->
+
+      </div><!-- /home-layout -->
     </div>
 
     <!-- FAKTURY ZAKUPU -->
@@ -502,6 +559,11 @@
           <option value="09">Wrzesień</option><option value="10">Październik</option>
           <option value="11">Listopad</option><option value="12">Grudzień</option>
         </select>
+        <select id="yearFilterZakup" onchange="applyFiltersZakup()">
+          <option value="">🗓️ Wszystkie lata</option>
+          <option>2020</option><option>2021</option><option>2022</option><option>2023</option>
+          <option>2024</option><option>2025</option><option>2026</option><option>2027</option>
+        </select>
       </div>
 
       <!-- TABLE -->
@@ -513,21 +575,13 @@
               <th class="sortable" id="thZakupKontrahent" onclick="sortTable('zakup','kontrahent')">Kontrahent <span class="si">⇅</span></th>
               <th>Nr dokumentu</th>
               <th class="sortable" id="thZakupDataWplywu" onclick="sortTable('zakup','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
-              <th>Data wystawienia</th><th>Kwota brutto</th><th>Rejestr</th>
+              <th>Data wystawienia</th><th>Kwota brutto</th><th>Rejestr</th><th>Akcje</th>
             </tr>
           </thead>
           <tbody id="summaryZakupTable">
-            <tr><td colspan="7" class="no-data">Brak danych</td></tr>
+            <tr><td colspan="8" class="no-data">Brak danych</td></tr>
           </tbody>
         </table>
-      </div>
-
-      <!-- SUBMITTED -->
-      <div class="submitted-section">
-        <h3>📥 Zapisane dokumenty</h3>
-        <div class="submitted-files" id="submittedZakup">
-          <div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">Brak zapisanych dokumentów</div>
-        </div>
       </div>
     </div>
 
@@ -566,6 +620,11 @@
           <option value="09">Wrzesień</option><option value="10">Październik</option>
           <option value="11">Listopad</option><option value="12">Grudzień</option>
         </select>
+        <select id="yearFilterSprzedazy" onchange="applyFiltersSprzedazy()">
+          <option value="">🗓️ Wszystkie lata</option>
+          <option>2020</option><option>2021</option><option>2022</option><option>2023</option>
+          <option>2024</option><option>2025</option><option>2026</option><option>2027</option>
+        </select>
       </div>
 
       <!-- TABLE -->
@@ -577,21 +636,13 @@
               <th class="sortable" id="thSprzKontrahent" onclick="sortTable('sprzedazy','kontrahent')">Kontrahent <span class="si">⇅</span></th>
               <th>Nr dokumentu</th>
               <th class="sortable" id="thSprzDataWplywu" onclick="sortTable('sprzedazy','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
-              <th>Data wystawienia</th><th>Kwota brutto</th><th>Rejestr</th>
+              <th>Data wystawienia</th><th>Kwota brutto</th><th>Rejestr</th><th>Akcje</th>
             </tr>
           </thead>
           <tbody id="summarySprzedazyTable">
-            <tr><td colspan="7" class="no-data">Brak danych</td></tr>
+            <tr><td colspan="8" class="no-data">Brak danych</td></tr>
           </tbody>
         </table>
-      </div>
-
-      <!-- SUBMITTED -->
-      <div class="submitted-section">
-        <h3>📥 Zapisane dokumenty</h3>
-        <div class="submitted-files" id="submittedSprzedazy">
-          <div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">Brak zapisanych dokumentów</div>
-        </div>
       </div>
     </div>
 
@@ -609,6 +660,26 @@
           <button class="export-btn" id="exportWyciagBtn" onclick="exportWyciagi()">📥 Eksportuj listę</button>
         </div>
       </div>
+
+      <!-- SEARCH + FILTER wyciągi -->
+      <div class="search-filter-row">
+        <input type="text" id="searchWyciagi" placeholder="🔍 Szukaj po nazwie...">
+        <select id="monthFilterWyciagi" onchange="applyFiltersWyciagi()">
+          <option value="">📅 Wszystkie miesiące</option>
+          <option value="01">Styczeń</option><option value="02">Luty</option>
+          <option value="03">Marzec</option><option value="04">Kwiecień</option>
+          <option value="05">Maj</option><option value="06">Czerwiec</option>
+          <option value="07">Lipiec</option><option value="08">Sierpień</option>
+          <option value="09">Wrzesień</option><option value="10">Październik</option>
+          <option value="11">Listopad</option><option value="12">Grudzień</option>
+        </select>
+        <select id="yearFilterWyciagi" onchange="applyFiltersWyciagi()">
+          <option value="">🗓️ Wszystkie lata</option>
+          <option>2020</option><option>2021</option><option>2022</option><option>2023</option>
+          <option>2024</option><option>2025</option><option>2026</option><option>2027</option>
+        </select>
+      </div>
+
       <div class="submitted-section">
         <h3>🏦 Zaimportowane wyciągi</h3>
         <div class="submitted-files" id="wyciagiList">
@@ -707,8 +778,6 @@ document.querySelectorAll('.menu-link').forEach(link => {
 // ═══════════════════════════════════════════════════════════
 let dokumentyZakup     = JSON.parse(localStorage.getItem('dokumentyZakup'))     || [];
 let dokumentySprzedazy = JSON.parse(localStorage.getItem('dokumentySprzedazy')) || [];
-let submittedZakup     = JSON.parse(localStorage.getItem('submittedZakup'))     || [];
-let submittedSprzedazy = JSON.parse(localStorage.getItem('submittedSprzedazy')) || [];
 let wyciagiData        = JSON.parse(localStorage.getItem('wyciagiData'))        || [];
 
 // ═══════════════════════════════════════════════════════════
@@ -755,28 +824,38 @@ const isPDF   = n => /\.pdf$/i.test(n||'');
 // ═══════════════════════════════════════════════════════════
 function renderTableZakup(data) {
   const tb = document.getElementById('summaryZakupTable');
-  if (!data.length) { tb.innerHTML = '<tr><td colspan="7" class="no-data">Brak danych</td></tr>'; return; }
+  if (!data.length) { tb.innerHTML = '<tr><td colspan="8" class="no-data">Brak danych</td></tr>'; return; }
   tb.innerHTML = data.map((d,i) => `<tr>
     <td class="lp-col">${i+1}</td>
-    <td>${d.kontrahent||'—'}</td>
-    <td>${d.numerDokumentu||'—'}</td>
+    <td>${esc(d.kontrahent)||'—'}</td>
+    <td>${esc(d.numerDokumentu)||'—'}</td>
     <td>${fmt(d.dataWplywu)}</td>
     <td>${fmt(d.dataWystawienia)}</td>
     <td>${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '—'}</td>
     <td>${d.rejestr||'Zakup'}</td>
+    <td class="tbl-actions">
+      <button class="btn-ta" title="Uzupełnij AI" onclick="startAIForDoc('${d.id}','z')">🤖</button>
+      <button class="btn-ta" title="Pobierz" onclick="dlFile('${d.id}','z')">📥</button>
+      <button class="btn-ta btn-ta-del" title="Usuń" onclick="delFile('${d.id}','z')">🗑️</button>
+    </td>
   </tr>`).join('');
 }
 function renderTableSprzedazy(data) {
   const tb = document.getElementById('summarySprzedazyTable');
-  if (!data.length) { tb.innerHTML = '<tr><td colspan="7" class="no-data">Brak danych</td></tr>'; return; }
+  if (!data.length) { tb.innerHTML = '<tr><td colspan="8" class="no-data">Brak danych</td></tr>'; return; }
   tb.innerHTML = data.map((d,i) => `<tr>
     <td class="lp-col">${i+1}</td>
-    <td>${d.kontrahent||'—'}</td>
-    <td>${d.numerDokumentu||'—'}</td>
+    <td>${esc(d.kontrahent)||'—'}</td>
+    <td>${esc(d.numerDokumentu)||'—'}</td>
     <td>${fmt(d.dataWplywu)}</td>
     <td>${fmt(d.dataWystawienia)}</td>
     <td>${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '—'}</td>
     <td>${d.rejestr||'Sprzedaż'}</td>
+    <td class="tbl-actions">
+      <button class="btn-ta" title="Uzupełnij AI" onclick="startAIForDoc('${d.id}','s')">🤖</button>
+      <button class="btn-ta" title="Pobierz" onclick="dlFile('${d.id}','s')">📥</button>
+      <button class="btn-ta btn-ta-del" title="Usuń" onclick="delFile('${d.id}','s')">🗑️</button>
+    </td>
   </tr>`).join('');
 }
 
@@ -818,23 +897,40 @@ function applySortToData(data, type) {
 // ═══════════════════════════════════════════════════════════
 // FILTERS
 // ═══════════════════════════════════════════════════════════
+function getYear(dateStr) { return dateStr ? dateStr.substring(0,4) : ''; }
+
 function applyFiltersZakup() {
   const s = document.getElementById('searchZakup').value.toLowerCase();
   const m = document.getElementById('monthFilterZakup').value;
+  const y = document.getElementById('yearFilterZakup').value;
   const filtered = dokumentyZakup.filter(d =>
     (!s || (d.kontrahent||'').toLowerCase().includes(s)) &&
-    (!m || getMonth(d.dataWplywu) === m)
+    (!m || getMonth(d.dataWplywu) === m) &&
+    (!y || getYear(d.dataWplywu) === y)
   );
   renderTableZakup(applySortToData(filtered, 'zakup'));
 }
 function applyFiltersSprzedazy() {
   const s = document.getElementById('searchSprzedazy').value.toLowerCase();
   const m = document.getElementById('monthFilterSprzedazy').value;
+  const y = document.getElementById('yearFilterSprzedazy').value;
   const filtered = dokumentySprzedazy.filter(d =>
     (!s || (d.kontrahent||'').toLowerCase().includes(s)) &&
-    (!m || getMonth(d.dataWplywu) === m)
+    (!m || getMonth(d.dataWplywu) === m) &&
+    (!y || getYear(d.dataWplywu) === y)
   );
   renderTableSprzedazy(applySortToData(filtered, 'sprzedazy'));
+}
+function applyFiltersWyciagi() {
+  const s = (document.getElementById('searchWyciagi')?.value||'').toLowerCase();
+  const m = document.getElementById('monthFilterWyciagi').value;
+  const y = document.getElementById('yearFilterWyciagi').value;
+  const filtered = wyciagiData.filter(d =>
+    (!s || (d.fileName||'').toLowerCase().includes(s)) &&
+    (!m || getMonth(d.addedDate) === m) &&
+    (!y || getYear(d.addedDate) === y)
+  );
+  renderWyciagi(filtered);
 }
 document.getElementById('searchZakup').addEventListener('input', applyFiltersZakup);
 document.getElementById('searchSprzedazy').addEventListener('input', applyFiltersSprzedazy);
@@ -842,55 +938,13 @@ document.getElementById('searchSprzedazy').addEventListener('input', applyFilter
 // ═══════════════════════════════════════════════════════════
 // RENDER FILE CARDS
 // ═══════════════════════════════════════════════════════════
-function cardFields(d) {
-  const rows = [
-    ['Kontrahent', d.kontrahent], ['Nr dok.', d.numerDokumentu],
-    ['Data wpływu', d.dataWplywu], ['Data wystawienia', d.dataWystawienia],
-    ['Data sprzedaży', d.dataSprzedazy], ['Termin płatności', d.terminPlatnosci],
-    ['Kategoria', d.kategoria], ['Brutto', d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : null],
-  ].filter(([,v]) => v);
-  if (!rows.length) return '';
-  return '<div class="file-ai-fields">' + rows.map(([l,v]) =>
-    `<div><span>${l}: </span>${v}</div>`).join('') + '</div>';
-}
-
-function renderSubmittedZakup(data) {
-  const c = document.getElementById('submittedZakup');
-  if (!data.length) { c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">Brak zapisanych dokumentów</div>'; return; }
-  c.innerHTML = data.map(d => `
-    <div class="file-card">
-      <div class="file-icon">${getFileIcon(d.fileName)}</div>
-      <div class="file-name">${esc(d.fileName)}</div>
-      <div class="file-meta">${fmt(d.dataWplywu)}</div>
-      ${cardFields(d)}
-      <div class="file-actions">
-        <button class="btn btn-secondary" onclick="dlFile('${d.id}','z')">📥</button>
-        <button class="btn btn-danger" onclick="delFile('${d.id}','z')">🗑️</button>
-      </div>
-    </div>`).join('');
-}
-
-function renderSubmittedSprzedazy(data) {
-  const c = document.getElementById('submittedSprzedazy');
-  if (!data.length) { c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">Brak zapisanych dokumentów</div>'; return; }
-  c.innerHTML = data.map(d => `
-    <div class="file-card">
-      <div class="file-icon">${getFileIcon(d.fileName)}</div>
-      <div class="file-name">${esc(d.fileName)}</div>
-      <div class="file-meta">${fmt(d.dataWplywu)}</div>
-      ${cardFields(d)}
-      <div class="file-actions">
-        <button class="btn btn-secondary" onclick="dlFile('${d.id}','s')">📥</button>
-        <button class="btn btn-danger" onclick="delFile('${d.id}','s')">🗑️</button>
-      </div>
-    </div>`).join('');
-}
 
 // ═══════════════════════════════════════════════════════════
 // AI PANEL — MAIN FLOW
 // ═══════════════════════════════════════════════════════════
-let aiCurrentType = null; // 'zakup' | 'sprzedazy'
-let aiCurrentFile = null; // { name, dataUrl }
+let aiCurrentType = null;   // 'zakup' | 'sprzedazy'
+let aiCurrentFile = null;   // { name, dataUrl, size }
+let aiCurrentDocId = null;  // id of existing doc being updated (null = new doc)
 
 function startAI(input, type) {
   const file = input.files[0];
@@ -906,7 +960,8 @@ function startAI(input, type) {
     alert('Obsługiwane formaty: PDF, JPG, JPEG, PNG'); return;
   }
 
-  aiCurrentType = type;
+  aiCurrentType  = type;
+  aiCurrentDocId = null;
 
   // Show loading panel immediately
   document.getElementById('aiPanel').classList.add('open');
@@ -967,7 +1022,17 @@ const AI_PROMPT = `Jesteś ekspertem od polskich dokumentów księgowych. Przean
 
 Jeśli wartości nie widać w dokumencie — wstaw null. Dla "rejestr": faktura wystawiona na podmiot zewnętrzny = "Sprzedaż", zakupiona od dostawcy = "Zakup".`;
 
+function extractJSON(text) {
+  try { return JSON.parse(text); } catch {}
+  const m = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (m) { try { return JSON.parse(m[1].trim()); } catch {} }
+  const s = text.indexOf('{'), e = text.lastIndexOf('}');
+  if (s !== -1 && e !== -1) { try { return JSON.parse(text.slice(s, e + 1)); } catch {} }
+  return {};
+}
+
 async function callOpenRouter(dataUrl, fileName, apiKey) {
+  // For images: send as image_url. For PDFs: extract base64 and send as inline data.
   let content;
   if (isImage(fileName)) {
     content = [
@@ -975,9 +1040,9 @@ async function callOpenRouter(dataUrl, fileName, apiKey) {
       { type: 'text', text: AI_PROMPT }
     ];
   } else {
-    // PDF
+    // PDF — send as base64 image_url (Gemini can parse PDFs via data URI)
     content = [
-      { type: 'file', file: { filename: fileName, file_data: dataUrl } },
+      { type: 'image_url', image_url: { url: dataUrl } },
       { type: 'text', text: AI_PROMPT }
     ];
   }
@@ -991,19 +1056,57 @@ async function callOpenRouter(dataUrl, fileName, apiKey) {
       'X-Title': 'NexoDocs'
     },
     body: JSON.stringify({
-      model: 'google/gemini-2.0-flash-exp:free',
-      messages: [{ role: 'user', content }],
-      response_format: { type: 'json_object' }
+      model: 'openai/gpt-4o-mini',
+      messages: [{ role: 'user', content }]
     })
   });
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.error?.message || `HTTP ${res.status}`);
+    throw new Error(err.error?.message || `HTTP ${res.status}: ${res.statusText}`);
   }
 
   const data = await res.json();
-  return JSON.parse(data.choices?.[0]?.message?.content || '{}');
+  const rawText = data.choices?.[0]?.message?.content || '{}';
+  return extractJSON(rawText);
+}
+
+// startAIForDoc — open AI panel for a table row doc
+function startAIForDoc(id, type) {
+  const list = type === 'z' ? dokumentyZakup : dokumentySprzedazy;
+  const doc = list.find(d => String(d.id) === String(id));
+  if (!doc) return;
+
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    if (confirm('Nie ustawiono klucza API OpenRouter.\nCzy chcesz go teraz skonfigurować? (klucz jest bezpłatny)')) openApiKeyModal();
+    return;
+  }
+
+  aiCurrentType   = type === 'z' ? 'zakup' : 'sprzedazy';
+  aiCurrentFile   = { name: doc.fileName, dataUrl: doc.fileData, size: doc.size };
+  aiCurrentDocId  = doc.id;
+
+  document.getElementById('aiPanel').classList.add('open');
+  document.getElementById('aiPanelBody').innerHTML = `
+    <div class="ai-loading">
+      <div class="ai-spinner"></div>
+      <h3>Analizuję dokument...</h3>
+      <p>${esc(doc.fileName)}</p>
+      <p style="margin-top:8px;font-size:.85em;">AI odczytuje dane — to może potrwać kilka sekund</p>
+    </div>`;
+
+  callOpenRouter(doc.fileData, doc.fileName, apiKey)
+    .then(result => renderAIForm(result))
+    .catch(err => {
+      document.getElementById('aiPanelBody').innerHTML = `
+        <div class="ai-error-box">
+          <h3>❌ Błąd analizy</h3>
+          <p>${esc(err.message)}</p>
+          <p>Sprawdź klucz API i spróbuj ponownie.</p>
+          <button class="btn-cancel-ai" onclick="closeAiPanel()">Zamknij</button>
+        </div>`;
+    });
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1018,8 +1121,21 @@ function renderAIForm(r) {
     `<option value="${k}" ${r.kategoria===k?'selected':''}>${k}</option>`
   ).join('');
 
+  const previewHtml = aiCurrentFile?.dataUrl
+    ? (isImage(aiCurrentFile.name)
+        ? `<img src="${aiCurrentFile.dataUrl}" alt="Podgląd faktury">`
+        : `<div class="pdf-icon">📄</div><p class="preview-name">${esc(aiCurrentFile.name)}</p>`)
+    : `<div class="pdf-icon">📄</div>`;
+
   document.getElementById('aiPanelBody').innerHTML = `
-    <div class="ai-form-wrap">
+    <div class="ai-body-layout">
+      <div class="ai-doc-preview">
+        ${previewHtml}
+        <p class="preview-name" style="margin-top:12px;color:rgba(255,255,255,.4);font-size:.75em;">
+          ${aiCurrentDocId ? '✏️ Aktualizacja dokumentu' : '🆕 Nowy dokument'}
+        </p>
+      </div>
+      <div class="ai-form-wrap">
       <p class="ai-form-subtitle">
         Plik: <strong>${esc(aiCurrentFile?.name)}</strong> &nbsp;|&nbsp;
         Sprawdź dane, popraw jeśli trzeba, a następnie kliknij <strong style="color:#a5d6a7">Zapisz dokument</strong>.
@@ -1109,12 +1225,14 @@ function renderAIForm(r) {
         <button class="btn-cancel-ai" onclick="closeAiPanel()">Anuluj</button>
         <button class="btn-save-ai" onclick="saveAIDoc()">💾 Zapisz dokument</button>
       </div>
-    </div>`;
+    </div><!-- /ai-form-wrap -->
+    </div><!-- /ai-body-layout -->`;
 }
 
 function closeAiPanel() {
   document.getElementById('aiPanel').classList.remove('open');
   aiCurrentFile = null;
+  aiCurrentDocId = null;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1122,12 +1240,7 @@ function closeAiPanel() {
 // ═══════════════════════════════════════════════════════════
 function saveAIDoc() {
   const today = new Date().toISOString().split('T')[0];
-  const doc = {
-    id: Date.now(),
-    fileName:        aiCurrentFile?.name || 'dokument.pdf',
-    fileData:        aiCurrentFile?.dataUrl || '',
-    size:            aiCurrentFile?.size || 0,
-    addedDate:       today,
+  const fields = {
     numerDokumentu:  document.getElementById('f_numerDokumentu').value.trim(),
     kontrahent:      document.getElementById('f_kontrahent').value.trim(),
     dataWplywu:      document.getElementById('f_dataWplywu').value || today,
@@ -1149,20 +1262,39 @@ function saveAIDoc() {
     }
   };
 
-  if (aiCurrentType === 'zakup') {
-    submittedZakup.push(doc);
-    dokumentyZakup.push(doc);
-    localStorage.setItem('submittedZakup', JSON.stringify(submittedZakup));
-    localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
-    renderSubmittedZakup(submittedZakup);
-    applyFiltersZakup();
+  const updateList = (list, id, extraFields) =>
+    list.map(d => String(d.id) === String(id) ? { ...d, ...extraFields } : d);
+
+  if (aiCurrentDocId !== null) {
+    // UPDATE existing doc
+    if (aiCurrentType === 'zakup') {
+      dokumentyZakup = updateList(dokumentyZakup, aiCurrentDocId, fields);
+      localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
+      applyFiltersZakup();
+    } else {
+      dokumentySprzedazy = updateList(dokumentySprzedazy, aiCurrentDocId, fields);
+      localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
+      applyFiltersSprzedazy();
+    }
   } else {
-    submittedSprzedazy.push(doc);
-    dokumentySprzedazy.push(doc);
-    localStorage.setItem('submittedSprzedazy', JSON.stringify(submittedSprzedazy));
-    localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
-    renderSubmittedSprzedazy(submittedSprzedazy);
-    applyFiltersSprzedazy();
+    // CREATE new doc
+    const doc = {
+      id: Date.now(),
+      fileName:  aiCurrentFile?.name || 'dokument.pdf',
+      fileData:  aiCurrentFile?.dataUrl || '',
+      size:      aiCurrentFile?.size || 0,
+      addedDate: today,
+      ...fields
+    };
+    if (aiCurrentType === 'zakup') {
+      dokumentyZakup.push(doc);
+      localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
+      applyFiltersZakup();
+    } else {
+      dokumentySprzedazy.push(doc);
+      localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
+      applyFiltersSprzedazy();
+    }
   }
 
   closeAiPanel();
@@ -1173,26 +1305,20 @@ function saveAIDoc() {
 // FILE ACTIONS
 // ═══════════════════════════════════════════════════════════
 function dlFile(id, type) {
-  const list = type==='z' ? submittedZakup : submittedSprzedazy;
-  const d = list.find(x => x.id == id);
+  const list = type==='z' ? dokumentyZakup : dokumentySprzedazy;
+  const d = list.find(x => String(x.id) == String(id));
   if (!d?.fileData) return;
   const a = document.createElement('a'); a.href = d.fileData; a.download = d.fileName; a.click();
 }
 function delFile(id, type) {
   if (!confirm('🗑️ Na pewno usunąć ten dokument?')) return;
   if (type==='z') {
-    submittedZakup = submittedZakup.filter(x => x.id != id);
-    dokumentyZakup = dokumentyZakup.filter(x => x.id != id);
-    localStorage.setItem('submittedZakup', JSON.stringify(submittedZakup));
+    dokumentyZakup = dokumentyZakup.filter(x => String(x.id) != String(id));
     localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
-    renderSubmittedZakup(submittedZakup);
     applyFiltersZakup();
   } else {
-    submittedSprzedazy = submittedSprzedazy.filter(x => x.id != id);
-    dokumentySprzedazy = dokumentySprzedazy.filter(x => x.id != id);
-    localStorage.setItem('submittedSprzedazy', JSON.stringify(submittedSprzedazy));
+    dokumentySprzedazy = dokumentySprzedazy.filter(x => String(x.id) != String(id));
     localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
-    renderSubmittedSprzedazy(submittedSprzedazy);
     applyFiltersSprzedazy();
   }
 }
@@ -1206,14 +1332,28 @@ function startManual(input, type) {
     alert('Obsługiwane formaty: PDF, JPG, JPEG, PNG'); return;
   }
   input.value = '';
-  aiCurrentType = type;
-  document.getElementById('aiPanel').classList.add('open');
-  document.getElementById('aiPanelBody').innerHTML =
-    '<div class="ai-loading"><div class="ai-spinner"></div><h3>Ładowanie pliku...</h3></div>';
   const reader = new FileReader();
   reader.onload = e => {
-    aiCurrentFile = { name: file.name, dataUrl: e.target.result, size: file.size };
-    renderAIForm({});
+    const today = new Date().toISOString().split('T')[0];
+    const doc = {
+      id: Date.now(),
+      fileName: file.name, fileData: e.target.result, size: file.size,
+      addedDate: today,
+      numerDokumentu:'', kontrahent:'', dataWplywu:'', dataWystawienia:'',
+      dataSprzedazy:'', terminPlatnosci:'',
+      rejestr: type === 'zakup' ? 'Zakup' : 'Sprzedaż',
+      kategoria:'', opisKategorii:'', kwotaNetto:'', kwotaBrutto:'', waluta:'PLN', vat:{}
+    };
+    if (type === 'zakup') {
+      dokumentyZakup.push(doc);
+      localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
+      applyFiltersZakup();
+    } else {
+      dokumentySprzedazy.push(doc);
+      localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
+      applyFiltersSprzedazy();
+    }
+    alert('✅ Dokument dodany! Kliknij 🤖 w tabeli, aby uzupełnić dane przez AI.');
   };
   reader.readAsDataURL(file);
 }
@@ -1324,14 +1464,15 @@ function openKSeF(type) {
 // ═══════════════════════════════════════════════════════════
 // WYCIAGI
 // ═══════════════════════════════════════════════════════════
-function renderWyciagi() {
+function renderWyciagi(data) {
+  const list = data !== undefined ? data : wyciagiData;
   const c = document.getElementById('wyciagiList');
-  if (!wyciagiData.length) {
-    c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">Brak wyciągów</div>';
-    document.getElementById('exportWyciagBtn').disabled = true; return;
+  document.getElementById('exportWyciagBtn').disabled = !wyciagiData.length;
+  if (!list.length) {
+    c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">' + (wyciagiData.length ? 'Brak wyników dla wybranych filtrów' : 'Brak wyciągów') + '</div>';
+    return;
   }
-  document.getElementById('exportWyciagBtn').disabled = false;
-  c.innerHTML = wyciagiData.map(d => `
+  c.innerHTML = list.map(d => `
     <div class="file-card">
       <div class="file-icon">${getFileIcon(d.fileName)}</div>
       <div class="file-name">${esc(d.fileName)}</div>
@@ -1375,12 +1516,86 @@ function exportWyciagi() {
 }
 
 // ═══════════════════════════════════════════════════════════
+// NEXOCHAT AI
+// ═══════════════════════════════════════════════════════════
+let chatHistory = [];
+
+const NEXOCHAT_SYSTEM = 'Jesteś NexoChat AI — asystentem biura rachunkowego NexoDocs. Pomagasz użytkownikom w kwestiach księgowych, podatkowych, prawnych oraz obsługi systemu NexoDocs. Odpowiadaj po polsku, zwięźle i rzeczowo. Używaj punktów i nagłówków gdy to pomaga.';
+
+function appendChat(role, text) {
+  const box = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + (role === 'user' ? 'chat-msg-user' : 'chat-msg-bot');
+  div.innerHTML = text.replace(/\n/g, '<br>');
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+  return div;
+}
+
+async function sendChat() {
+  const inp = document.getElementById('chatInput');
+  const btn = document.getElementById('chatSendBtn');
+  const text = inp.value.trim();
+  if (!text) return;
+
+  const apiKey = localStorage.getItem('openrouter_api_key');
+  if (!apiKey || !apiKey.startsWith('sk-or-')) {
+    appendChat('bot', '⚠️ Brak klucza API. Przejdź do ustawień AI (🔑) i wpisz klucz OpenRouter (sk-or-...).');
+    return;
+  }
+
+  inp.value = '';
+  btn.disabled = true;
+  appendChat('user', text);
+  chatHistory.push({ role: 'user', content: text });
+
+  const thinking = appendChat('bot', '⏳ Myślę…');
+  thinking.classList.add('chat-msg-thinking');
+
+  try {
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + apiKey,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': location.href,
+        'X-Title': 'NexoDocs'
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-4o-mini',
+        messages: [{ role: 'system', content: NEXOCHAT_SYSTEM }, ...chatHistory]
+      })
+    });
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.error?.message || `HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    const reply = data.choices?.[0]?.message?.content || '⚠️ Brak odpowiedzi od AI.';
+    chatHistory.push({ role: 'assistant', content: reply });
+    thinking.classList.remove('chat-msg-thinking');
+    thinking.innerHTML = reply.replace(/\n/g, '<br>');
+    document.getElementById('chatMessages').scrollTop = 99999;
+  } catch(e) {
+    thinking.classList.remove('chat-msg-thinking');
+    thinking.innerHTML = '⚠️ Błąd: ' + esc(e.message) + '<br><small>Sprawdź czy klucz OpenRouter jest poprawny.</small>';
+  }
+  btn.disabled = false;
+  inp.focus();
+}
+
+function clearChat() {
+  chatHistory = [];
+  document.getElementById('chatMessages').innerHTML =
+    '<div class="chat-msg chat-msg-bot">Cześć! Jestem <strong>NexoChat AI</strong> — asystent systemu NexoDocs. Mogę pomóc w kwestiach księgowych, podatkowych lub obsługi systemu. W czym mogę pomóc? 😊</div>';
+}
+
+// ═══════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════
+document.getElementById('searchWyciagi')?.addEventListener('input', applyFiltersWyciagi);
 renderTableZakup(dokumentyZakup);
-renderSubmittedZakup(submittedZakup);
 renderTableSprzedazy(dokumentySprzedazy);
-renderSubmittedSprzedazy(submittedSprzedazy);
 renderWyciagi();
 </script>
 </body>
