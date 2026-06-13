@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NexoDocs - Weryfikacja Dokumentów Księgowych</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -19,1208 +15,1373 @@
       display: flex;
     }
 
-    /* SIDEBAR */
+    /* ── SIDEBAR ─────────────────────────────────────────────── */
     .sidebar {
       width: 250px;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0,0,0,0.4);
       padding: 30px 0;
-      position: fixed;
-      left: 0;
-      top: 0;
+      position: fixed; left: 0; top: 0;
       height: 100vh;
-      border-right: 2px solid rgba(255, 255, 255, 0.2);
+      border-right: 2px solid rgba(255,255,255,0.2);
       overflow-y: auto;
+      z-index: 10;
     }
-
-    .sidebar h2 {
-      padding: 0 20px 20px 20px;
-      font-size: 1.2em;
-      color: #64b5f6;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      margin-bottom: 20px;
-    }
-
-    .sidebar ul {
-      list-style: none;
-    }
-
-    .sidebar li {
-      margin: 0;
-    }
-
+    .sidebar h2 { padding: 0 20px 20px; font-size: 1.2em; color: #64b5f6; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+    .sidebar ul { list-style: none; }
     .sidebar a {
-      display: block;
-      padding: 15px 20px;
-      color: rgba(255, 255, 255, 0.9);
-      text-decoration: none;
-      border-left: 3px solid transparent;
-      transition: all 0.3s ease;
-      cursor: pointer;
+      display: block; padding: 15px 20px; color: rgba(255,255,255,0.9);
+      text-decoration: none; border-left: 3px solid transparent; transition: all .3s; cursor: pointer;
     }
-
-    .sidebar a:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-left-color: #64b5f6;
-      color: #64b5f6;
+    .sidebar a:hover { background: rgba(255,255,255,0.1); border-left-color: #64b5f6; color: #64b5f6; }
+    .sidebar a.active { background: rgba(100,181,246,0.2); border-left-color: #64b5f6; color: #64b5f6; font-weight: 600; }
+    .sidebar-api-btn {
+      margin: 20px; padding: 10px 15px;
+      background: rgba(255,193,7,0.15); border: 1px solid rgba(255,193,7,0.4);
+      border-radius: 8px; color: #ffc107; cursor: pointer;
+      font-size: .9em; font-weight: 600; width: calc(100% - 40px); transition: background .3s;
     }
+    .sidebar-api-btn:hover { background: rgba(255,193,7,0.28); }
+    .api-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:#ef5350; margin-right:6px; vertical-align:middle; }
+    .api-dot.ok { background:#4caf50; }
 
-    .sidebar a.active {
-      background: rgba(100, 181, 246, 0.2);
-      border-left-color: #64b5f6;
-      color: #64b5f6;
-      font-weight: 600;
+    /* ── MAIN ───────────────────────────────────────────────── */
+    .main-content { margin-left: 250px; width: calc(100% - 250px); display: flex; flex-direction: column; min-height: 100vh; }
+    header { background: rgba(0,0,0,0.3); padding: 40px 20px; text-align: center; border-bottom: 3px solid rgba(255,255,255,0.2); }
+    .logo h1 { font-size: 3em; font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,.5); letter-spacing: 2px; }
+    .logo p { font-size: 1.2em; color: rgba(255,255,255,.9); font-weight: 300; }
+    main { flex: 1; padding: 40px 20px; overflow-y: auto; }
+    .page { display: none; max-width: 1200px; margin: 0 auto; }
+    .page.active { display: block; }
+    .page-title { font-size: 2em; margin-bottom: 30px; text-align: center; }
+
+    /* ── HOME ───────────────────────────────────────────────── */
+    .home-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .contact-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 40px; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 8px 32px rgba(0,0,0,.3); }
+    .contact-section h2 { margin-bottom: 30px; text-align: center; font-size: 1.8em; }
+    .contact-grid { display: grid; gap: 20px; }
+    .contact-item { background: rgba(255,255,255,.05); padding: 25px; border-radius: 10px; border-left: 4px solid #64b5f6; transition: transform .3s, background .3s; text-align: center; }
+    .contact-item:hover { transform: translateY(-5px); background: rgba(255,255,255,.15); }
+    .contact-item h3 { font-size: 1.1em; margin-bottom: 10px; color: #64b5f6; }
+    .contact-item p { font-size: 1em; color: rgba(255,255,255,.9); word-break: break-all; }
+    .contact-item a { color: #64b5f6; text-decoration: none; font-weight: 600; }
+    .contact-item a:hover { color: #90caf9; text-decoration: underline; }
+    .cooperation-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 40px; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 8px 32px rgba(0,0,0,.3); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .cooperation-section h2 { margin-bottom: 30px; font-size: 1.8em; color: #64b5f6; }
+    .cooperation-logo { width: 300px; height: 220px; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,.3); }
+    .cooperation-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .cooperation-link { background: linear-gradient(135deg,#64b5f6,#42a5f5); color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform .3s, box-shadow .3s; display: inline-block; }
+    .cooperation-link:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(100,181,246,.4); }
+
+    /* ── SEARCH/FILTER ───────────────────────────────────────── */
+    .search-filter-row { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 20px 25px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); display: flex; gap: 15px; align-items: center; }
+    .search-filter-row input[type="text"] { flex: 1; padding: 12px; border: 1px solid rgba(255,255,255,.3); border-radius: 8px; background: rgba(255,255,255,.1); color: white; font-size: 1em; }
+    .search-filter-row input[type="text"]::placeholder { color: rgba(255,255,255,.6); }
+    .search-filter-row input[type="text"]:focus { outline: none; border-color: #64b5f6; background: rgba(255,255,255,.15); }
+    .search-filter-row select { padding: 12px 16px; border: 1px solid rgba(255,255,255,.3); border-radius: 8px; background: rgba(255,255,255,.1); color: white; font-size: 1em; cursor: pointer; min-width: 170px; }
+    .search-filter-row select option { background: #1e3c72; }
+    .search-filter-row select:focus { outline: none; border-color: #64b5f6; }
+
+    /* ── AI BUTTON BANNER ────────────────────────────────────── */
+    .ai-banner {
+      background: linear-gradient(135deg, rgba(106,27,154,.6) 0%, rgba(74,20,140,.8) 100%);
+      border: 1px solid rgba(171,71,188,.5);
+      backdrop-filter: blur(10px);
+      border-radius: 15px; padding: 28px 35px;
+      margin-bottom: 30px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
     }
-
-    /* MAIN CONTENT */
-    .main-content {
-      margin-left: 250px;
-      width: calc(100% - 250px);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+    .ai-banner-info h3 { font-size: 1.25em; color: #ce93d8; margin-bottom: 6px; }
+    .ai-banner-info p { font-size: .92em; color: rgba(255,255,255,.7); }
+    .ai-banner-btn {
+      background: linear-gradient(135deg, #ab47bc, #7b1fa2);
+      color: white; border: none; padding: 16px 36px;
+      border-radius: 10px; cursor: pointer; font-size: 1.05em; font-weight: 700;
+      transition: transform .2s, box-shadow .2s; white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(123,31,162,.4);
     }
+    .ai-banner-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(123,31,162,.6); }
 
-    header {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 40px 20px;
-      text-align: center;
-      border-bottom: 3px solid rgba(255, 255, 255, 0.2);
-    }
+    /* ── SUMMARY TABLE ───────────────────────────────────────── */
+    .summary-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 25px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); overflow-x: auto; }
+    .summary-table { width: 100%; border-collapse: collapse; }
+    .summary-table thead { background: rgba(100,181,246,.2); }
+    .summary-table th { padding: 13px 12px; text-align: left; color: #64b5f6; font-weight: 600; border-bottom: 2px solid rgba(255,255,255,.2); white-space: nowrap; }
+    .summary-table td { padding: 11px 12px; border-bottom: 1px solid rgba(255,255,255,.1); white-space: nowrap; }
+    .summary-table tr:hover { background: rgba(255,255,255,.05); }
+    .lp-col { color: rgba(255,255,255,.4); font-size: .88em; width: 45px; }
 
-    .logo h1 {
-      font-size: 3em;
-      font-weight: 700;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      letter-spacing: 2px;
-    }
+    /* ── KSEF ────────────────────────────────────────────────── */
+    .ksef-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 30px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); display: flex; align-items: center; justify-content: space-between; }
+    .ksef-info { flex: 1; }
+    .ksef-info h3 { margin-bottom: 10px; color: #64b5f6; font-size: 1.3em; }
+    .ksef-info p { color: rgba(255,255,255,.8); font-size: .95em; }
+    .ksef-button { background: linear-gradient(135deg,#4caf50,#45a049); color: white; border: none; padding: 15px 40px; border-radius: 8px; cursor: pointer; font-size: 1.1em; font-weight: 600; transition: transform .2s, box-shadow .2s; white-space: nowrap; margin-left: 20px; }
+    .ksef-button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(76,175,80,.4); }
 
-    .logo p {
-      font-size: 1.2em;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 300;
-    }
+    /* ── KSEF MINI ROW ──────────────────────────────────────── */
+    .ksef-mini-row { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+    .ksef-btn-sm { padding: 9px 18px; border-radius: 7px; border: none; cursor: pointer; font-size: .88em; font-weight: 600; transition: transform .15s, box-shadow .15s; white-space: nowrap; }
+    .ksef-btn-sm.green { background: linear-gradient(135deg,#4caf50,#45a049); color: white; }
+    .ksef-btn-sm.green:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(76,175,80,.4); }
+    .ksef-btn-sm.blue { background: linear-gradient(135deg,#42a5f5,#1976d2); color: white; }
+    .ksef-btn-sm.blue:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(66,165,245,.4); }
 
-    main {
-      flex: 1;
-      padding: 40px 20px;
+    /* ── SORTABLE HEADERS ───────────────────────────────────── */
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable:hover { color: #90caf9; }
+    th.sortable .si { margin-left: 4px; opacity: .45; font-size: .82em; }
+    th.sortable.asc .si { opacity: 1; }
+    th.sortable.desc .si { opacity: 1; }
+
+    /* ── ABOUT SECTION ──────────────────────────────────────── */
+    .about-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 40px; margin-top: 30px; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 8px 32px rgba(0,0,0,.3); }
+    .about-section h2 { margin-bottom: 25px; font-size: 1.8em; color: #64b5f6; text-align: center; }
+    .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 20px; }
+    .about-card { background: rgba(255,255,255,.07); padding: 22px; border-radius: 10px; border-left: 4px solid #64b5f6; }
+    .about-card h3 { color: #90caf9; margin-bottom: 8px; font-size: 1em; }
+    .about-card p { color: rgba(255,255,255,.8); font-size: .9em; line-height: 1.6; }
+
+    /* ── KONTRAHENCI / KADRY ────────────────────────────────── */
+    .kr-toolbar { display: flex; gap: 12px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
+    .kr-toolbar input[type="text"], .kr-toolbar input[type="email"], .kr-toolbar input[type="number"] { flex:1; min-width: 140px; padding: 10px 14px; border: 1px solid rgba(255,255,255,.3); border-radius: 8px; background: rgba(255,255,255,.1); color: white; font-size: .9em; }
+    .kr-toolbar input::placeholder { color: rgba(255,255,255,.5); }
+    .kr-toolbar input:focus { outline:none; border-color:#64b5f6; }
+    .kr-btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: .9em; font-weight: 600; transition: all .2s; white-space: nowrap; }
+    .kr-btn.add { background: linear-gradient(135deg,#4caf50,#388e3c); color: white; }
+    .kr-btn.add:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(76,175,80,.4); }
+    .kr-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 25px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,.2); overflow-x: auto; }
+    .kr-section h3 { color: #64b5f6; margin-bottom: 18px; font-size: 1.2em; }
+    .kr-table { width: 100%; border-collapse: collapse; }
+    .kr-table th { padding: 12px; background: rgba(100,181,246,.2); color: #64b5f6; text-align: left; border-bottom: 2px solid rgba(255,255,255,.2); font-size: .9em; }
+    .kr-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,.08); font-size: .9em; }
+    .kr-table tr:hover { background: rgba(255,255,255,.05); }
+
+    /* ── SUBMITTED DOCS ──────────────────────────────────────── */
+    .submitted-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 30px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); }
+    .submitted-section h3 { margin-bottom: 20px; color: #64b5f6; font-size: 1.3em; }
+    .submitted-files { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 20px; }
+    .file-card { background: rgba(255,255,255,.05); padding: 18px; border-radius: 10px; border: 2px solid rgba(100,181,246,.25); transition: transform .25s, background .25s; text-align: center; }
+    .file-card:hover { transform: translateY(-3px); background: rgba(255,255,255,.1); border-color: #64b5f6; }
+    .file-icon { font-size: 2.4em; margin-bottom: 8px; }
+    .file-name { color: #64b5f6; font-weight: 600; margin-bottom: 8px; word-break: break-word; font-size: .88em; }
+    .file-meta { font-size: .8em; color: rgba(255,255,255,.55); margin-bottom: 4px; line-height: 1.5; }
+    .file-ai-fields { font-size: .8em; color: rgba(255,255,255,.75); margin: 8px 0 12px; text-align: left; line-height: 1.7; }
+    .file-ai-fields span { color: rgba(255,255,255,.45); }
+    .file-actions { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; }
+    .btn { background: linear-gradient(135deg,#64b5f6,#42a5f5); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: .82em; font-weight: 600; transition: transform .2s, box-shadow .2s; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(100,181,246,.4); }
+    .btn-danger { background: linear-gradient(135deg,#ef5350,#e53935); }
+    .btn-secondary { background: linear-gradient(135deg,#90a4ae,#78909c); }
+    .no-data { text-align: center; padding: 40px 20px; color: rgba(255,255,255,.7); font-size: 1.1em; }
+
+    /* ── WYCIAGI ─────────────────────────────────────────────── */
+    .wyciagi-actions { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 30px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .wyciagi-actions-info { flex: 1; }
+    .wyciagi-actions-info h3 { color: #64b5f6; font-size: 1.3em; margin-bottom: 8px; }
+    .wyciagi-actions-info p { color: rgba(255,255,255,.8); font-size: .95em; }
+    .wyciagi-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .import-label { background: linear-gradient(135deg,#4caf50,#45a049); color: white; border: none; padding: 15px 28px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 600; transition: transform .2s, box-shadow .2s; white-space: nowrap; display: inline-block; }
+    .import-label:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(76,175,80,.4); }
+    .export-btn { background: linear-gradient(135deg,#ff9800,#f57c00); color: white; border: none; padding: 15px 28px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 600; transition: transform .2s, box-shadow .2s; white-space: nowrap; }
+    .export-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,152,0,.4); }
+    .export-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    footer { background: rgba(0,0,0,.3); padding: 20px; text-align: center; font-size: .9em; color: rgba(255,255,255,.8); border-top: 1px solid rgba(255,255,255,.2); margin-top: auto; }
+
+    /* ══════════════════════════════════════════════════════════
+       AI FULL-SCREEN PANEL
+    ══════════════════════════════════════════════════════════ */
+    .ai-panel-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.85);
+      z-index: 2000;
       overflow-y: auto;
     }
+    .ai-panel-overlay.open { display: block; }
 
-    .page {
-      display: none;
-      max-width: 1200px;
+    .ai-panel {
+      min-height: 100vh;
+      max-width: 980px;
       margin: 0 auto;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    /* HOME PAGE */
-    .home-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-    }
-
-    .contact-section {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 40px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
-
-    .contact-section h2 {
-      margin-bottom: 30px;
-      text-align: center;
-      font-size: 1.8em;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    .contact-item {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 25px;
-      border-radius: 10px;
-      border-left: 4px solid #64b5f6;
-      transition: transform 0.3s ease, background 0.3s ease;
-      text-align: center;
-    }
-
-    .contact-item:hover {
-      transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    .contact-item h3 {
-      font-size: 1.1em;
-      margin-bottom: 10px;
-      color: #64b5f6;
-    }
-
-    .contact-item p {
-      font-size: 1em;
-      color: rgba(255, 255, 255, 0.9);
-      word-break: break-all;
-    }
-
-    .contact-item a {
-      color: #64b5f6;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      font-weight: 600;
-    }
-
-    .contact-item a:hover {
-      color: #90caf9;
-      text-decoration: underline;
-    }
-
-    /* COOPERATION SECTION */
-    .cooperation-section {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 40px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      padding: 40px 30px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+      gap: 0;
     }
 
-    .cooperation-section h2 {
+    .ai-panel-header {
+      display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 30px;
-      font-size: 1.8em;
-      color: #64b5f6;
+    }
+    .ai-panel-header h2 { font-size: 1.8em; color: #ce93d8; }
+    .ai-panel-close {
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+      color: white; border-radius: 8px; padding: 10px 20px;
+      cursor: pointer; font-size: .95em; font-weight: 600; transition: background .2s;
+    }
+    .ai-panel-close:hover { background: rgba(255,255,255,.2); }
+
+    /* loading */
+    .ai-loading {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 80px 20px; text-align: center;
+    }
+    .ai-spinner {
+      width: 64px; height: 64px;
+      border: 5px solid rgba(171,71,188,.25);
+      border-top-color: #ab47bc;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin-bottom: 24px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .ai-loading h3 { font-size: 1.4em; color: #ce93d8; margin-bottom: 10px; }
+    .ai-loading p { color: rgba(255,255,255,.55); font-size: .95em; }
+
+    /* error */
+    .ai-error-box {
+      background: rgba(239,83,80,.12); border: 1px solid rgba(239,83,80,.4);
+      border-radius: 14px; padding: 30px; text-align: center; color: #ef9a9a;
+      max-width: 520px; margin: 80px auto;
+    }
+    .ai-error-box h3 { font-size: 1.3em; margin-bottom: 12px; }
+    .ai-error-box p { margin-bottom: 20px; color: rgba(255,255,255,.6); font-size: .9em; }
+
+    /* form */
+    .ai-form-wrap {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px; padding: 30px;
+    }
+    .ai-form-subtitle {
+      font-size: .9em; color: rgba(255,255,255,.5);
+      margin-bottom: 28px; padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .ai-form-subtitle strong { color: #ce93d8; }
+
+    .ai-section-title {
+      font-size: .75em; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #ab47bc;
+      margin: 24px 0 14px; padding-bottom: 6px;
+      border-bottom: 1px solid rgba(171,71,188,.3);
     }
 
-    .cooperation-logo {
-      width: 300px;
-      height: 220px;
-      margin-bottom: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
+    .ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .ai-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+    .ai-grid.four  { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .ai-full { grid-column: 1 / -1; }
 
-    .cooperation-logo img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+    .ai-field { display: flex; flex-direction: column; gap: 6px; }
+    .ai-field label { font-size: .78em; font-weight: 700; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .6px; }
+    .ai-field input, .ai-field select, .ai-field textarea {
+      padding: 11px 14px;
+      border: 1px solid rgba(255,255,255,.2); border-radius: 8px;
+      background: rgba(255,255,255,.07); color: white;
+      font-size: .96em; font-family: inherit;
+      transition: border-color .2s, background .2s;
     }
-
-    .cooperation-link {
-      background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
-      color: white;
-      padding: 15px 30px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: transform 0.3s, box-shadow 0.3s;
-      display: inline-block;
+    .ai-field input:focus, .ai-field select:focus, .ai-field textarea:focus {
+      outline: none; border-color: #ab47bc; background: rgba(171,71,188,.12);
     }
+    .ai-field select option { background: #1a1a4e; color: white; }
+    .ai-field textarea { resize: vertical; min-height: 72px; }
 
-    .cooperation-link:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(100, 181, 246, 0.4);
+    .vat-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+    .vat-cell { display: flex; flex-direction: column; gap: 5px; }
+    .vat-cell label { font-size: .78em; color: rgba(255,255,255,.45); font-weight: 700; text-align: center; }
+    .vat-cell input { padding: 9px; border: 1px solid rgba(255,255,255,.2); border-radius: 7px; background: rgba(255,255,255,.07); color: white; font-size: .9em; text-align: center; }
+    .vat-cell input:focus { outline: none; border-color: #ab47bc; background: rgba(171,71,188,.12); }
+
+    .ai-form-actions {
+      display: flex; gap: 15px; justify-content: flex-end;
+      margin-top: 32px; padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,.1);
     }
-
-    /* DOCUMENTS PAGE */
-    .page-title {
-      font-size: 2em;
-      margin-bottom: 30px;
-      text-align: center;
+    .btn-save-ai {
+      background: linear-gradient(135deg,#4caf50,#388e3c);
+      color: white; border: none; padding: 14px 40px; border-radius: 10px;
+      cursor: pointer; font-size: 1.05em; font-weight: 700;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 14px rgba(76,175,80,.3);
     }
-
-    /* SEARCH + FILTER ROW */
-    .search-filter-row {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 20px 25px;
-      margin-bottom: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      gap: 15px;
-      align-items: center;
+    .btn-save-ai:hover { transform: translateY(-2px); box-shadow: 0 7px 22px rgba(76,175,80,.5); }
+    .btn-cancel-ai {
+      background: rgba(255,255,255,.1); color: white;
+      border: 1px solid rgba(255,255,255,.2); padding: 14px 30px;
+      border-radius: 10px; cursor: pointer; font-size: 1.05em; transition: background .2s;
     }
+    .btn-cancel-ai:hover { background: rgba(255,255,255,.2); }
 
-    .search-filter-row input[type="text"] {
-      flex: 1;
-      padding: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-size: 1em;
-    }
+    /* ── API KEY MODAL ────────────────────────────────────────── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 3000; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: linear-gradient(135deg,#1a3461,#243f7a); border: 1px solid rgba(255,255,255,.2); border-radius: 16px; padding: 35px; width: 100%; max-width: 500px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+    .modal h2 { font-size: 1.4em; margin-bottom: 20px; color: #64b5f6; }
+    .modal-close { float: right; cursor: pointer; font-size: 1.5em; color: rgba(255,255,255,.5); line-height: 1; }
+    .modal-close:hover { color: white; }
+    .modal input[type="password"] { width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,.3); border-radius: 8px; background: rgba(255,255,255,.08); color: white; font-size: 1em; font-family: monospace; letter-spacing: 1px; margin-bottom: 12px; }
+    .modal input:focus { outline: none; border-color: #64b5f6; }
+    .modal-note { font-size: .83em; color: rgba(255,255,255,.5); margin-bottom: 20px; }
+    .modal-note a { color: #64b5f6; }
+    .modal-btns { display: flex; gap: 10px; }
+    .btn-modal-save { flex: 1; background: linear-gradient(135deg,#4caf50,#45a049); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 600; }
+    .btn-modal-cancel { flex: 1; background: rgba(255,255,255,.1); color: white; border: 1px solid rgba(255,255,255,.2); padding: 12px; border-radius: 8px; cursor: pointer; font-size: 1em; }
 
-    .search-filter-row input[type="text"]::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .search-filter-row input[type="text"]:focus {
-      outline: none;
-      border-color: #64b5f6;
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    .search-filter-row select {
-      padding: 12px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-size: 1em;
-      cursor: pointer;
-      min-width: 170px;
-    }
-
-    .search-filter-row select option {
-      background: #1e3c72;
-      color: white;
-    }
-
-    .search-filter-row select:focus {
-      outline: none;
-      border-color: #64b5f6;
-    }
-
-    /* SUMMARY TABLE */
-    .summary-section {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 25px;
-      margin-bottom: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      overflow-x: auto;
-    }
-
-    .summary-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .summary-table thead {
-      background: rgba(100, 181, 246, 0.2);
-    }
-
-    .summary-table th {
-      padding: 13px 12px;
-      text-align: left;
-      color: #64b5f6;
-      font-weight: 600;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-      white-space: nowrap;
-    }
-
-    .summary-table td {
-      padding: 11px 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      white-space: nowrap;
-    }
-
-    .summary-table tr:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .summary-table td.lp-col {
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 0.9em;
-      width: 50px;
-    }
-
-    /* KSEF SECTION */
-    .ksef-section {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 30px;
-      margin-bottom: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .ksef-info {
-      flex: 1;
-    }
-
-    .ksef-info h3 {
-      margin-bottom: 10px;
-      color: #64b5f6;
-      font-size: 1.3em;
-    }
-
-    .ksef-info p {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.95em;
-    }
-
-    .ksef-button {
-      background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-      color: white;
-      border: none;
-      padding: 15px 40px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1.1em;
-      font-weight: 600;
-      transition: transform 0.2s, box-shadow 0.2s;
-      white-space: nowrap;
-      margin-left: 20px;
-    }
-
-    .ksef-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
-    }
-
-    /* SUBMITTED DOCUMENTS SECTION */
-    .submitted-section {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 30px;
-      margin-bottom: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .submitted-section h3 {
-      margin-bottom: 20px;
-      color: #64b5f6;
-      font-size: 1.3em;
-    }
-
-    .submitted-files {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .file-card {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 20px;
-      border-radius: 10px;
-      border: 2px solid rgba(100, 181, 246, 0.3);
-      transition: transform 0.3s, background 0.3s;
-      text-align: center;
-    }
-
-    .file-card:hover {
-      transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.15);
-      border-color: #64b5f6;
-    }
-
-    .file-icon {
-      font-size: 3em;
-      margin-bottom: 10px;
-    }
-
-    .file-name {
-      color: #64b5f6;
-      font-weight: 600;
-      margin-bottom: 10px;
-      word-break: break-word;
-    }
-
-    .file-info {
-      font-size: 0.9em;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 15px;
-    }
-
-    .file-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    .btn {
-      background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.9em;
-      font-weight: 600;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(100, 181, 246, 0.4);
-    }
-
-    .btn-danger {
-      background: linear-gradient(135deg, #ef5350 0%, #e53935 100%);
-    }
-
-    .btn-secondary {
-      background: linear-gradient(135deg, #90a4ae 0%, #78909c 100%);
-    }
-
-    .btn-success {
-      background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-    }
-
-    .btn-small {
-      padding: 8px 12px;
-      font-size: 0.85em;
-    }
-
-    .no-data {
-      text-align: center;
-      padding: 40px 20px;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 1.1em;
-    }
-
-    /* WYCIAGI IMPORT/EXPORT SECTION */
-    .wyciagi-actions {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 30px;
-      margin-bottom: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .wyciagi-actions-info {
-      flex: 1;
-    }
-
-    .wyciagi-actions-info h3 {
-      color: #64b5f6;
-      font-size: 1.3em;
-      margin-bottom: 8px;
-    }
-
-    .wyciagi-actions-info p {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.95em;
-    }
-
-    .wyciagi-btns {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .import-label {
-      background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-      color: white;
-      border: none;
-      padding: 15px 28px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1em;
-      font-weight: 600;
-      transition: transform 0.2s, box-shadow 0.2s;
-      white-space: nowrap;
-      display: inline-block;
-    }
-
-    .import-label:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
-    }
-
-    .export-btn {
-      background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
-      color: white;
-      border: none;
-      padding: 15px 28px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1em;
-      font-weight: 600;
-      transition: transform 0.2s, box-shadow 0.2s;
-      white-space: nowrap;
-    }
-
-    .export-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
-    }
-
-    .export-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    footer {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 20px;
-      text-align: center;
-      font-size: 0.9em;
-      color: rgba(255, 255, 255, 0.8);
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      margin-top: auto;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 1024px) {
-      .home-container {
-        grid-template-columns: 1fr;
-      }
-    }
-
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 1024px) { .home-container { grid-template-columns: 1fr; } }
     @media (max-width: 768px) {
-      .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        border-right: none;
-        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-        padding: 15px 0;
-      }
-
-      .main-content {
-        margin-left: 0;
-        width: 100%;
-      }
-
-      .logo h1 {
-        font-size: 2em;
-      }
-
-      .sidebar ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-        padding: 0 15px;
-      }
-
-      .sidebar li {
-        flex: 1;
-        min-width: 120px;
-      }
-
-      .submitted-files {
-        grid-template-columns: 1fr;
-      }
-
-      .ksef-section {
-        flex-direction: column;
-        gap: 20px;
-      }
-
-      .ksef-button {
-        margin-left: 0;
-        width: 100%;
-      }
-
-      .search-filter-row {
-        flex-direction: column;
-      }
-
-      .search-filter-row select {
-        width: 100%;
-      }
-
-      .wyciagi-actions {
-        flex-direction: column;
-      }
+      .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 2px solid rgba(255,255,255,.2); padding: 15px 0; }
+      .main-content { margin-left: 0; width: 100%; }
+      .logo h1 { font-size: 2em; }
+      .sidebar ul { display: flex; flex-wrap: wrap; gap: 5px; padding: 0 15px; }
+      .sidebar li { flex: 1; min-width: 120px; }
+      .search-filter-row, .ksef-section, .wyciagi-actions { flex-direction: column; }
+      .ksef-button { margin-left: 0; width: 100%; }
+      .ai-grid, .ai-grid.three, .ai-grid.four { grid-template-columns: 1fr 1fr; }
+      .vat-row { grid-template-columns: repeat(3,1fr); }
+      .ai-panel { padding: 20px 15px; }
+    }
+    @media (max-width: 480px) {
+      .ai-grid, .ai-grid.three, .ai-grid.four { grid-template-columns: 1fr; }
+      .vat-row { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2>Menu</h2>
-    <ul>
-      <li><a href="#" class="menu-link active" data-page="home">🏠 Home</a></li>
-      <li><a href="#" class="menu-link" data-page="faktury-zakupu">📄 Faktury Zakupu</a></li>
-      <li><a href="#" class="menu-link" data-page="faktury-sprzedazy">📋 Faktury Sprzedaży</a></li>
-      <li><a href="#" class="menu-link" data-page="wyciagi">🏦 Wyciągi</a></li>
-      <li><a href="#" class="menu-link" data-page="wplaty">✅ Wpłaty</a></li>
-      <li><a href="#" class="menu-link" data-page="raporty">📊 Raporty</a></li>
-    </ul>
-  </aside>
 
-  <!-- MAIN CONTENT -->
-  <div class="main-content">
-    <header>
-      <div class="logo">
-        <h1>NexoDocs</h1>
-        <p>Weryfikacja Dokumentów Księgowych</p>
-      </div>
-    </header>
-
-    <main>
-      <!-- HOME PAGE -->
-      <div class="page active" id="home">
-        <div class="home-container">
-          <div class="contact-section">
-            <h2>Skontaktuj się z nami</h2>
-            
-            <div class="contact-grid">
-              <div class="contact-item">
-                <h3>📞 Telefon</h3>
-                <p><a href="tel:+48791145824">791-145-824</a></p>
-              </div>
-
-              <div class="contact-item">
-                <h3>📧 Email</h3>
-                <p><a href="mailto:oskar.maewski@wp.pl">oskar.maewski@wp.pl</a></p>
-              </div>
-
-              <div class="contact-item">
-                <h3>📋 O nas</h3>
-                <p>Oferujemy kompleksowe rozwiązania do weryfikacji i analizy dokumentów księgowych</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="cooperation-section">
-            <h2>Współpraca</h2>
-            <div class="cooperation-logo">
-              <img src="http://biurooskar.pl/wp-content/uploads/2016/10/biuro-oskar.png" alt="Biuro Oskar" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span style=\'font-size:1.8em; font-weight:700; color:#d32f2f; letter-spacing:1px;\'>BIURO <span style=\'color:#333\'>OSKAR</span></span>'">
-            </div>
-            <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.9); font-size: 1.1em;">Profesjonalne usługi księgowe</p>
-            <a href="https://biurooskar.pl" target="_blank" class="cooperation-link">🔗 Odwiedź Biuro Oskar</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- FAKTURY ZAKUPU PAGE -->
-      <div class="page" id="faktury-zakupu">
-        <h2 class="page-title">📄 Faktury Zakupu</h2>
-
-        <!-- SEARCH + MONTH FILTER -->
-        <div class="search-filter-row">
-          <input type="text" id="searchZakup" placeholder="🔍 Szukaj po kontrahencie...">
-          <select id="monthFilterZakup" onchange="applyFiltersZakup()">
-            <option value="">📅 Wszystkie miesiące</option>
-            <option value="01">Styczeń</option>
-            <option value="02">Luty</option>
-            <option value="03">Marzec</option>
-            <option value="04">Kwiecień</option>
-            <option value="05">Maj</option>
-            <option value="06">Czerwiec</option>
-            <option value="07">Lipiec</option>
-            <option value="08">Sierpień</option>
-            <option value="09">Wrzesień</option>
-            <option value="10">Październik</option>
-            <option value="11">Listopad</option>
-            <option value="12">Grudzień</option>
-          </select>
-        </div>
-
-        <!-- SUMMARY TABLE -->
-        <div class="summary-section" id="summaryZakupContainer">
-          <table class="summary-table">
-            <thead>
-              <tr>
-                <th>Lp</th>
-                <th>Kontrahent</th>
-                <th>Data wpływu</th>
-                <th>Data wystawienia</th>
-                <th>Kwota (PLN)</th>
-                <th>Numer ID</th>
-              </tr>
-            </thead>
-            <tbody id="summaryZakupTable">
-              <tr>
-                <td colspan="6" class="no-data">Brak danych</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- KSEF SECTION -->
-        <div class="ksef-section">
-          <div class="ksef-info">
-            <h3>🔗 Krajowy System e-Faktur (KSeF)</h3>
-            <p>Pobierz dokumenty bezpośrednio z Krajowego Systemu e-Faktur</p>
-          </div>
-          <button class="ksef-button" onclick="openKSeFModal('zakup')">📥 Pobierz z KSeF</button>
-        </div>
-
-        <!-- SUBMITTED DOCUMENTS SECTION -->
-        <div class="submitted-section">
-          <h3>📥 Przesłane dokumenty</h3>
-          <div class="submitted-files" id="submittedZakup">
-            <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">
-              Oczekiwanie na dokumenty...
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- FAKTURY SPRZEDAZY PAGE -->
-      <div class="page" id="faktury-sprzedazy">
-        <h2 class="page-title">📋 Faktury Sprzedaży</h2>
-
-        <!-- SEARCH + MONTH FILTER -->
-        <div class="search-filter-row">
-          <input type="text" id="searchSprzedazy" placeholder="🔍 Szukaj po kontrahencie...">
-          <select id="monthFilterSprzedazy" onchange="applyFiltersSprzedazy()">
-            <option value="">📅 Wszystkie miesiące</option>
-            <option value="01">Styczeń</option>
-            <option value="02">Luty</option>
-            <option value="03">Marzec</option>
-            <option value="04">Kwiecień</option>
-            <option value="05">Maj</option>
-            <option value="06">Czerwiec</option>
-            <option value="07">Lipiec</option>
-            <option value="08">Sierpień</option>
-            <option value="09">Wrzesień</option>
-            <option value="10">Październik</option>
-            <option value="11">Listopad</option>
-            <option value="12">Grudzień</option>
-          </select>
-        </div>
-
-        <!-- SUMMARY TABLE -->
-        <div class="summary-section" id="summarySprzedazyContainer">
-          <table class="summary-table">
-            <thead>
-              <tr>
-                <th>Lp</th>
-                <th>Kontrahent</th>
-                <th>Data wpływu</th>
-                <th>Data wystawienia</th>
-                <th>Kwota (PLN)</th>
-                <th>Numer ID</th>
-              </tr>
-            </thead>
-            <tbody id="summarySprzedazyTable">
-              <tr>
-                <td colspan="6" class="no-data">Brak danych</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- KSEF SECTION -->
-        <div class="ksef-section">
-          <div class="ksef-info">
-            <h3>🔗 Krajowy System e-Faktur (KSeF)</h3>
-            <p>Pobierz dokumenty bezpośrednio z Krajowego Systemu e-Faktur</p>
-          </div>
-          <button class="ksef-button" onclick="openKSeFModal('sprzedazy')">📥 Pobierz z KSeF</button>
-        </div>
-
-        <!-- SUBMITTED DOCUMENTS SECTION -->
-        <div class="submitted-section">
-          <h3>📥 Przesłane dokumenty</h3>
-          <div class="submitted-files" id="submittedSprzedazy">
-            <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">
-              Oczekiwanie na dokumenty...
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- WYCIAGI PAGE -->
-      <div class="page" id="wyciagi">
-        <h2 class="page-title">🏦 Wyciągi</h2>
-
-        <!-- IMPORT / EXPORT -->
-        <div class="wyciagi-actions">
-          <div class="wyciagi-actions-info">
-            <h3>📁 Import i eksport wyciągów bankowych</h3>
-            <p>Obsługiwane formaty: PDF, XML, CSV, MT940</p>
-          </div>
-          <div class="wyciagi-btns">
-            <label class="import-label" for="importWyciagInput">
-              📤 Importuj wyciąg
-            </label>
-            <input type="file" id="importWyciagInput" accept=".pdf,.xml,.csv,.mt940,.txt" multiple style="display:none" onchange="importWyciagi(this)">
-            <button class="export-btn" id="exportWyciagBtn" onclick="exportWyciagi()">📥 Eksportuj listę</button>
-          </div>
-        </div>
-
-        <!-- UPLOADED STATEMENTS -->
-        <div class="submitted-section">
-          <h3>🏦 Zaimportowane wyciągi</h3>
-          <div class="submitted-files" id="wyciagiList">
-            <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">
-              Brak zaimportowanych wyciągów. Użyj przycisku powyżej, aby dodać plik.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- WPŁATY PAGE -->
-      <div class="page" id="wplaty">
-        <h2 class="page-title">✅ Wpłaty</h2>
-        <div class="no-data">Ta sekcja jest w przygotowaniu...</div>
-      </div>
-
-      <!-- RAPORTY PAGE -->
-      <div class="page" id="raporty">
-        <h2 class="page-title">📊 Raporty</h2>
-        <div class="no-data">Ta sekcja jest w przygotowaniu...</div>
-      </div>
-    </main>
-
-    <footer>
-      <p>&copy; 2026 NexoDocs. Wszelkie prawa zastrzeżone.</p>
-    </footer>
+<!-- ════════════════════════════════════════════════
+     AI FULL-SCREEN PANEL
+════════════════════════════════════════════════ -->
+<div class="ai-panel-overlay" id="aiPanel">
+  <div class="ai-panel">
+    <div class="ai-panel-header">
+      <h2>🤖 Uzupełnij AI — Dane dokumentu</h2>
+      <button class="ai-panel-close" onclick="closeAiPanel()">✕ Zamknij</button>
+    </div>
+    <div id="aiPanelBody">
+      <!-- filled dynamically -->
+    </div>
   </div>
+</div>
 
-  <script>
-    // Menu navigation
-    const menuLinks = document.querySelectorAll('.menu-link');
-    const pages = document.querySelectorAll('.page');
+<!-- ════════════════════════════════════════════════
+     API KEY MODAL
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="apiKeyModal">
+  <div class="modal">
+    <span class="modal-close" onclick="closeModal('apiKeyModal')">✕</span>
+    <h2>🔑 Klucz API OpenRouter</h2>
+    <p style="margin-bottom:15px;color:rgba(255,255,255,.75);font-size:.92em;">
+      Wymagany do funkcji <strong>Uzupełnij AI</strong>. Przechowywany tylko lokalnie w przeglądarce. Klucz jest <strong>bezpłatny</strong>.
+    </p>
+    <input type="password" id="apiKeyInput" placeholder="sk-or-...">
+    <p class="modal-note">
+      Pobierz darmowy klucz na <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai</a>. Używany model: <strong>google/gemini-2.0-flash-exp:free</strong>.
+    </p>
+    <div class="modal-btns">
+      <button class="btn-modal-save" onclick="saveApiKey()">💾 Zapisz</button>
+      <button class="btn-modal-cancel" onclick="closeModal('apiKeyModal')">Anuluj</button>
+    </div>
+  </div>
+</div>
 
-    menuLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const pageId = this.dataset.page;
-        menuLinks.forEach(l => l.classList.remove('active'));
-        pages.forEach(p => p.classList.remove('active'));
-        this.classList.add('active');
-        document.getElementById(pageId).classList.add('active');
-      });
-    });
+<!-- ════════════════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════════════════ -->
+<aside class="sidebar">
+  <h2>Menu</h2>
+  <ul>
+    <li><a href="#" class="menu-link active" data-page="home">🏠 Home</a></li>
+    <li><a href="#" class="menu-link" data-page="faktury-zakupu">📄 Faktury Zakupu</a></li>
+    <li><a href="#" class="menu-link" data-page="faktury-sprzedazy">📋 Faktury Sprzedaży</a></li>
+    <li><a href="#" class="menu-link" data-page="wyciagi">🏦 Wyciągi</a></li>
+    <li><a href="#" class="menu-link" data-page="wplaty">✅ Wpłaty</a></li>
+    <li><a href="#" class="menu-link" data-page="raporty">📊 Raporty</a></li>
+    <li><a href="#" class="menu-link" data-page="kontrahenci">👥 Kontrahenci</a></li>
+    <li><a href="#" class="menu-link" data-page="kadry">👤 Kadry</a></li>
+  </ul>
+  <button class="sidebar-api-btn" onclick="openApiKeyModal()">
+    <span class="api-dot" id="apiDot"></span>Klucz API OpenRouter
+  </button>
+</aside>
 
-    // ─── DATA ───────────────────────────────────────────────────────────────
-    let dokumentyZakup     = JSON.parse(localStorage.getItem('dokumentyZakup'))     || [];
-    let dokumentySprzedazy = JSON.parse(localStorage.getItem('dokumentySprzedazy')) || [];
-    let submittedZakup     = JSON.parse(localStorage.getItem('submittedZakup'))     || [];
-    let submittedSprzedazy = JSON.parse(localStorage.getItem('submittedSprzedazy')) || [];
-    let wyciagiData        = JSON.parse(localStorage.getItem('wyciagiData'))        || [];
+<!-- ════════════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════════════ -->
+<div class="main-content">
+  <header>
+    <div class="logo">
+      <h1>NexoDocs</h1>
+      <p>Weryfikacja Dokumentów Księgowych</p>
+    </div>
+  </header>
 
-    // ─── HELPERS ────────────────────────────────────────────────────────────
-    function getFileIcon(fileName) {
-      const ext = (fileName || '').split('.').pop().toLowerCase();
-      if (ext === 'pdf')  return '📄';
-      if (ext === 'xlsx' || ext === 'xls') return '📊';
-      if (ext === 'xml')  return '📰';
-      if (ext === 'csv')  return '📊';
-      if (ext === 'jpg'  || ext === 'jpeg') return '🖼️';
-      return '📎';
-    }
+  <main>
 
-    // Extract month (MM) from a date string YYYY-MM-DD
-    function getMonth(dateStr) {
-      if (!dateStr) return '';
-      return dateStr.substring(5, 7);
-    }
-
-    // Format date for display
-    function fmt(dateStr) {
-      if (!dateStr) return '—';
-      return dateStr;
-    }
-
-    // ─── RENDER: FAKTURY ZAKUPU TABLE ────────────────────────────────────────
-    function renderSummaryZakup(data) {
-      const tbody = document.getElementById('summaryZakupTable');
-      if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="no-data">Brak danych</td></tr>';
-        return;
-      }
-      tbody.innerHTML = data.map((doc, idx) => `
-        <tr>
-          <td class="lp-col">${idx + 1}</td>
-          <td>${doc.kontrahent || doc.companyName || '—'}</td>
-          <td>${fmt(doc.dataWplywu || doc.date)}</td>
-          <td>${fmt(doc.dataWystawienia)}</td>
-          <td>${parseFloat(doc.amount || 0).toFixed(2)} zł</td>
-          <td>${doc.id}</td>
-        </tr>
-      `).join('');
-    }
-
-    // ─── RENDER: FAKTURY SPRZEDAZY TABLE ─────────────────────────────────────
-    function renderSummarySprzedazy(data) {
-      const tbody = document.getElementById('summarySprzedazyTable');
-      if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="no-data">Brak danych</td></tr>';
-        return;
-      }
-      tbody.innerHTML = data.map((doc, idx) => `
-        <tr>
-          <td class="lp-col">${idx + 1}</td>
-          <td>${doc.kontrahent || doc.companyName || '—'}</td>
-          <td>${fmt(doc.dataWplywu || doc.date)}</td>
-          <td>${fmt(doc.dataWystawienia)}</td>
-          <td>${parseFloat(doc.amount || 0).toFixed(2)} zł</td>
-          <td>${doc.id}</td>
-        </tr>
-      `).join('');
-    }
-
-    // ─── FILTERS ─────────────────────────────────────────────────────────────
-    function applyFiltersZakup() {
-      const search = document.getElementById('searchZakup').value.toLowerCase();
-      const month  = document.getElementById('monthFilterZakup').value;
-      let filtered = dokumentyZakup.filter(doc => {
-        const name = (doc.kontrahent || doc.companyName || '').toLowerCase();
-        const dateWplywu = doc.dataWplywu || doc.date || '';
-        const matchSearch = !search || name.includes(search);
-        const matchMonth  = !month  || getMonth(dateWplywu) === month;
-        return matchSearch && matchMonth;
-      });
-      renderSummaryZakup(filtered);
-    }
-
-    function applyFiltersSprzedazy() {
-      const search = document.getElementById('searchSprzedazy').value.toLowerCase();
-      const month  = document.getElementById('monthFilterSprzedazy').value;
-      let filtered = dokumentySprzedazy.filter(doc => {
-        const name = (doc.kontrahent || doc.companyName || '').toLowerCase();
-        const dateWplywu = doc.dataWplywu || doc.date || '';
-        const matchSearch = !search || name.includes(search);
-        const matchMonth  = !month  || getMonth(dateWplywu) === month;
-        return matchSearch && matchMonth;
-      });
-      renderSummarySprzedazy(filtered);
-    }
-
-    document.getElementById('searchZakup').addEventListener('input', applyFiltersZakup);
-    document.getElementById('searchSprzedazy').addEventListener('input', applyFiltersSprzedazy);
-
-    // ─── RENDER: SUBMITTED DOCS ───────────────────────────────────────────────
-    function renderSubmittedZakup(data) {
-      const container = document.getElementById('submittedZakup');
-      if (data.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">Oczekiwanie na dokumenty...</div>`;
-        return;
-      }
-      container.innerHTML = data.map(doc => `
-        <div class="file-card">
-          <div class="file-icon">${getFileIcon(doc.fileName)}</div>
-          <div class="file-name">${doc.fileName}</div>
-          <div class="file-info">
-            <div>${doc.kontrahent || doc.companyName || ''}</div>
-            <div>${fmt(doc.dataWplywu || doc.date)}</div>
-          </div>
-          <div class="file-actions">
-            <button class="btn btn-secondary btn-small" onclick="downloadFile('${doc.id}', 'submitted-zakup')">📥 Pobierz</button>
-            <button class="btn btn-danger btn-small" onclick="deleteSubmittedFile('${doc.id}', 'zakup')">🗑️ Usuń</button>
+    <!-- HOME -->
+    <div class="page active" id="home">
+      <div class="home-container">
+        <div class="contact-section">
+          <h2>Skontaktuj się z nami</h2>
+          <div class="contact-grid">
+            <div class="contact-item"><h3>📞 Telefon</h3><p><a href="tel:+48791145824">791-145-824</a></p></div>
+            <div class="contact-item"><h3>📧 Email</h3><p><a href="mailto:oskar.maewski@wp.pl">oskar.maewski@wp.pl</a></p></div>
+            <div class="contact-item"><h3>📋 O nas</h3><p>Kompleksowe rozwiązania do weryfikacji i analizy dokumentów księgowych</p></div>
           </div>
         </div>
-      `).join('');
-    }
-
-    function renderSubmittedSprzedazy(data) {
-      const container = document.getElementById('submittedSprzedazy');
-      if (data.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">Oczekiwanie na dokumenty...</div>`;
-        return;
-      }
-      container.innerHTML = data.map(doc => `
-        <div class="file-card">
-          <div class="file-icon">${getFileIcon(doc.fileName)}</div>
-          <div class="file-name">${doc.fileName}</div>
-          <div class="file-info">
-            <div>${doc.kontrahent || doc.companyName || ''}</div>
-            <div>${fmt(doc.dataWplywu || doc.date)}</div>
+        <div class="cooperation-section">
+          <h2>Współpraca</h2>
+          <div class="cooperation-logo">
+            <img src="http://biurooskar.pl/wp-content/uploads/2016/10/biuro-oskar.png" alt="Biuro Oskar"
+              onerror="this.onerror=null;this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:1.8em;font-weight:700;color:#d32f2f;\'>BIURO <span style=\'color:#333\'>OSKAR</span></span>'">
           </div>
-          <div class="file-actions">
-            <button class="btn btn-secondary btn-small" onclick="downloadFile('${doc.id}', 'submitted-sprzedazy')">📥 Pobierz</button>
-            <button class="btn btn-danger btn-small" onclick="deleteSubmittedFile('${doc.id}', 'sprzedazy')">🗑️ Usuń</button>
+          <p style="margin-bottom:20px;color:rgba(255,255,255,.9);font-size:1.1em;">Profesjonalne usługi księgowe</p>
+          <a href="https://biurooskar.pl" target="_blank" class="cooperation-link">🔗 Odwiedź Biuro Oskar</a>
+        </div>
+      </div>
+
+      <!-- O NAS -->
+      <div class="about-section">
+        <h2>ℹ️ O nas i zakres usług</h2>
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>📋 Czym się zajmujemy</h3>
+            <p>NexoDocs to system do weryfikacji i zarządzania dokumentami księgowymi. Umożliwia sprawne przyjmowanie faktur, wyciągów bankowych i innych dokumentów finansowych.</p>
+          </div>
+          <div class="about-card">
+            <h3>🤖 Automatyzacja z AI</h3>
+            <p>Dzięki integracji z AI automatycznie odczytujemy dane z faktur — kontrahent, kwoty, daty, stawki VAT — bez ręcznego przepisywania.</p>
+          </div>
+          <div class="about-card">
+            <h3>🔗 Integracja z KSeF</h3>
+            <p>Bezpośrednie pobieranie faktur z Krajowego Systemu e-Faktur. Wszystkie dokumenty w jednym miejscu, gotowe do weryfikacji i archiwizacji.</p>
+          </div>
+          <div class="about-card">
+            <h3>🏦 Wyciągi bankowe</h3>
+            <p>Import wyciągów w formatach PDF, XML, CSV i MT940. Automatyczne przypisywanie operacji do kontrahentów i kategorii księgowych.</p>
           </div>
         </div>
-      `).join('');
-    }
+      </div>
+    </div>
 
-    // ─── RENDER: WYCIAGI ──────────────────────────────────────────────────────
-    function renderWyciagi() {
-      const container = document.getElementById('wyciagiList');
-      if (wyciagiData.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">Brak zaimportowanych wyciągów. Użyj przycisku powyżej, aby dodać plik.</div>`;
-        document.getElementById('exportWyciagBtn').disabled = true;
-        return;
-      }
-      document.getElementById('exportWyciagBtn').disabled = false;
-      container.innerHTML = wyciagiData.map(doc => `
-        <div class="file-card">
-          <div class="file-icon">${getFileIcon(doc.fileName)}</div>
-          <div class="file-name">${doc.fileName}</div>
-          <div class="file-info">
-            <div>Dodano: ${fmt(doc.addedDate)}</div>
-            <div>${(doc.size / 1024).toFixed(1)} KB</div>
-          </div>
-          <div class="file-actions">
-            <button class="btn btn-secondary btn-small" onclick="downloadWyciag('${doc.id}')">📥 Pobierz</button>
-            <button class="btn btn-danger btn-small" onclick="deleteWyciag('${doc.id}')">🗑️ Usuń</button>
-          </div>
+    <!-- FAKTURY ZAKUPU -->
+    <div class="page" id="faktury-zakupu">
+      <h2 class="page-title">📄 Faktury Zakupu</h2>
+
+      <!-- AI BANNER -->
+      <div class="ai-banner">
+        <div class="ai-banner-info">
+          <h3>🤖 Uzupełnij AI</h3>
+          <p>Wybierz plik faktury (PDF, JPG, PNG) — AI automatycznie odczyta i uzupełni wszystkie dane dokumentu.</p>
         </div>
-      `).join('');
+        <label class="ai-banner-btn" for="aiFileZakup">🤖 Wybierz fakturę i uzupełnij AI</label>
+        <input type="file" id="aiFileZakup" accept=".pdf,.jpg,.jpeg,.png" style="display:none"
+          onchange="startAI(this,'zakup')">
+      </div>
+
+      <!-- KSEF MINI + UPLOAD -->
+      <div class="ksef-mini-row">
+        <button class="ksef-btn-sm green" onclick="openKSeF('zakup')">📥 Pobierz z KSeF</button>
+        <label class="ksef-btn-sm blue" for="uploadDokZakup">📂 Dodaj dokument z komputera</label>
+        <input type="file" id="uploadDokZakup" accept=".pdf,.jpg,.jpeg,.png" style="display:none"
+          onchange="startManual(this,'zakup')">
+      </div>
+
+      <!-- SEARCH + FILTER -->
+      <div class="search-filter-row">
+        <input type="text" id="searchZakup" placeholder="🔍 Szukaj po kontrahencie...">
+        <select id="monthFilterZakup" onchange="applyFiltersZakup()">
+          <option value="">📅 Wszystkie miesiące</option>
+          <option value="01">Styczeń</option><option value="02">Luty</option>
+          <option value="03">Marzec</option><option value="04">Kwiecień</option>
+          <option value="05">Maj</option><option value="06">Czerwiec</option>
+          <option value="07">Lipiec</option><option value="08">Sierpień</option>
+          <option value="09">Wrzesień</option><option value="10">Październik</option>
+          <option value="11">Listopad</option><option value="12">Grudzień</option>
+        </select>
+      </div>
+
+      <!-- TABLE -->
+      <div class="summary-section">
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Lp</th>
+              <th class="sortable" id="thZakupKontrahent" onclick="sortTable('zakup','kontrahent')">Kontrahent <span class="si">⇅</span></th>
+              <th>Nr dokumentu</th>
+              <th class="sortable" id="thZakupDataWplywu" onclick="sortTable('zakup','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
+              <th>Data wystawienia</th><th>Kwota brutto</th><th>Rejestr</th>
+            </tr>
+          </thead>
+          <tbody id="summaryZakupTable">
+            <tr><td colspan="7" class="no-data">Brak danych</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SUBMITTED -->
+      <div class="submitted-section">
+        <h3>📥 Zapisane dokumenty</h3>
+        <div class="submitted-files" id="submittedZakup">
+          <div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">Brak zapisanych dokumentów</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAKTURY SPRZEDAZY -->
+    <div class="page" id="faktury-sprzedazy">
+      <h2 class="page-title">📋 Faktury Sprzedaży</h2>
+
+      <!-- AI BANNER -->
+      <div class="ai-banner">
+        <div class="ai-banner-info">
+          <h3>🤖 Uzupełnij AI</h3>
+          <p>Wybierz plik faktury (PDF, JPG, PNG) — AI automatycznie odczyta i uzupełni wszystkie dane dokumentu.</p>
+        </div>
+        <label class="ai-banner-btn" for="aiFileSprzedazy">🤖 Wybierz fakturę i uzupełnij AI</label>
+        <input type="file" id="aiFileSprzedazy" accept=".pdf,.jpg,.jpeg,.png" style="display:none"
+          onchange="startAI(this,'sprzedazy')">
+      </div>
+
+      <!-- KSEF MINI + UPLOAD -->
+      <div class="ksef-mini-row">
+        <button class="ksef-btn-sm green" onclick="openKSeF('sprzedazy')">📥 Pobierz z KSeF</button>
+        <label class="ksef-btn-sm blue" for="uploadDokSprzedazy">📂 Dodaj dokument z komputera</label>
+        <input type="file" id="uploadDokSprzedazy" accept=".pdf,.jpg,.jpeg,.png" style="display:none"
+          onchange="startManual(this,'sprzedazy')">
+      </div>
+
+      <!-- SEARCH + FILTER -->
+      <div class="search-filter-row">
+        <input type="text" id="searchSprzedazy" placeholder="🔍 Szukaj po kontrahencie...">
+        <select id="monthFilterSprzedazy" onchange="applyFiltersSprzedazy()">
+          <option value="">📅 Wszystkie miesiące</option>
+          <option value="01">Styczeń</option><option value="02">Luty</option>
+          <option value="03">Marzec</option><option value="04">Kwiecień</option>
+          <option value="05">Maj</option><option value="06">Czerwiec</option>
+          <option value="07">Lipiec</option><option value="08">Sierpień</option>
+          <option value="09">Wrzesień</option><option value="10">Październik</option>
+          <option value="11">Listopad</option><option value="12">Grudzień</option>
+        </select>
+      </div>
+
+      <!-- TABLE -->
+      <div class="summary-section">
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Lp</th>
+              <th class="sortable" id="thSprzKontrahent" onclick="sortTable('sprzedazy','kontrahent')">Kontrahent <span class="si">⇅</span></th>
+              <th>Nr dokumentu</th>
+              <th class="sortable" id="thSprzDataWplywu" onclick="sortTable('sprzedazy','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
+              <th>Data wystawienia</th><th>Kwota brutto</th><th>Rejestr</th>
+            </tr>
+          </thead>
+          <tbody id="summarySprzedazyTable">
+            <tr><td colspan="7" class="no-data">Brak danych</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SUBMITTED -->
+      <div class="submitted-section">
+        <h3>📥 Zapisane dokumenty</h3>
+        <div class="submitted-files" id="submittedSprzedazy">
+          <div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">Brak zapisanych dokumentów</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WYCIAGI -->
+    <div class="page" id="wyciagi">
+      <h2 class="page-title">🏦 Wyciągi</h2>
+      <div class="wyciagi-actions">
+        <div class="wyciagi-actions-info">
+          <h3>📁 Import i eksport wyciągów bankowych</h3>
+          <p>Obsługiwane formaty: PDF, XML, CSV, MT940</p>
+        </div>
+        <div class="wyciagi-btns">
+          <label class="import-label" for="importWyciagInput">📤 Importuj wyciąg</label>
+          <input type="file" id="importWyciagInput" accept=".pdf,.xml,.csv,.mt940,.txt" multiple style="display:none" onchange="importWyciagi(this)">
+          <button class="export-btn" id="exportWyciagBtn" onclick="exportWyciagi()">📥 Eksportuj listę</button>
+        </div>
+      </div>
+      <div class="submitted-section">
+        <h3>🏦 Zaimportowane wyciągi</h3>
+        <div class="submitted-files" id="wyciagiList">
+          <div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">Brak wyciągów</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WPŁATY -->
+    <div class="page" id="wplaty">
+      <h2 class="page-title">✅ Wpłaty</h2>
+      <div class="no-data">Ta sekcja jest w przygotowaniu...</div>
+    </div>
+
+    <!-- RAPORTY -->
+    <div class="page" id="raporty">
+      <h2 class="page-title">📊 Raporty</h2>
+      <div class="no-data">Ta sekcja jest w przygotowaniu...</div>
+    </div>
+
+    <!-- KONTRAHENCI -->
+    <div class="page" id="kontrahenci">
+      <h2 class="page-title">👥 Kontrahenci</h2>
+      <div class="kr-section">
+        <h3>➕ Dodaj kontrahenta</h3>
+        <div class="kr-toolbar">
+          <input type="text" id="krNazwa" placeholder="Nazwa firmy / imię i nazwisko">
+          <input type="text" id="krNip" placeholder="NIP">
+          <input type="text" id="krTelefon" placeholder="Telefon">
+          <input type="email" id="krEmail" placeholder="E-mail">
+          <button class="kr-btn add" onclick="addKontrahent()">➕ Dodaj</button>
+        </div>
+      </div>
+      <div class="kr-section">
+        <h3>📋 Lista kontrahentów</h3>
+        <div class="kr-toolbar" style="margin-bottom:15px;">
+          <input type="text" id="krSearch" placeholder="🔍 Szukaj..." oninput="renderKontrahenci()">
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="kr-table">
+            <thead><tr><th>Lp</th><th>Nazwa</th><th>NIP</th><th>Telefon</th><th>E-mail</th><th>Faktury</th><th>Akcje</th></tr></thead>
+            <tbody id="krTableBody"><tr><td colspan="7" class="kr-no-data">Brak kontrahentów</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- KADRY -->
+    <div class="page" id="kadry">
+      <h2 class="page-title">👤 Kadry</h2>
+      <div class="kr-section">
+        <h3>➕ Dodaj pracownika</h3>
+        <div class="kr-toolbar">
+          <input type="text" id="kdImie" placeholder="Imię i nazwisko">
+          <input type="text" id="kdStanowisko" placeholder="Stanowisko">
+          <input type="text" id="kdTelefon" placeholder="Telefon">
+          <input type="email" id="kdEmail" placeholder="E-mail">
+          <input type="number" id="kdWynagrodzenie" placeholder="Wynagrodzenie brutto (zł)" min="0" step="0.01">
+          <button class="kr-btn add" onclick="addPracownik()">➕ Dodaj</button>
+        </div>
+      </div>
+      <div class="kr-section">
+        <h3>📋 Lista pracowników</h3>
+        <div class="kr-toolbar" style="margin-bottom:15px;">
+          <input type="text" id="kdSearch" placeholder="🔍 Szukaj..." oninput="renderKadry()">
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="kr-table">
+            <thead><tr><th>Lp</th><th>Imię i nazwisko</th><th>Stanowisko</th><th>Telefon</th><th>E-mail</th><th>Wynagrodzenie</th><th>Akcje</th></tr></thead>
+            <tbody id="kdTableBody"><tr><td colspan="7" class="kr-no-data">Brak pracowników</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 NexoDocs. Wszelkie prawa zastrzeżone.</p></footer>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════
+document.querySelectorAll('.menu-link').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    link.classList.add('active');
+    document.getElementById(link.dataset.page).classList.add('active');
+  });
+});
+
+// ═══════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════
+let dokumentyZakup     = JSON.parse(localStorage.getItem('dokumentyZakup'))     || [];
+let dokumentySprzedazy = JSON.parse(localStorage.getItem('dokumentySprzedazy')) || [];
+let submittedZakup     = JSON.parse(localStorage.getItem('submittedZakup'))     || [];
+let submittedSprzedazy = JSON.parse(localStorage.getItem('submittedSprzedazy')) || [];
+let wyciagiData        = JSON.parse(localStorage.getItem('wyciagiData'))        || [];
+
+// ═══════════════════════════════════════════════════════════
+// API KEY
+// ═══════════════════════════════════════════════════════════
+const getApiKey = () => localStorage.getItem('openrouter_api_key') || '';
+function updateApiDot() {
+  document.getElementById('apiDot').className = 'api-dot' + (getApiKey() ? ' ok' : '');
+}
+function openApiKeyModal() {
+  document.getElementById('apiKeyInput').value = getApiKey();
+  document.getElementById('apiKeyModal').classList.add('open');
+}
+function saveApiKey() {
+  const v = document.getElementById('apiKeyInput').value.trim();
+  if (!v.startsWith('sk-or-')) { alert('Klucz OpenRouter musi zaczynać się od "sk-or-"'); return; }
+  localStorage.setItem('openrouter_api_key', v);
+  updateApiDot();
+  closeModal('apiKeyModal');
+  alert('✅ Klucz API zapisany!');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+updateApiDot();
+
+// ═══════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════
+const getFileIcon = n => {
+  const e = (n||'').split('.').pop().toLowerCase();
+  if (e==='pdf') return '📄';
+  if (['jpg','jpeg','png','gif','webp'].includes(e)) return '🖼️';
+  if (['xlsx','xls','csv'].includes(e)) return '📊';
+  if (e==='xml') return '📰';
+  return '📎';
+};
+const getMonth = d => d ? d.slice(5,7) : '';
+const fmt = d => d || '—';
+const esc = v => v==null ? '' : String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const isImage = n => /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(n||'');
+const isPDF   = n => /\.pdf$/i.test(n||'');
+
+// ═══════════════════════════════════════════════════════════
+// RENDER TABLES
+// ═══════════════════════════════════════════════════════════
+function renderTableZakup(data) {
+  const tb = document.getElementById('summaryZakupTable');
+  if (!data.length) { tb.innerHTML = '<tr><td colspan="7" class="no-data">Brak danych</td></tr>'; return; }
+  tb.innerHTML = data.map((d,i) => `<tr>
+    <td class="lp-col">${i+1}</td>
+    <td>${d.kontrahent||'—'}</td>
+    <td>${d.numerDokumentu||'—'}</td>
+    <td>${fmt(d.dataWplywu)}</td>
+    <td>${fmt(d.dataWystawienia)}</td>
+    <td>${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '—'}</td>
+    <td>${d.rejestr||'Zakup'}</td>
+  </tr>`).join('');
+}
+function renderTableSprzedazy(data) {
+  const tb = document.getElementById('summarySprzedazyTable');
+  if (!data.length) { tb.innerHTML = '<tr><td colspan="7" class="no-data">Brak danych</td></tr>'; return; }
+  tb.innerHTML = data.map((d,i) => `<tr>
+    <td class="lp-col">${i+1}</td>
+    <td>${d.kontrahent||'—'}</td>
+    <td>${d.numerDokumentu||'—'}</td>
+    <td>${fmt(d.dataWplywu)}</td>
+    <td>${fmt(d.dataWystawienia)}</td>
+    <td>${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '—'}</td>
+    <td>${d.rejestr||'Sprzedaż'}</td>
+  </tr>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+// SORT
+// ═══════════════════════════════════════════════════════════
+const sortState = {
+  zakup:     { field: null, dir: 1 },
+  sprzedazy: { field: null, dir: 1 }
+};
+
+function sortTable(type, field) {
+  const s = sortState[type];
+  if (s.field === field) { s.dir *= -1; } else { s.field = field; s.dir = 1; }
+  // Update header classes
+  const pfx = type === 'zakup' ? { kontrahent:'thZakupKontrahent', dataWplywu:'thZakupDataWplywu' }
+                               : { kontrahent:'thSprzKontrahent',   dataWplywu:'thSprzDataWplywu'  };
+  Object.entries(pfx).forEach(([f, id]) => {
+    const th = document.getElementById(id);
+    if (!th) return;
+    th.classList.remove('asc','desc');
+    if (f === s.field) th.classList.add(s.dir === 1 ? 'asc' : 'desc');
+    th.querySelector('.si').textContent = f === s.field ? (s.dir === 1 ? '↑' : '↓') : '⇅';
+  });
+  if (type === 'zakup') applyFiltersZakup();
+  else applyFiltersSprzedazy();
+}
+
+function applySortToData(data, type) {
+  const s = sortState[type];
+  if (!s.field) return data;
+  return [...data].sort((a, b) => {
+    const va = (a[s.field] || '').toString().toLowerCase();
+    const vb = (b[s.field] || '').toString().toLowerCase();
+    return va < vb ? -s.dir : va > vb ? s.dir : 0;
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// FILTERS
+// ═══════════════════════════════════════════════════════════
+function applyFiltersZakup() {
+  const s = document.getElementById('searchZakup').value.toLowerCase();
+  const m = document.getElementById('monthFilterZakup').value;
+  const filtered = dokumentyZakup.filter(d =>
+    (!s || (d.kontrahent||'').toLowerCase().includes(s)) &&
+    (!m || getMonth(d.dataWplywu) === m)
+  );
+  renderTableZakup(applySortToData(filtered, 'zakup'));
+}
+function applyFiltersSprzedazy() {
+  const s = document.getElementById('searchSprzedazy').value.toLowerCase();
+  const m = document.getElementById('monthFilterSprzedazy').value;
+  const filtered = dokumentySprzedazy.filter(d =>
+    (!s || (d.kontrahent||'').toLowerCase().includes(s)) &&
+    (!m || getMonth(d.dataWplywu) === m)
+  );
+  renderTableSprzedazy(applySortToData(filtered, 'sprzedazy'));
+}
+document.getElementById('searchZakup').addEventListener('input', applyFiltersZakup);
+document.getElementById('searchSprzedazy').addEventListener('input', applyFiltersSprzedazy);
+
+// ═══════════════════════════════════════════════════════════
+// RENDER FILE CARDS
+// ═══════════════════════════════════════════════════════════
+function cardFields(d) {
+  const rows = [
+    ['Kontrahent', d.kontrahent], ['Nr dok.', d.numerDokumentu],
+    ['Data wpływu', d.dataWplywu], ['Data wystawienia', d.dataWystawienia],
+    ['Data sprzedaży', d.dataSprzedazy], ['Termin płatności', d.terminPlatnosci],
+    ['Kategoria', d.kategoria], ['Brutto', d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : null],
+  ].filter(([,v]) => v);
+  if (!rows.length) return '';
+  return '<div class="file-ai-fields">' + rows.map(([l,v]) =>
+    `<div><span>${l}: </span>${v}</div>`).join('') + '</div>';
+}
+
+function renderSubmittedZakup(data) {
+  const c = document.getElementById('submittedZakup');
+  if (!data.length) { c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">Brak zapisanych dokumentów</div>'; return; }
+  c.innerHTML = data.map(d => `
+    <div class="file-card">
+      <div class="file-icon">${getFileIcon(d.fileName)}</div>
+      <div class="file-name">${esc(d.fileName)}</div>
+      <div class="file-meta">${fmt(d.dataWplywu)}</div>
+      ${cardFields(d)}
+      <div class="file-actions">
+        <button class="btn btn-secondary" onclick="dlFile('${d.id}','z')">📥</button>
+        <button class="btn btn-danger" onclick="delFile('${d.id}','z')">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderSubmittedSprzedazy(data) {
+  const c = document.getElementById('submittedSprzedazy');
+  if (!data.length) { c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">Brak zapisanych dokumentów</div>'; return; }
+  c.innerHTML = data.map(d => `
+    <div class="file-card">
+      <div class="file-icon">${getFileIcon(d.fileName)}</div>
+      <div class="file-name">${esc(d.fileName)}</div>
+      <div class="file-meta">${fmt(d.dataWplywu)}</div>
+      ${cardFields(d)}
+      <div class="file-actions">
+        <button class="btn btn-secondary" onclick="dlFile('${d.id}','s')">📥</button>
+        <button class="btn btn-danger" onclick="delFile('${d.id}','s')">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+// AI PANEL — MAIN FLOW
+// ═══════════════════════════════════════════════════════════
+let aiCurrentType = null; // 'zakup' | 'sprzedazy'
+let aiCurrentFile = null; // { name, dataUrl }
+
+function startAI(input, type) {
+  const file = input.files[0];
+  if (!file) return;
+  input.value = '';
+
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    if (confirm('Nie ustawiono klucza API OpenRouter.\nCzy chcesz go teraz skonfigurować? (klucz jest bezpłatny)')) openApiKeyModal();
+    return;
+  }
+  if (!isImage(file.name) && !isPDF(file.name)) {
+    alert('Obsługiwane formaty: PDF, JPG, JPEG, PNG'); return;
+  }
+
+  aiCurrentType = type;
+
+  // Show loading panel immediately
+  document.getElementById('aiPanel').classList.add('open');
+  document.getElementById('aiPanelBody').innerHTML = `
+    <div class="ai-loading">
+      <div class="ai-spinner"></div>
+      <h3>Analizuję dokument...</h3>
+      <p>${esc(file.name)}</p>
+      <p style="margin-top:8px;font-size:.85em;">AI odczytuje dane — to może potrwać kilka sekund</p>
+    </div>`;
+
+  // Read file then call API
+  const reader = new FileReader();
+  reader.onload = async e => {
+    aiCurrentFile = { name: file.name, dataUrl: e.target.result, size: file.size };
+    try {
+      const result = await callOpenRouter(e.target.result, file.name, apiKey);
+      renderAIForm(result);
+    } catch (err) {
+      document.getElementById('aiPanelBody').innerHTML = `
+        <div class="ai-error-box">
+          <h3>❌ Błąd analizy</h3>
+          <p>${esc(err.message)}</p>
+          <p>Sprawdź klucz API i spróbuj ponownie.</p>
+          <button class="btn-cancel-ai" onclick="closeAiPanel()">Zamknij</button>
+        </div>`;
     }
+  };
+  reader.readAsDataURL(file);
+}
 
-    // ─── WYCIAGI: IMPORT ──────────────────────────────────────────────────────
-    function importWyciagi(input) {
-      const files = Array.from(input.files);
-      if (!files.length) return;
+// ═══════════════════════════════════════════════════════════
+// OPENAI CALL
+// ═══════════════════════════════════════════════════════════
+const AI_PROMPT = `Jesteś ekspertem od polskich dokumentów księgowych. Przeanalizuj dokument i wyodrębnij dane. Zwróć TYLKO czysty JSON.
 
-      let loaded = 0;
-      files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const doc = {
-            id: Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-            fileName: file.name,
-            fileData: e.target.result,
-            addedDate: new Date().toISOString().split('T')[0],
-            size: file.size
-          };
-          wyciagiData.push(doc);
-          loaded++;
-          if (loaded === files.length) {
-            localStorage.setItem('wyciagiData', JSON.stringify(wyciagiData));
-            renderWyciagi();
-          }
-        };
-        reader.readAsDataURL(file);
-      });
-      input.value = '';
+{
+  "numerDokumentu": "numer faktury np. FV/2024/001",
+  "kontrahent": "pełna nazwa firmy lub osoby",
+  "dataWplywu": "YYYY-MM-DD lub null",
+  "dataWystawienia": "YYYY-MM-DD lub null",
+  "dataSprzedazy": "YYYY-MM-DD lub null",
+  "terminPlatnosci": "YYYY-MM-DD lub null",
+  "rejestr": "Zakup lub Sprzedaż",
+  "kategoria": "np. Usługi IT, Materiały biurowe, Transport, Media, Wynagrodzenia, Usługi reklamowe, Inne",
+  "opisKategorii": "krótki opis czego dotyczy dokument",
+  "kwotaNetto": liczba,
+  "kwotaBrutto": liczba,
+  "waluta": "PLN",
+  "vat": {
+    "zw": kwota VAT zwolniona jako liczba,
+    "p0": kwota VAT 0% jako liczba,
+    "p5": kwota VAT 5% jako liczba,
+    "p8": kwota VAT 8% jako liczba,
+    "p23": kwota VAT 23% jako liczba
+  }
+}
+
+Jeśli wartości nie widać w dokumencie — wstaw null. Dla "rejestr": faktura wystawiona na podmiot zewnętrzny = "Sprzedaż", zakupiona od dostawcy = "Zakup".`;
+
+async function callOpenRouter(dataUrl, fileName, apiKey) {
+  let content;
+  if (isImage(fileName)) {
+    content = [
+      { type: 'image_url', image_url: { url: dataUrl } },
+      { type: 'text', text: AI_PROMPT }
+    ];
+  } else {
+    // PDF
+    content = [
+      { type: 'file', file: { filename: fileName, file_data: dataUrl } },
+      { type: 'text', text: AI_PROMPT }
+    ];
+  }
+
+  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+      'HTTP-Referer': window.location.href,
+      'X-Title': 'NexoDocs'
+    },
+    body: JSON.stringify({
+      model: 'google/gemini-2.0-flash-exp:free',
+      messages: [{ role: 'user', content }],
+      response_format: { type: 'json_object' }
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error?.message || `HTTP ${res.status}`);
+  }
+
+  const data = await res.json();
+  return JSON.parse(data.choices?.[0]?.message?.content || '{}');
+}
+
+// ═══════════════════════════════════════════════════════════
+// RENDER AI FORM
+// ═══════════════════════════════════════════════════════════
+const KATEGORIE = ['Usługi IT','Materiały biurowe','Transport','Media','Wynagrodzenia',
+  'Usługi reklamowe','Usługi prawne','Usługi księgowe','Sprzęt / środki trwałe','Paliwo','Inne'];
+
+function renderAIForm(r) {
+  const v = r.vat || {};
+  const katOptions = KATEGORIE.map(k =>
+    `<option value="${k}" ${r.kategoria===k?'selected':''}>${k}</option>`
+  ).join('');
+
+  document.getElementById('aiPanelBody').innerHTML = `
+    <div class="ai-form-wrap">
+      <p class="ai-form-subtitle">
+        Plik: <strong>${esc(aiCurrentFile?.name)}</strong> &nbsp;|&nbsp;
+        Sprawdź dane, popraw jeśli trzeba, a następnie kliknij <strong style="color:#a5d6a7">Zapisz dokument</strong>.
+      </p>
+
+      <div class="ai-section-title">📋 Identyfikacja dokumentu</div>
+      <div class="ai-grid">
+        <div class="ai-field">
+          <label>Numer dokumentu</label>
+          <input type="text" id="f_numerDokumentu" value="${esc(r.numerDokumentu)}">
+        </div>
+        <div class="ai-field">
+          <label>Kontrahent</label>
+          <input type="text" id="f_kontrahent" value="${esc(r.kontrahent)}">
+        </div>
+        <div class="ai-field">
+          <label>Rejestr</label>
+          <select id="f_rejestr">
+            <option value="Zakup" ${r.rejestr==='Zakup'?'selected':''}>Zakup</option>
+            <option value="Sprzedaż" ${r.rejestr==='Sprzedaż'?'selected':''}>Sprzedaż</option>
+          </select>
+        </div>
+        <div class="ai-field">
+          <label>Waluta</label>
+          <input type="text" id="f_waluta" value="${esc(r.waluta||'PLN')}">
+        </div>
+      </div>
+
+      <div class="ai-section-title">📅 Daty</div>
+      <div class="ai-grid four">
+        <div class="ai-field">
+          <label>Data wpływu</label>
+          <input type="date" id="f_dataWplywu" value="${esc(r.dataWplywu)}">
+        </div>
+        <div class="ai-field">
+          <label>Data wystawienia</label>
+          <input type="date" id="f_dataWystawienia" value="${esc(r.dataWystawienia)}">
+        </div>
+        <div class="ai-field">
+          <label>Data sprzedaży</label>
+          <input type="date" id="f_dataSprzedazy" value="${esc(r.dataSprzedazy)}">
+        </div>
+        <div class="ai-field">
+          <label>Termin płatności</label>
+          <input type="date" id="f_terminPlatnosci" value="${esc(r.terminPlatnosci)}">
+        </div>
+      </div>
+
+      <div class="ai-section-title">🗂️ Kategoria</div>
+      <div class="ai-grid">
+        <div class="ai-field">
+          <label>Kategoria</label>
+          <select id="f_kategoria">${katOptions}</select>
+        </div>
+        <div class="ai-field">
+          <label>Opis kategorii</label>
+          <textarea id="f_opisKategorii">${esc(r.opisKategorii)}</textarea>
+        </div>
+      </div>
+
+      <div class="ai-section-title">💰 Kwoty i VAT</div>
+      <div class="ai-grid">
+        <div class="ai-field">
+          <label>Kwota netto (zł)</label>
+          <input type="number" step="0.01" id="f_kwotaNetto" value="${esc(r.kwotaNetto)}">
+        </div>
+        <div class="ai-field">
+          <label>Kwota brutto (zł)</label>
+          <input type="number" step="0.01" id="f_kwotaBrutto" value="${esc(r.kwotaBrutto)}">
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <label style="font-size:.78em;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:10px;">
+          Kwoty VAT według stawek (zł)
+        </label>
+        <div class="vat-row">
+          <div class="vat-cell"><label>Zwolniony (zw)</label><input type="number" step="0.01" id="f_vat_zw" value="${esc(v.zw??0)}"></div>
+          <div class="vat-cell"><label>0%</label><input type="number" step="0.01" id="f_vat_0" value="${esc(v.p0??0)}"></div>
+          <div class="vat-cell"><label>5%</label><input type="number" step="0.01" id="f_vat_5" value="${esc(v.p5??0)}"></div>
+          <div class="vat-cell"><label>8%</label><input type="number" step="0.01" id="f_vat_8" value="${esc(v.p8??0)}"></div>
+          <div class="vat-cell"><label>23%</label><input type="number" step="0.01" id="f_vat_23" value="${esc(v.p23??0)}"></div>
+        </div>
+      </div>
+
+      <div class="ai-form-actions">
+        <button class="btn-cancel-ai" onclick="closeAiPanel()">Anuluj</button>
+        <button class="btn-save-ai" onclick="saveAIDoc()">💾 Zapisz dokument</button>
+      </div>
+    </div>`;
+}
+
+function closeAiPanel() {
+  document.getElementById('aiPanel').classList.remove('open');
+  aiCurrentFile = null;
+}
+
+// ═══════════════════════════════════════════════════════════
+// SAVE AI DOC
+// ═══════════════════════════════════════════════════════════
+function saveAIDoc() {
+  const today = new Date().toISOString().split('T')[0];
+  const doc = {
+    id: Date.now(),
+    fileName:        aiCurrentFile?.name || 'dokument.pdf',
+    fileData:        aiCurrentFile?.dataUrl || '',
+    size:            aiCurrentFile?.size || 0,
+    addedDate:       today,
+    numerDokumentu:  document.getElementById('f_numerDokumentu').value.trim(),
+    kontrahent:      document.getElementById('f_kontrahent').value.trim(),
+    dataWplywu:      document.getElementById('f_dataWplywu').value || today,
+    dataWystawienia: document.getElementById('f_dataWystawienia').value,
+    dataSprzedazy:   document.getElementById('f_dataSprzedazy').value,
+    terminPlatnosci: document.getElementById('f_terminPlatnosci').value,
+    rejestr:         document.getElementById('f_rejestr').value,
+    waluta:          document.getElementById('f_waluta').value.trim() || 'PLN',
+    kategoria:       document.getElementById('f_kategoria').value,
+    opisKategorii:   document.getElementById('f_opisKategorii').value.trim(),
+    kwotaNetto:      document.getElementById('f_kwotaNetto').value,
+    kwotaBrutto:     document.getElementById('f_kwotaBrutto').value,
+    vat: {
+      zw:  document.getElementById('f_vat_zw').value,
+      p0:  document.getElementById('f_vat_0').value,
+      p5:  document.getElementById('f_vat_5').value,
+      p8:  document.getElementById('f_vat_8').value,
+      p23: document.getElementById('f_vat_23').value,
     }
+  };
 
-    // ─── WYCIAGI: DOWNLOAD ────────────────────────────────────────────────────
-    function downloadWyciag(id) {
-      const doc = wyciagiData.find(d => d.id == id);
-      if (!doc) return;
-      const link = document.createElement('a');
-      link.href = doc.fileData;
-      link.download = doc.fileName;
-      link.click();
-    }
+  if (aiCurrentType === 'zakup') {
+    submittedZakup.push(doc);
+    dokumentyZakup.push(doc);
+    localStorage.setItem('submittedZakup', JSON.stringify(submittedZakup));
+    localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
+    renderSubmittedZakup(submittedZakup);
+    applyFiltersZakup();
+  } else {
+    submittedSprzedazy.push(doc);
+    dokumentySprzedazy.push(doc);
+    localStorage.setItem('submittedSprzedazy', JSON.stringify(submittedSprzedazy));
+    localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
+    renderSubmittedSprzedazy(submittedSprzedazy);
+    applyFiltersSprzedazy();
+  }
 
-    // ─── WYCIAGI: DELETE ──────────────────────────────────────────────────────
-    function deleteWyciag(id) {
-      if (!confirm('🗑️ Na pewno chcesz usunąć ten wyciąg?')) return;
-      wyciagiData = wyciagiData.filter(d => d.id != id);
+  closeAiPanel();
+  alert('✅ Dokument zapisany!');
+}
+
+// ═══════════════════════════════════════════════════════════
+// FILE ACTIONS
+// ═══════════════════════════════════════════════════════════
+function dlFile(id, type) {
+  const list = type==='z' ? submittedZakup : submittedSprzedazy;
+  const d = list.find(x => x.id == id);
+  if (!d?.fileData) return;
+  const a = document.createElement('a'); a.href = d.fileData; a.download = d.fileName; a.click();
+}
+function delFile(id, type) {
+  if (!confirm('🗑️ Na pewno usunąć ten dokument?')) return;
+  if (type==='z') {
+    submittedZakup = submittedZakup.filter(x => x.id != id);
+    dokumentyZakup = dokumentyZakup.filter(x => x.id != id);
+    localStorage.setItem('submittedZakup', JSON.stringify(submittedZakup));
+    localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
+    renderSubmittedZakup(submittedZakup);
+    applyFiltersZakup();
+  } else {
+    submittedSprzedazy = submittedSprzedazy.filter(x => x.id != id);
+    dokumentySprzedazy = dokumentySprzedazy.filter(x => x.id != id);
+    localStorage.setItem('submittedSprzedazy', JSON.stringify(submittedSprzedazy));
+    localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
+    renderSubmittedSprzedazy(submittedSprzedazy);
+    applyFiltersSprzedazy();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// MANUAL UPLOAD (bez AI)
+// ═══════════════════════════════════════════════════════════
+function startManual(input, type) {
+  const file = input.files[0]; if (!file) return;
+  if (!isImage(file.name) && !isPDF(file.name)) {
+    alert('Obsługiwane formaty: PDF, JPG, JPEG, PNG'); return;
+  }
+  input.value = '';
+  aiCurrentType = type;
+  document.getElementById('aiPanel').classList.add('open');
+  document.getElementById('aiPanelBody').innerHTML =
+    '<div class="ai-loading"><div class="ai-spinner"></div><h3>Ładowanie pliku...</h3></div>';
+  const reader = new FileReader();
+  reader.onload = e => {
+    aiCurrentFile = { name: file.name, dataUrl: e.target.result, size: file.size };
+    renderAIForm({});
+  };
+  reader.readAsDataURL(file);
+}
+
+// ═══════════════════════════════════════════════════════════
+// KONTRAHENCI
+// ═══════════════════════════════════════════════════════════
+let kontrahenciData = JSON.parse(localStorage.getItem('nexo_kontrahenci') || '[]');
+
+function saveKontrahenci() { localStorage.setItem('nexo_kontrahenci', JSON.stringify(kontrahenciData)); }
+
+function addKontrahent() {
+  const nazwa = document.getElementById('krNazwa').value.trim();
+  if (!nazwa) { alert('Wpisz nazwę kontrahenta.'); return; }
+  kontrahenciData.push({
+    id: Date.now().toString(),
+    nazwa,
+    nip:     document.getElementById('krNip').value.trim(),
+    telefon: document.getElementById('krTelefon').value.trim(),
+    email:   document.getElementById('krEmail').value.trim()
+  });
+  saveKontrahenci();
+  ['krNazwa','krNip','krTelefon','krEmail'].forEach(id => document.getElementById(id).value='');
+  renderKontrahenci();
+}
+
+function delKontrahent(id) {
+  if (!confirm('Usunąć kontrahenta?')) return;
+  kontrahenciData = kontrahenciData.filter(k => k.id !== id);
+  saveKontrahenci(); renderKontrahenci();
+}
+
+function renderKontrahenci() {
+  const q = (document.getElementById('krSearch')?.value || '').toLowerCase();
+  const list = kontrahenciData.filter(k => !q ||
+    k.nazwa.toLowerCase().includes(q) || (k.nip||'').includes(q));
+  const tb = document.getElementById('krTableBody');
+  if (!list.length) { tb.innerHTML='<tr><td colspan="7" class="kr-no-data">Brak kontrahentów</td></tr>'; return; }
+  // Count invoices from both tables
+  const countInv = nazwa => [...dokumentyZakup,...dokumentySprzedazy]
+    .filter(d => (d.kontrahent||'').toLowerCase() === nazwa.toLowerCase()).length;
+  tb.innerHTML = list.map((k,i) => `<tr>
+    <td class="lp-col">${i+1}</td>
+    <td><strong>${esc(k.nazwa)}</strong></td>
+    <td>${esc(k.nip||'—')}</td>
+    <td>${esc(k.telefon||'—')}</td>
+    <td>${esc(k.email||'—')}</td>
+    <td style="text-align:center;">${countInv(k.nazwa)}</td>
+    <td><button class="btn btn-danger" onclick="delKontrahent('${k.id}')">🗑️</button></td>
+  </tr>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+// KADRY
+// ═══════════════════════════════════════════════════════════
+let kadryData = JSON.parse(localStorage.getItem('nexo_kadry') || '[]');
+
+function saveKadry() { localStorage.setItem('nexo_kadry', JSON.stringify(kadryData)); }
+
+function addPracownik() {
+  const imie = document.getElementById('kdImie').value.trim();
+  if (!imie) { alert('Wpisz imię i nazwisko.'); return; }
+  kadryData.push({
+    id: Date.now().toString(),
+    imie,
+    stanowisko:    document.getElementById('kdStanowisko').value.trim(),
+    telefon:       document.getElementById('kdTelefon').value.trim(),
+    email:         document.getElementById('kdEmail').value.trim(),
+    wynagrodzenie: document.getElementById('kdWynagrodzenie').value.trim()
+  });
+  saveKadry();
+  ['kdImie','kdStanowisko','kdTelefon','kdEmail','kdWynagrodzenie'].forEach(id => document.getElementById(id).value='');
+  renderKadry();
+}
+
+function delPracownik(id) {
+  if (!confirm('Usunąć pracownika?')) return;
+  kadryData = kadryData.filter(k => k.id !== id);
+  saveKadry(); renderKadry();
+}
+
+function renderKadry() {
+  const q = (document.getElementById('kdSearch')?.value || '').toLowerCase();
+  const list = kadryData.filter(k => !q ||
+    k.imie.toLowerCase().includes(q) || (k.stanowisko||'').toLowerCase().includes(q));
+  const tb = document.getElementById('kdTableBody');
+  if (!list.length) { tb.innerHTML='<tr><td colspan="7" class="kr-no-data">Brak pracowników</td></tr>'; return; }
+  tb.innerHTML = list.map((k,i) => `<tr>
+    <td class="lp-col">${i+1}</td>
+    <td><strong>${esc(k.imie)}</strong></td>
+    <td>${esc(k.stanowisko||'—')}</td>
+    <td>${esc(k.telefon||'—')}</td>
+    <td>${esc(k.email||'—')}</td>
+    <td>${k.wynagrodzenie ? parseFloat(k.wynagrodzenie).toFixed(2)+' zł' : '—'}</td>
+    <td><button class="btn btn-danger" onclick="delPracownik('${k.id}')">🗑️</button></td>
+  </tr>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+// KSEF
+// ═══════════════════════════════════════════════════════════
+function openKSeF(type) {
+  alert(type==='zakup'
+    ? 'Integracja z KSeF — Faktury Zakupu\n\nTa funkcja umożliwi pobranie faktur z Krajowego Systemu e-Faktur.'
+    : 'Integracja z KSeF — Faktury Sprzedaży\n\nTa funkcja umożliwi pobranie faktur z Krajowego Systemu e-Faktur.');
+}
+
+// ═══════════════════════════════════════════════════════════
+// WYCIAGI
+// ═══════════════════════════════════════════════════════════
+function renderWyciagi() {
+  const c = document.getElementById('wyciagiList');
+  if (!wyciagiData.length) {
+    c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.6);">Brak wyciągów</div>';
+    document.getElementById('exportWyciagBtn').disabled = true; return;
+  }
+  document.getElementById('exportWyciagBtn').disabled = false;
+  c.innerHTML = wyciagiData.map(d => `
+    <div class="file-card">
+      <div class="file-icon">${getFileIcon(d.fileName)}</div>
+      <div class="file-name">${esc(d.fileName)}</div>
+      <div class="file-meta">Dodano: ${fmt(d.addedDate)} | ${(d.size/1024).toFixed(1)} KB</div>
+      <div class="file-actions">
+        <button class="btn btn-secondary" onclick="dlWyciag('${d.id}')">📥 Pobierz</button>
+        <button class="btn btn-danger" onclick="delWyciag('${d.id}')">🗑️ Usuń</button>
+      </div>
+    </div>`).join('');
+}
+function importWyciagi(input) {
+  Array.from(input.files).forEach(file => {
+    const r = new FileReader();
+    r.onload = e => {
+      wyciagiData.push({ id: Date.now()+'_'+Math.random().toString(36).substr(2,5), fileName: file.name, fileData: e.target.result, addedDate: new Date().toISOString().split('T')[0], size: file.size });
       localStorage.setItem('wyciagiData', JSON.stringify(wyciagiData));
       renderWyciagi();
-    }
+    };
+    r.readAsDataURL(file);
+  });
+  input.value = '';
+}
+function dlWyciag(id) {
+  const d = wyciagiData.find(x => x.id==id);
+  if (!d) return;
+  const a = document.createElement('a'); a.href = d.fileData; a.download = d.fileName; a.click();
+}
+function delWyciag(id) {
+  if (!confirm('🗑️ Na pewno usunąć wyciąg?')) return;
+  wyciagiData = wyciagiData.filter(x => x.id!=id);
+  localStorage.setItem('wyciagiData', JSON.stringify(wyciagiData));
+  renderWyciagi();
+}
+function exportWyciagi() {
+  if (!wyciagiData.length) return;
+  const csv = [['Lp','Nazwa','Data','KB']].concat(wyciagiData.map((d,i)=>[i+1,d.fileName,d.addedDate,(d.size/1024).toFixed(1)]))
+    .map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}));
+  a.download = 'wyciagi_'+new Date().toISOString().split('T')[0]+'.csv'; a.click();
+}
 
-    // ─── WYCIAGI: EXPORT LIST ─────────────────────────────────────────────────
-    function exportWyciagi() {
-      if (wyciagiData.length === 0) return;
-      const rows = [['Lp', 'Nazwa pliku', 'Data dodania', 'Rozmiar (KB)']];
-      wyciagiData.forEach((doc, idx) => {
-        rows.push([idx + 1, doc.fileName, doc.addedDate, (doc.size / 1024).toFixed(1)]);
-      });
-      const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
-      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'wyciagi_lista_' + new Date().toISOString().split('T')[0] + '.csv';
-      link.click();
-    }
-
-    // ─── KSEF ─────────────────────────────────────────────────────────────────
-    function openKSeFModal(type) {
-      const msg = type === 'zakup'
-        ? 'Integracja z KSeF dla Faktur Zakupu\n\nTa funkcja umożliwi Ci pobranie faktur bezpośrednio z Krajowego Systemu e-Faktur.'
-        : 'Integracja z KSeF dla Faktur Sprzedaży\n\nTa funkcja umożliwi Ci pobranie faktur bezpośrednio z Krajowego Systemu e-Faktur.';
-      alert(msg);
-    }
-
-    // ─── DOWNLOAD / DELETE ────────────────────────────────────────────────────
-    function downloadFile(id, type) {
-      let data;
-      if (type === 'zakup')             data = dokumentyZakup;
-      else if (type === 'sprzedazy')    data = dokumentySprzedazy;
-      else if (type === 'submitted-zakup')     data = submittedZakup;
-      else if (type === 'submitted-sprzedazy') data = submittedSprzedazy;
-      const doc = data.find(d => d.id == id);
-      if (!doc) return;
-      const link = document.createElement('a');
-      link.href = doc.fileData;
-      link.download = doc.fileName;
-      link.click();
-    }
-
-    function deleteSubmittedFile(id, type) {
-      if (!confirm('🗑️ Na pewno chcesz usunąć ten plik?')) return;
-      if (type === 'zakup') {
-        submittedZakup = submittedZakup.filter(d => d.id != id);
-        localStorage.setItem('submittedZakup', JSON.stringify(submittedZakup));
-        renderSubmittedZakup(submittedZakup);
-      } else {
-        submittedSprzedazy = submittedSprzedazy.filter(d => d.id != id);
-        localStorage.setItem('submittedSprzedazy', JSON.stringify(submittedSprzedazy));
-        renderSubmittedSprzedazy(submittedSprzedazy);
-      }
-      alert('✅ Plik usunięty!');
-    }
-
-    // ─── INITIAL RENDER ───────────────────────────────────────────────────────
-    renderSummaryZakup(dokumentyZakup);
-    renderSubmittedZakup(submittedZakup);
-    renderSummarySprzedazy(dokumentySprzedazy);
-    renderSubmittedSprzedazy(submittedSprzedazy);
-    renderWyciagi();
-
-    // ─── TEST DATA HELPERS (dev) ──────────────────────────────────────────────
-    function addTestSubmittedFile(type) {
-      const testFile = {
-        id: Date.now(),
-        fileName: 'faktura_test_' + Date.now() + '.pdf',
-        kontrahent: 'Test Sp. z o.o.',
-        dataWplywu: new Date().toISOString().split('T')[0],
-        dataWystawienia: new Date().toISOString().split('T')[0],
-        amount: (Math.random() * 5000 + 100).toFixed(2),
-        fileData: 'data:application/pdf;base64,JVBERi0xLjQK'
-      };
-      if (type === 'zakup') {
-        submittedZakup.push(testFile);
-        localStorage.setItem('submittedZakup', JSON.stringify(submittedZakup));
-        renderSubmittedZakup(submittedZakup);
-      } else {
-        submittedSprzedazy.push(testFile);
-        localStorage.setItem('submittedSprzedazy', JSON.stringify(submittedSprzedazy));
-        renderSubmittedSprzedazy(submittedSprzedazy);
-      }
-    }
-
-    function addTestDokument(type) {
-      const months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
-      const m = months[Math.floor(Math.random() * months.length)];
-      const doc = {
-        id: Date.now(),
-        kontrahent: ['ABC Sp. z o.o.', 'XYZ S.A.', 'Firma Przykładowa', 'Dostawca 123'][Math.floor(Math.random()*4)],
-        dataWplywu: `2026-${m}-${String(Math.floor(Math.random()*28)+1).padStart(2,'0')}`,
-        dataWystawienia: `2026-${m}-${String(Math.floor(Math.random()*28)+1).padStart(2,'0')}`,
-        amount: (Math.random() * 10000 + 100).toFixed(2),
-        fileName: 'faktura_' + Date.now() + '.pdf',
-        fileData: ''
-      };
-      if (type === 'zakup') {
-        dokumentyZakup.push(doc);
-        localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
-        applyFiltersZakup();
-      } else {
-        dokumentySprzedazy.push(doc);
-        localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
-        applyFiltersSprzedazy();
-      }
-    }
-
-    window.addTestSubmittedFile = addTestSubmittedFile;
-    window.addTestDokument = addTestDokument;
-  </script>
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+renderTableZakup(dokumentyZakup);
+renderSubmittedZakup(submittedZakup);
+renderTableSprzedazy(dokumentySprzedazy);
+renderSubmittedSprzedazy(submittedSprzedazy);
+renderWyciagi();
+</script>
 </body>
 </html>
