@@ -205,19 +205,22 @@
     }
 
     .cooperation-logo {
-      width: 200px;
-      height: 150px;
+      width: 300px;
+      height: 220px;
       margin-bottom: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
     .cooperation-logo img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
-      filter: brightness(1.1);
     }
 
     .cooperation-link {
@@ -243,18 +246,21 @@
       text-align: center;
     }
 
-    /* SEARCH SECTION - TOP */
-    .search-section-top {
+    /* SEARCH + FILTER ROW */
+    .search-filter-row {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       border-radius: 15px;
-      padding: 25px;
+      padding: 20px 25px;
       margin-bottom: 30px;
       border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      gap: 15px;
+      align-items: center;
     }
 
-    .search-section-top input {
-      width: 100%;
+    .search-filter-row input[type="text"] {
+      flex: 1;
       padding: 12px;
       border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 8px;
@@ -263,14 +269,35 @@
       font-size: 1em;
     }
 
-    .search-section-top input::placeholder {
+    .search-filter-row input[type="text"]::placeholder {
       color: rgba(255, 255, 255, 0.6);
     }
 
-    .search-section-top input:focus {
+    .search-filter-row input[type="text"]:focus {
       outline: none;
       border-color: #64b5f6;
       background: rgba(255, 255, 255, 0.15);
+    }
+
+    .search-filter-row select {
+      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      min-width: 170px;
+    }
+
+    .search-filter-row select option {
+      background: #1e3c72;
+      color: white;
+    }
+
+    .search-filter-row select:focus {
+      outline: none;
+      border-color: #64b5f6;
     }
 
     /* SUMMARY TABLE */
@@ -294,20 +321,28 @@
     }
 
     .summary-table th {
-      padding: 15px;
+      padding: 13px 12px;
       text-align: left;
       color: #64b5f6;
       font-weight: 600;
       border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      white-space: nowrap;
     }
 
     .summary-table td {
-      padding: 12px 15px;
+      padding: 11px 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      white-space: nowrap;
     }
 
     .summary-table tr:hover {
       background: rgba(255, 255, 255, 0.05);
+    }
+
+    .summary-table td.lp-col {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9em;
+      width: 50px;
     }
 
     /* KSEF SECTION */
@@ -443,6 +478,10 @@
       background: linear-gradient(135deg, #90a4ae 0%, #78909c 100%);
     }
 
+    .btn-success {
+      background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+    }
+
     .btn-small {
       padding: 8px 12px;
       font-size: 0.85em;
@@ -453,6 +492,84 @@
       padding: 40px 20px;
       color: rgba(255, 255, 255, 0.7);
       font-size: 1.1em;
+    }
+
+    /* WYCIAGI IMPORT/EXPORT SECTION */
+    .wyciagi-actions {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .wyciagi-actions-info {
+      flex: 1;
+    }
+
+    .wyciagi-actions-info h3 {
+      color: #64b5f6;
+      font-size: 1.3em;
+      margin-bottom: 8px;
+    }
+
+    .wyciagi-actions-info p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95em;
+    }
+
+    .wyciagi-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .import-label {
+      background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+      color: white;
+      border: none;
+      padding: 15px 28px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+      display: inline-block;
+    }
+
+    .import-label:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+    }
+
+    .export-btn {
+      background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+      color: white;
+      border: none;
+      padding: 15px 28px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+
+    .export-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+    }
+
+    .export-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
     }
 
     footer {
@@ -516,6 +633,18 @@
         margin-left: 0;
         width: 100%;
       }
+
+      .search-filter-row {
+        flex-direction: column;
+      }
+
+      .search-filter-row select {
+        width: 100%;
+      }
+
+      .wyciagi-actions {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -527,7 +656,7 @@
       <li><a href="#" class="menu-link active" data-page="home">🏠 Home</a></li>
       <li><a href="#" class="menu-link" data-page="faktury-zakupu">📄 Faktury Zakupu</a></li>
       <li><a href="#" class="menu-link" data-page="faktury-sprzedazy">📋 Faktury Sprzedaży</a></li>
-      <li><a href="#" class="menu-link" data-page="rachunki">💰 Rachunki</a></li>
+      <li><a href="#" class="menu-link" data-page="wyciagi">🏦 Wyciągi</a></li>
       <li><a href="#" class="menu-link" data-page="wplaty">✅ Wpłaty</a></li>
       <li><a href="#" class="menu-link" data-page="raporty">📊 Raporty</a></li>
     </ul>
@@ -570,7 +699,7 @@
           <div class="cooperation-section">
             <h2>Współpraca</h2>
             <div class="cooperation-logo">
-              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'%3E%3Ctext x='10' y='80' font-size='24' font-weight='bold' fill='%23333'%3EBIURO%3C/text%3E%3Ctext x='100' y='80' font-size='24' font-weight='bold' fill='%23d32f2f'%3E%25%3C/text%3E%3Ctext x='130' y='80' font-size='24' font-weight='bold' fill='%23666'%3EOSKAR%3C/text%3E%3C/svg%3E" alt="Biuro Oskar">
+              <img src="http://biurooskar.pl/wp-content/uploads/2016/10/biuro-oskar.png" alt="Biuro Oskar" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span style=\'font-size:1.8em; font-weight:700; color:#d32f2f; letter-spacing:1px;\'>BIURO <span style=\'color:#333\'>OSKAR</span></span>'">
             </div>
             <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.9); font-size: 1.1em;">Profesjonalne usługi księgowe</p>
             <a href="https://biurooskar.pl" target="_blank" class="cooperation-link">🔗 Odwiedź Biuro Oskar</a>
@@ -582,9 +711,24 @@
       <div class="page" id="faktury-zakupu">
         <h2 class="page-title">📄 Faktury Zakupu</h2>
 
-        <!-- SEARCH ON TOP -->
-        <div class="search-section-top">
-          <input type="text" id="searchZakup" placeholder="🔍 Szukaj po nazwie firmy...">
+        <!-- SEARCH + MONTH FILTER -->
+        <div class="search-filter-row">
+          <input type="text" id="searchZakup" placeholder="🔍 Szukaj po kontrahencie...">
+          <select id="monthFilterZakup" onchange="applyFiltersZakup()">
+            <option value="">📅 Wszystkie miesiące</option>
+            <option value="01">Styczeń</option>
+            <option value="02">Luty</option>
+            <option value="03">Marzec</option>
+            <option value="04">Kwiecień</option>
+            <option value="05">Maj</option>
+            <option value="06">Czerwiec</option>
+            <option value="07">Lipiec</option>
+            <option value="08">Sierpień</option>
+            <option value="09">Wrzesień</option>
+            <option value="10">Październik</option>
+            <option value="11">Listopad</option>
+            <option value="12">Grudzień</option>
+          </select>
         </div>
 
         <!-- SUMMARY TABLE -->
@@ -592,14 +736,17 @@
           <table class="summary-table">
             <thead>
               <tr>
-                <th>Data</th>
+                <th>Lp</th>
+                <th>Kontrahent</th>
+                <th>Data wpływu</th>
+                <th>Data wystawienia</th>
                 <th>Kwota (PLN)</th>
                 <th>Numer ID</th>
               </tr>
             </thead>
             <tbody id="summaryZakupTable">
               <tr>
-                <td colspan="3" class="no-data">Brak danych</td>
+                <td colspan="6" class="no-data">Brak danych</td>
               </tr>
             </tbody>
           </table>
@@ -629,9 +776,24 @@
       <div class="page" id="faktury-sprzedazy">
         <h2 class="page-title">📋 Faktury Sprzedaży</h2>
 
-        <!-- SEARCH ON TOP -->
-        <div class="search-section-top">
-          <input type="text" id="searchSprzedazy" placeholder="🔍 Szukaj po nazwie firmy...">
+        <!-- SEARCH + MONTH FILTER -->
+        <div class="search-filter-row">
+          <input type="text" id="searchSprzedazy" placeholder="🔍 Szukaj po kontrahencie...">
+          <select id="monthFilterSprzedazy" onchange="applyFiltersSprzedazy()">
+            <option value="">📅 Wszystkie miesiące</option>
+            <option value="01">Styczeń</option>
+            <option value="02">Luty</option>
+            <option value="03">Marzec</option>
+            <option value="04">Kwiecień</option>
+            <option value="05">Maj</option>
+            <option value="06">Czerwiec</option>
+            <option value="07">Lipiec</option>
+            <option value="08">Sierpień</option>
+            <option value="09">Wrzesień</option>
+            <option value="10">Październik</option>
+            <option value="11">Listopad</option>
+            <option value="12">Grudzień</option>
+          </select>
         </div>
 
         <!-- SUMMARY TABLE -->
@@ -639,14 +801,17 @@
           <table class="summary-table">
             <thead>
               <tr>
-                <th>Data</th>
+                <th>Lp</th>
+                <th>Kontrahent</th>
+                <th>Data wpływu</th>
+                <th>Data wystawienia</th>
                 <th>Kwota (PLN)</th>
                 <th>Numer ID</th>
               </tr>
             </thead>
             <tbody id="summarySprzedazyTable">
               <tr>
-                <td colspan="3" class="no-data">Brak danych</td>
+                <td colspan="6" class="no-data">Brak danych</td>
               </tr>
             </tbody>
           </table>
@@ -672,10 +837,34 @@
         </div>
       </div>
 
-      <!-- RACHUNKI PAGE -->
-      <div class="page" id="rachunki">
-        <h2 class="page-title">💰 Rachunki</h2>
-        <div class="no-data">Ta sekcja jest w przygotowaniu...</div>
+      <!-- WYCIAGI PAGE -->
+      <div class="page" id="wyciagi">
+        <h2 class="page-title">🏦 Wyciągi</h2>
+
+        <!-- IMPORT / EXPORT -->
+        <div class="wyciagi-actions">
+          <div class="wyciagi-actions-info">
+            <h3>📁 Import i eksport wyciągów bankowych</h3>
+            <p>Obsługiwane formaty: PDF, XML, CSV, MT940</p>
+          </div>
+          <div class="wyciagi-btns">
+            <label class="import-label" for="importWyciagInput">
+              📤 Importuj wyciąg
+            </label>
+            <input type="file" id="importWyciagInput" accept=".pdf,.xml,.csv,.mt940,.txt" multiple style="display:none" onchange="importWyciagi(this)">
+            <button class="export-btn" id="exportWyciagBtn" onclick="exportWyciagi()">📥 Eksportuj listę</button>
+          </div>
+        </div>
+
+        <!-- UPLOADED STATEMENTS -->
+        <div class="submitted-section">
+          <h3>🏦 Zaimportowane wyciągi</h3>
+          <div class="submitted-files" id="wyciagiList">
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">
+              Brak zaimportowanych wyciągów. Użyj przycisku powyżej, aby dodać plik.
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- WPŁATY PAGE -->
@@ -705,79 +894,125 @@
       link.addEventListener('click', function(e) {
         e.preventDefault();
         const pageId = this.dataset.page;
-
-        // Remove active class from all links and pages
         menuLinks.forEach(l => l.classList.remove('active'));
         pages.forEach(p => p.classList.remove('active'));
-
-        // Add active class to clicked link and corresponding page
         this.classList.add('active');
         document.getElementById(pageId).classList.add('active');
       });
     });
 
-    // Local storage for documents
-    let dokumentyZakup = JSON.parse(localStorage.getItem('dokumentyZakup')) || [];
+    // ─── DATA ───────────────────────────────────────────────────────────────
+    let dokumentyZakup     = JSON.parse(localStorage.getItem('dokumentyZakup'))     || [];
     let dokumentySprzedazy = JSON.parse(localStorage.getItem('dokumentySprzedazy')) || [];
-
-    // Sample submitted files (can be filled by external process)
-    let submittedZakup = JSON.parse(localStorage.getItem('submittedZakup')) || [];
+    let submittedZakup     = JSON.parse(localStorage.getItem('submittedZakup'))     || [];
     let submittedSprzedazy = JSON.parse(localStorage.getItem('submittedSprzedazy')) || [];
+    let wyciagiData        = JSON.parse(localStorage.getItem('wyciagiData'))        || [];
 
-    // Render summary table - Faktury Zakupu
+    // ─── HELPERS ────────────────────────────────────────────────────────────
+    function getFileIcon(fileName) {
+      const ext = (fileName || '').split('.').pop().toLowerCase();
+      if (ext === 'pdf')  return '📄';
+      if (ext === 'xlsx' || ext === 'xls') return '📊';
+      if (ext === 'xml')  return '📰';
+      if (ext === 'csv')  return '📊';
+      if (ext === 'jpg'  || ext === 'jpeg') return '🖼️';
+      return '📎';
+    }
+
+    // Extract month (MM) from a date string YYYY-MM-DD
+    function getMonth(dateStr) {
+      if (!dateStr) return '';
+      return dateStr.substring(5, 7);
+    }
+
+    // Format date for display
+    function fmt(dateStr) {
+      if (!dateStr) return '—';
+      return dateStr;
+    }
+
+    // ─── RENDER: FAKTURY ZAKUPU TABLE ────────────────────────────────────────
     function renderSummaryZakup(data) {
       const tbody = document.getElementById('summaryZakupTable');
-      
       if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="no-data">Brak danych</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="no-data">Brak danych</td></tr>';
         return;
       }
-
-      tbody.innerHTML = data.map(doc => `
+      tbody.innerHTML = data.map((doc, idx) => `
         <tr>
-          <td>${doc.date}</td>
-          <td>${parseFloat(doc.amount).toFixed(2)} zł</td>
+          <td class="lp-col">${idx + 1}</td>
+          <td>${doc.kontrahent || doc.companyName || '—'}</td>
+          <td>${fmt(doc.dataWplywu || doc.date)}</td>
+          <td>${fmt(doc.dataWystawienia)}</td>
+          <td>${parseFloat(doc.amount || 0).toFixed(2)} zł</td>
           <td>${doc.id}</td>
         </tr>
       `).join('');
     }
 
-    // Render summary table - Faktury Sprzedazy
+    // ─── RENDER: FAKTURY SPRZEDAZY TABLE ─────────────────────────────────────
     function renderSummarySprzedazy(data) {
       const tbody = document.getElementById('summarySprzedazyTable');
-      
       if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="no-data">Brak danych</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="no-data">Brak danych</td></tr>';
         return;
       }
-
-      tbody.innerHTML = data.map(doc => `
+      tbody.innerHTML = data.map((doc, idx) => `
         <tr>
-          <td>${doc.date}</td>
-          <td>${parseFloat(doc.amount).toFixed(2)} zł</td>
+          <td class="lp-col">${idx + 1}</td>
+          <td>${doc.kontrahent || doc.companyName || '—'}</td>
+          <td>${fmt(doc.dataWplywu || doc.date)}</td>
+          <td>${fmt(doc.dataWystawienia)}</td>
+          <td>${parseFloat(doc.amount || 0).toFixed(2)} zł</td>
           <td>${doc.id}</td>
         </tr>
       `).join('');
     }
 
-    // Render submitted documents - Faktury Zakupu
+    // ─── FILTERS ─────────────────────────────────────────────────────────────
+    function applyFiltersZakup() {
+      const search = document.getElementById('searchZakup').value.toLowerCase();
+      const month  = document.getElementById('monthFilterZakup').value;
+      let filtered = dokumentyZakup.filter(doc => {
+        const name = (doc.kontrahent || doc.companyName || '').toLowerCase();
+        const dateWplywu = doc.dataWplywu || doc.date || '';
+        const matchSearch = !search || name.includes(search);
+        const matchMonth  = !month  || getMonth(dateWplywu) === month;
+        return matchSearch && matchMonth;
+      });
+      renderSummaryZakup(filtered);
+    }
+
+    function applyFiltersSprzedazy() {
+      const search = document.getElementById('searchSprzedazy').value.toLowerCase();
+      const month  = document.getElementById('monthFilterSprzedazy').value;
+      let filtered = dokumentySprzedazy.filter(doc => {
+        const name = (doc.kontrahent || doc.companyName || '').toLowerCase();
+        const dateWplywu = doc.dataWplywu || doc.date || '';
+        const matchSearch = !search || name.includes(search);
+        const matchMonth  = !month  || getMonth(dateWplywu) === month;
+        return matchSearch && matchMonth;
+      });
+      renderSummarySprzedazy(filtered);
+    }
+
+    document.getElementById('searchZakup').addEventListener('input', applyFiltersZakup);
+    document.getElementById('searchSprzedazy').addEventListener('input', applyFiltersSprzedazy);
+
+    // ─── RENDER: SUBMITTED DOCS ───────────────────────────────────────────────
     function renderSubmittedZakup(data) {
       const container = document.getElementById('submittedZakup');
-      
       if (data.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">
-          Oczekiwanie na dokumenty...
-        </div>`;
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">Oczekiwanie na dokumenty...</div>`;
         return;
       }
-
       container.innerHTML = data.map(doc => `
         <div class="file-card">
           <div class="file-icon">${getFileIcon(doc.fileName)}</div>
           <div class="file-name">${doc.fileName}</div>
           <div class="file-info">
-            <div>${doc.companyName}</div>
-            <div>${doc.date}</div>
+            <div>${doc.kontrahent || doc.companyName || ''}</div>
+            <div>${fmt(doc.dataWplywu || doc.date)}</div>
           </div>
           <div class="file-actions">
             <button class="btn btn-secondary btn-small" onclick="downloadFile('${doc.id}', 'submitted-zakup')">📥 Pobierz</button>
@@ -787,24 +1022,19 @@
       `).join('');
     }
 
-    // Render submitted documents - Faktury Sprzedazy
     function renderSubmittedSprzedazy(data) {
       const container = document.getElementById('submittedSprzedazy');
-      
       if (data.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">
-          Oczekiwanie na dokumenty...
-        </div>`;
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">Oczekiwanie na dokumenty...</div>`;
         return;
       }
-
       container.innerHTML = data.map(doc => `
         <div class="file-card">
           <div class="file-icon">${getFileIcon(doc.fileName)}</div>
           <div class="file-name">${doc.fileName}</div>
           <div class="file-info">
-            <div>${doc.companyName}</div>
-            <div>${doc.date}</div>
+            <div>${doc.kontrahent || doc.companyName || ''}</div>
+            <div>${fmt(doc.dataWplywu || doc.date)}</div>
           </div>
           <div class="file-actions">
             <button class="btn btn-secondary btn-small" onclick="downloadFile('${doc.id}', 'submitted-sprzedazy')">📥 Pobierz</button>
@@ -814,51 +1044,117 @@
       `).join('');
     }
 
-    // Get file icon based on extension
-    function getFileIcon(fileName) {
-      if (fileName.endsWith('.pdf')) return '📄';
-      if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) return '📊';
-      if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) return '🖼️';
-      return '📎';
-    }
-
-    // KSeF Modal
-    function openKSeFModal(type) {
-      const message = type === 'zakup' 
-        ? 'Integracja z KSeF dla Faktur Zakupu\n\nTa funkcja umożliwi Ci pobranie faktur bezpośrednio z Krajowego Systemu e-Faktur.'
-        : 'Integracja z KSeF dla Faktur Sprzedaży\n\nTa funkcja umożliwi Ci pobranie faktur bezpośrednio z Krajowego Systemu e-Faktur.';
-      
-      alert(message);
-    }
-
-    // Download file
-    function downloadFile(id, type) {
-      let data, doc;
-
-      if (type === 'zakup') {
-        data = dokumentyZakup;
-      } else if (type === 'sprzedazy') {
-        data = dokumentySprzedazy;
-      } else if (type === 'submitted-zakup') {
-        data = submittedZakup;
-      } else if (type === 'submitted-sprzedazy') {
-        data = submittedSprzedazy;
+    // ─── RENDER: WYCIAGI ──────────────────────────────────────────────────────
+    function renderWyciagi() {
+      const container = document.getElementById('wyciagiList');
+      if (wyciagiData.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.7);">Brak zaimportowanych wyciągów. Użyj przycisku powyżej, aby dodać plik.</div>`;
+        document.getElementById('exportWyciagBtn').disabled = true;
+        return;
       }
+      document.getElementById('exportWyciagBtn').disabled = false;
+      container.innerHTML = wyciagiData.map(doc => `
+        <div class="file-card">
+          <div class="file-icon">${getFileIcon(doc.fileName)}</div>
+          <div class="file-name">${doc.fileName}</div>
+          <div class="file-info">
+            <div>Dodano: ${fmt(doc.addedDate)}</div>
+            <div>${(doc.size / 1024).toFixed(1)} KB</div>
+          </div>
+          <div class="file-actions">
+            <button class="btn btn-secondary btn-small" onclick="downloadWyciag('${doc.id}')">📥 Pobierz</button>
+            <button class="btn btn-danger btn-small" onclick="deleteWyciag('${doc.id}')">🗑️ Usuń</button>
+          </div>
+        </div>
+      `).join('');
+    }
 
-      doc = data.find(d => d.id == id);
-      
+    // ─── WYCIAGI: IMPORT ──────────────────────────────────────────────────────
+    function importWyciagi(input) {
+      const files = Array.from(input.files);
+      if (!files.length) return;
+
+      let loaded = 0;
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const doc = {
+            id: Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+            fileName: file.name,
+            fileData: e.target.result,
+            addedDate: new Date().toISOString().split('T')[0],
+            size: file.size
+          };
+          wyciagiData.push(doc);
+          loaded++;
+          if (loaded === files.length) {
+            localStorage.setItem('wyciagiData', JSON.stringify(wyciagiData));
+            renderWyciagi();
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+      input.value = '';
+    }
+
+    // ─── WYCIAGI: DOWNLOAD ────────────────────────────────────────────────────
+    function downloadWyciag(id) {
+      const doc = wyciagiData.find(d => d.id == id);
       if (!doc) return;
-
       const link = document.createElement('a');
       link.href = doc.fileData;
       link.download = doc.fileName;
       link.click();
     }
 
-    // Delete submitted file
+    // ─── WYCIAGI: DELETE ──────────────────────────────────────────────────────
+    function deleteWyciag(id) {
+      if (!confirm('🗑️ Na pewno chcesz usunąć ten wyciąg?')) return;
+      wyciagiData = wyciagiData.filter(d => d.id != id);
+      localStorage.setItem('wyciagiData', JSON.stringify(wyciagiData));
+      renderWyciagi();
+    }
+
+    // ─── WYCIAGI: EXPORT LIST ─────────────────────────────────────────────────
+    function exportWyciagi() {
+      if (wyciagiData.length === 0) return;
+      const rows = [['Lp', 'Nazwa pliku', 'Data dodania', 'Rozmiar (KB)']];
+      wyciagiData.forEach((doc, idx) => {
+        rows.push([idx + 1, doc.fileName, doc.addedDate, (doc.size / 1024).toFixed(1)]);
+      });
+      const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
+      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'wyciagi_lista_' + new Date().toISOString().split('T')[0] + '.csv';
+      link.click();
+    }
+
+    // ─── KSEF ─────────────────────────────────────────────────────────────────
+    function openKSeFModal(type) {
+      const msg = type === 'zakup'
+        ? 'Integracja z KSeF dla Faktur Zakupu\n\nTa funkcja umożliwi Ci pobranie faktur bezpośrednio z Krajowego Systemu e-Faktur.'
+        : 'Integracja z KSeF dla Faktur Sprzedaży\n\nTa funkcja umożliwi Ci pobranie faktur bezpośrednio z Krajowego Systemu e-Faktur.';
+      alert(msg);
+    }
+
+    // ─── DOWNLOAD / DELETE ────────────────────────────────────────────────────
+    function downloadFile(id, type) {
+      let data;
+      if (type === 'zakup')             data = dokumentyZakup;
+      else if (type === 'sprzedazy')    data = dokumentySprzedazy;
+      else if (type === 'submitted-zakup')     data = submittedZakup;
+      else if (type === 'submitted-sprzedazy') data = submittedSprzedazy;
+      const doc = data.find(d => d.id == id);
+      if (!doc) return;
+      const link = document.createElement('a');
+      link.href = doc.fileData;
+      link.download = doc.fileName;
+      link.click();
+    }
+
     function deleteSubmittedFile(id, type) {
       if (!confirm('🗑️ Na pewno chcesz usunąć ten plik?')) return;
-
       if (type === 'zakup') {
         submittedZakup = submittedZakup.filter(d => d.id != id);
         localStorage.setItem('submittedZakup', JSON.stringify(submittedZakup));
@@ -868,44 +1164,27 @@
         localStorage.setItem('submittedSprzedazy', JSON.stringify(submittedSprzedazy));
         renderSubmittedSprzedazy(submittedSprzedazy);
       }
-      
       alert('✅ Plik usunięty!');
     }
 
-    // Search - Faktury Zakupu
-    document.getElementById('searchZakup').addEventListener('input', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const filtered = dokumentyZakup.filter(doc => 
-        doc.companyName.toLowerCase().includes(searchTerm)
-      );
-      renderSummaryZakup(filtered);
-    });
-
-    // Search - Faktury Sprzedazy
-    document.getElementById('searchSprzedazy').addEventListener('input', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const filtered = dokumentySprzedazy.filter(doc => 
-        doc.companyName.toLowerCase().includes(searchTerm)
-      );
-      renderSummarySprzedazy(filtered);
-    });
-
-    // Initial render
+    // ─── INITIAL RENDER ───────────────────────────────────────────────────────
     renderSummaryZakup(dokumentyZakup);
     renderSubmittedZakup(submittedZakup);
     renderSummarySprzedazy(dokumentySprzedazy);
     renderSubmittedSprzedazy(submittedSprzedazy);
+    renderWyciagi();
 
-    // Add test data to submitted section (for demo)
+    // ─── TEST DATA HELPERS (dev) ──────────────────────────────────────────────
     function addTestSubmittedFile(type) {
       const testFile = {
         id: Date.now(),
-        fileName: 'dokument_test_' + Date.now() + '.pdf',
-        companyName: 'Test Sp. z o.o.',
-        date: new Date().toISOString().split('T')[0],
-        fileData: 'data:application/pdf;base64,JVBERi0xLjQKJeLj...' // dummy PDF
+        fileName: 'faktura_test_' + Date.now() + '.pdf',
+        kontrahent: 'Test Sp. z o.o.',
+        dataWplywu: new Date().toISOString().split('T')[0],
+        dataWystawienia: new Date().toISOString().split('T')[0],
+        amount: (Math.random() * 5000 + 100).toFixed(2),
+        fileData: 'data:application/pdf;base64,JVBERi0xLjQK'
       };
-
       if (type === 'zakup') {
         submittedZakup.push(testFile);
         localStorage.setItem('submittedZakup', JSON.stringify(submittedZakup));
@@ -917,8 +1196,31 @@
       }
     }
 
-    // Expose to global scope for testing
+    function addTestDokument(type) {
+      const months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+      const m = months[Math.floor(Math.random() * months.length)];
+      const doc = {
+        id: Date.now(),
+        kontrahent: ['ABC Sp. z o.o.', 'XYZ S.A.', 'Firma Przykładowa', 'Dostawca 123'][Math.floor(Math.random()*4)],
+        dataWplywu: `2026-${m}-${String(Math.floor(Math.random()*28)+1).padStart(2,'0')}`,
+        dataWystawienia: `2026-${m}-${String(Math.floor(Math.random()*28)+1).padStart(2,'0')}`,
+        amount: (Math.random() * 10000 + 100).toFixed(2),
+        fileName: 'faktura_' + Date.now() + '.pdf',
+        fileData: ''
+      };
+      if (type === 'zakup') {
+        dokumentyZakup.push(doc);
+        localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
+        applyFiltersZakup();
+      } else {
+        dokumentySprzedazy.push(doc);
+        localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
+        applyFiltersSprzedazy();
+      }
+    }
+
     window.addTestSubmittedFile = addTestSubmittedFile;
+    window.addTestDokument = addTestDokument;
   </script>
 </body>
 </html>
