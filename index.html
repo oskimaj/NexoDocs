@@ -127,15 +127,24 @@
     /* ── SUMMARY TABLE ───────────────────────────────────────── */
     .summary-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 25px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); overflow-x: auto; }
     .summary-table { width: 100%; border-collapse: collapse; }
-    .summary-table thead { background: rgba(100,181,246,.2); }
-    .summary-table th { padding: 13px 12px; text-align: left; color: #64b5f6; font-weight: 600; border-bottom: 2px solid rgba(255,255,255,.2); white-space: nowrap; }
-    .summary-table td { padding: 11px 12px; border-bottom: 1px solid rgba(255,255,255,.1); white-space: nowrap; }
-    .tbl-actions { display: flex; gap: 4px; }
-    .btn-ta { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); color: white; border-radius: 6px; padding: 4px 8px; cursor: pointer; font-size: .9em; transition: background .2s; }
-    .btn-ta:hover { background: rgba(255,255,255,.22); }
+    .summary-table thead { background: linear-gradient(135deg,rgba(100,181,246,.25),rgba(100,181,246,.12)); }
+    .summary-table th { padding: 14px 14px; text-align: left; color: #90caf9; font-weight: 700; border-bottom: 2px solid rgba(100,181,246,.35); white-space: nowrap; font-size: .88em; text-transform: uppercase; letter-spacing: .5px; }
+    .summary-table tbody tr { border-left: 3px solid transparent; transition: background .15s, border-color .15s; }
+    .summary-table tbody tr:nth-child(odd)  { background: rgba(255,255,255,.04); }
+    .summary-table tbody tr:nth-child(even) { background: rgba(255,255,255,.015); }
+    .summary-table tbody tr:hover { background: rgba(100,181,246,.1); border-left-color: #64b5f6; }
+    .summary-table td { padding: 13px 14px; border-bottom: 1px solid rgba(255,255,255,.07); white-space: nowrap; font-size: .93em; color: rgba(255,255,255,.9); }
+    .td-kwota { color: #a5d6a7; font-weight: 700; font-size: .97em; }
+    .td-kontrahent { font-weight: 600; color: white; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+    .td-rejestr { display: inline-block; padding: 2px 9px; border-radius: 12px; font-size: .77em; font-weight: 700; background: rgba(100,181,246,.18); color: #90caf9; }
+    .td-hasfile { color: #a5d6a7; font-size: .95em; }
+    .td-nofile  { color: rgba(255,255,255,.2); font-size: .95em; }
+    .tbl-actions { display: flex; gap: 5px; }
+    .btn-ta { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); color: white; border-radius: 7px; padding: 5px 9px; cursor: pointer; font-size: .88em; transition: background .18s, transform .1s; }
+    .btn-ta:hover { background: rgba(255,255,255,.22); transform: translateY(-1px); }
     .btn-ta-del:hover { background: rgba(239,83,80,.35); border-color: rgba(239,83,80,.4); }
-    .summary-table tr:hover { background: rgba(255,255,255,.05); }
-    .lp-col { color: rgba(255,255,255,.4); font-size: .88em; width: 45px; }
+    .summary-table tr:hover .td-kwota { color: #c8e6c9; }
+    .lp-col { color: rgba(255,255,255,.3); font-size: .82em; width: 36px; text-align: center; }
 
     /* ── KSEF ────────────────────────────────────────────────── */
     .ksef-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 30px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); display: flex; align-items: center; justify-content: space-between; }
@@ -1259,16 +1268,16 @@ function renderTableZakup(data) {
   tb.innerHTML = data.map((d,i) => `<tr>
     <td class="tbl-check"><input type="checkbox" class="doc-sel" data-id="${d.id}" data-type="z" onchange="updateBulkBar('zakup')"></td>
     <td class="lp-col">${i+1}</td>
-    <td>${esc(d.kontrahent)||'—'}</td>
-    <td>${esc(d.numerDokumentu)||'—'}</td>
-    <td>${fmt(d.dataWplywu)}</td>
-    <td>${fmt(d.dataWystawienia)}</td>
-    <td>${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '—'}</td>
-    <td>${d.rejestr||'Zakup'}</td>
+    <td class="td-kontrahent" title="${esc(d.kontrahent)}">${esc(d.kontrahent)||'<span style="opacity:.3">—</span>'}</td>
+    <td style="color:rgba(255,255,255,.7)">${esc(d.numerDokumentu)||'<span style="opacity:.3">—</span>'}</td>
+    <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWplywu)}</td>
+    <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWystawienia)}</td>
+    <td class="td-kwota">${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '<span style="opacity:.3">—</span>'}</td>
+    <td><span class="td-rejestr">${d.rejestr||'Zakup'}</span></td>
     <td class="tbl-actions">
-      <button class="btn-ta" title="Uzupełnij AI" onclick="startAIForDoc('${d.id}','z')">🤖</button>
+      <button class="btn-ta" title="${d.fileData?'Masz plik — uzupełnij AI':'Brak pliku — uzupełnij AI'}" onclick="startAIForDoc('${d.id}','z')">🤖${d.fileData?'':'<sup style="color:#ef9a9a;font-size:.65em">!</sup>'}</button>
       <button class="btn-ta" title="Uzupełnij ręcznie" onclick="startManualEntry('zakup','${d.id}')">✏️</button>
-      <button class="btn-ta" title="Pobierz" onclick="dlFile('${d.id}','z')">📥</button>
+      <button class="btn-ta ${d.fileData?'':'btn-ta-dis'}" title="${d.fileData?'Pobierz plik':'Brak pliku do pobrania'}" onclick="dlFile('${d.id}','z')" ${d.fileData?'':'style="opacity:.35;cursor:default"'}>📥</button>
       <button class="btn-ta btn-ta-del" title="Usuń" onclick="delFile('${d.id}','z')">🗑️</button>
     </td>
   </tr>`).join('');
@@ -1279,16 +1288,16 @@ function renderTableSprzedazy(data) {
   tb.innerHTML = data.map((d,i) => `<tr>
     <td class="tbl-check"><input type="checkbox" class="doc-sel" data-id="${d.id}" data-type="s" onchange="updateBulkBar('sprzedazy')"></td>
     <td class="lp-col">${i+1}</td>
-    <td>${esc(d.kontrahent)||'—'}</td>
-    <td>${esc(d.numerDokumentu)||'—'}</td>
-    <td>${fmt(d.dataWplywu)}</td>
-    <td>${fmt(d.dataWystawienia)}</td>
-    <td>${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '—'}</td>
-    <td>${d.rejestr||'Sprzedaż'}</td>
+    <td class="td-kontrahent" title="${esc(d.kontrahent)}">${esc(d.kontrahent)||'<span style="opacity:.3">—</span>'}</td>
+    <td style="color:rgba(255,255,255,.7)">${esc(d.numerDokumentu)||'<span style="opacity:.3">—</span>'}</td>
+    <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWplywu)}</td>
+    <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWystawienia)}</td>
+    <td class="td-kwota">${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '<span style="opacity:.3">—</span>'}</td>
+    <td><span class="td-rejestr" style="background:rgba(165,214,167,.15);color:#a5d6a7;">${d.rejestr||'Sprzedaż'}</span></td>
     <td class="tbl-actions">
-      <button class="btn-ta" title="Uzupełnij AI" onclick="startAIForDoc('${d.id}','s')">🤖</button>
+      <button class="btn-ta" title="${d.fileData?'Masz plik — uzupełnij AI':'Brak pliku — uzupełnij AI'}" onclick="startAIForDoc('${d.id}','s')">🤖${d.fileData?'':'<sup style="color:#ef9a9a;font-size:.65em">!</sup>'}</button>
       <button class="btn-ta" title="Uzupełnij ręcznie" onclick="startManualEntry('sprzedazy','${d.id}')">✏️</button>
-      <button class="btn-ta" title="Pobierz" onclick="dlFile('${d.id}','s')">📥</button>
+      <button class="btn-ta ${d.fileData?'':'btn-ta-dis'}" title="${d.fileData?'Pobierz plik':'Brak pliku do pobrania'}" onclick="dlFile('${d.id}','s')" ${d.fileData?'':'style="opacity:.35;cursor:default"'}>📥</button>
       <button class="btn-ta btn-ta-del" title="Usuń" onclick="delFile('${d.id}','s')">🗑️</button>
     </td>
   </tr>`).join('');
@@ -1565,21 +1574,43 @@ function renderAIForm(r) {
 
   const previewHtml = aiCurrentFile?.dataUrl
     ? (isImage(aiCurrentFile.name)
-        ? `<img src="${aiCurrentFile.dataUrl}" alt="Podgląd faktury">`
+        ? `<img src="${aiCurrentFile.dataUrl}" alt="Podgląd faktury" style="cursor:zoom-in" onclick="this.style.maxHeight=this.style.maxHeight?'':'none'">`
         : `<div class="pdf-icon">📄</div><p class="preview-name">${esc(aiCurrentFile.name)}</p>`)
-    : `<div class="pdf-icon">📄</div>`;
+    : `<div class="pdf-icon" style="opacity:.35">📄</div><p class="preview-name" style="color:rgba(255,255,255,.25);">Brak podglądu dokumentu</p>`;
+
+  const vatCalc = () => {
+    const n = parseFloat(document.getElementById('f_kwotaNetto')?.value) || 0;
+    const b = parseFloat(document.getElementById('f_kwotaBrutto')?.value) || 0;
+    const vt = b - n;
+    const el = document.getElementById('vatLiveDisplay');
+    if (el) { el.textContent = vt >= 0 ? vt.toFixed(2)+' zł' : '—'; el.style.color = vt > 0 ? '#ffcc80' : 'rgba(255,255,255,.35)'; }
+  };
+
+  const initNettoVal  = esc(r.kwotaNetto  ?? '');
+  const initBruttoVal = esc(r.kwotaBrutto ?? '');
+  const initVat = (initNettoVal && initBruttoVal)
+    ? (parseFloat(initBruttoVal) - parseFloat(initNettoVal)).toFixed(2)
+    : '—';
 
   document.getElementById('aiPanelBody').innerHTML = `
     <div class="ai-body-layout">
       <div class="ai-doc-preview">
         ${previewHtml}
-        <p class="preview-name" style="margin-top:12px;color:rgba(255,255,255,.4);font-size:.75em;">
-          ${aiCurrentDocId ? '✏️ Aktualizacja dokumentu' : '🆕 Nowy dokument'}
+        <p class="preview-name" style="margin-top:12px;color:rgba(255,255,255,.35);font-size:.74em;">
+          ${aiCurrentDocId ? '✏️ Edycja dokumentu' : '🆕 Nowy dokument'}
         </p>
+        ${aiCurrentFile ? `<p class="preview-name" style="font-size:.7em;color:rgba(255,255,255,.2);margin-top:4px;">${esc(aiCurrentFile.name)}</p>` : ''}
+        <!-- VAT LIVE BADGE -->
+        <div style="margin-top:18px;background:rgba(255,204,128,.1);border:1px solid rgba(255,204,128,.25);border-radius:12px;padding:14px;text-align:center;">
+          <div style="font-size:.72em;font-weight:700;color:rgba(255,204,128,.6);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Kwota VAT</div>
+          <div id="vatLiveDisplay" style="font-size:1.6em;font-weight:800;color:${parseFloat(initBruttoVal||0)-parseFloat(initNettoVal||0) > 0 ? '#ffcc80' : 'rgba(255,255,255,.35)'};">
+            ${initVat !== '—' ? initVat+' zł' : '—'}
+          </div>
+          <div style="font-size:.7em;color:rgba(255,255,255,.3);margin-top:4px;">brutto − netto</div>
+        </div>
       </div>
       <div class="ai-form-wrap">
       <p class="ai-form-subtitle">
-        Plik: <strong>${esc(aiCurrentFile?.name)}</strong> &nbsp;|&nbsp;
         Sprawdź dane, popraw jeśli trzeba, a następnie kliknij <strong style="color:#a5d6a7">Zapisz dokument</strong>.
       </p>
 
@@ -1587,11 +1618,14 @@ function renderAIForm(r) {
       <div class="ai-grid">
         <div class="ai-field">
           <label>Numer dokumentu</label>
-          <input type="text" id="f_numerDokumentu" value="${esc(r.numerDokumentu)}">
+          <input type="text" id="f_numerDokumentu" value="${esc(r.numerDokumentu??'')}">
         </div>
         <div class="ai-field">
-          <label>Kontrahent</label>
-          <input type="text" id="f_kontrahent" value="${esc(r.kontrahent)}">
+          <label>Kontrahent
+            <button type="button" title="Dodaj kontrahenta" onclick="quickJumpKontrahent()" style="margin-left:6px;background:rgba(100,181,246,.2);border:1px solid rgba(100,181,246,.4);color:#90caf9;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:.8em;line-height:16px;padding:0;vertical-align:middle;">+</button>
+          </label>
+          <input type="text" id="f_kontrahent" value="${esc(r.kontrahent??'')}" list="kontrahenciList">
+          <datalist id="kontrahenciList">${(kontrahenciData||[]).map(k=>`<option value="${esc(k.nazwa)}">`).join('')}</datalist>
         </div>
         <div class="ai-field">
           <label>Rejestr</label>
@@ -1610,31 +1644,33 @@ function renderAIForm(r) {
       <div class="ai-grid four">
         <div class="ai-field">
           <label>Data wpływu</label>
-          <input type="date" id="f_dataWplywu" value="${esc(r.dataWplywu)}">
+          <input type="date" id="f_dataWplywu" value="${esc(r.dataWplywu??'')}">
         </div>
         <div class="ai-field">
           <label>Data wystawienia</label>
-          <input type="date" id="f_dataWystawienia" value="${esc(r.dataWystawienia)}">
+          <input type="date" id="f_dataWystawienia" value="${esc(r.dataWystawienia??'')}">
         </div>
         <div class="ai-field">
           <label>Data sprzedaży</label>
-          <input type="date" id="f_dataSprzedazy" value="${esc(r.dataSprzedazy)}">
+          <input type="date" id="f_dataSprzedazy" value="${esc(r.dataSprzedazy??'')}">
         </div>
         <div class="ai-field">
           <label>Termin płatności</label>
-          <input type="date" id="f_terminPlatnosci" value="${esc(r.terminPlatnosci)}">
+          <input type="date" id="f_terminPlatnosci" value="${esc(r.terminPlatnosci??'')}">
         </div>
       </div>
 
       <div class="ai-section-title">🗂️ Kategoria</div>
       <div class="ai-grid">
         <div class="ai-field">
-          <label>Kategoria</label>
+          <label>Kategoria
+            <button type="button" title="Dodaj własną kategorię" onclick="quickAddKategoria()" style="margin-left:6px;background:rgba(100,181,246,.2);border:1px solid rgba(100,181,246,.4);color:#90caf9;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:.8em;line-height:16px;padding:0;vertical-align:middle;">+</button>
+          </label>
           <select id="f_kategoria">${katOptions}</select>
         </div>
         <div class="ai-field">
           <label>Opis kategorii</label>
-          <textarea id="f_opisKategorii">${esc(r.opisKategorii)}</textarea>
+          <textarea id="f_opisKategorii">${esc(r.opisKategorii??'')}</textarea>
         </div>
       </div>
 
@@ -1642,20 +1678,20 @@ function renderAIForm(r) {
       <div class="ai-grid">
         <div class="ai-field">
           <label>Kwota netto (zł)</label>
-          <input type="number" step="0.01" id="f_kwotaNetto" value="${esc(r.kwotaNetto)}">
+          <input type="number" step="0.01" id="f_kwotaNetto" value="${initNettoVal}" oninput="calcVatDisplay()">
         </div>
         <div class="ai-field">
           <label>Kwota brutto (zł)</label>
-          <input type="number" step="0.01" id="f_kwotaBrutto" value="${esc(r.kwotaBrutto)}">
+          <input type="number" step="0.01" id="f_kwotaBrutto" value="${initBruttoVal}" oninput="calcVatDisplay()">
         </div>
       </div>
 
       <div style="margin-top:16px;">
         <label style="font-size:.78em;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:10px;">
-          Kwoty VAT według stawek (zł)
+          Rozbicie VAT według stawek (zł)
         </label>
         <div class="vat-row">
-          <div class="vat-cell"><label>Zwolniony (zw)</label><input type="number" step="0.01" id="f_vat_zw" value="${esc(v.zw??0)}"></div>
+          <div class="vat-cell"><label>Zwol. (zw)</label><input type="number" step="0.01" id="f_vat_zw" value="${esc(v.zw??0)}"></div>
           <div class="vat-cell"><label>0%</label><input type="number" step="0.01" id="f_vat_0" value="${esc(v.p0??0)}"></div>
           <div class="vat-cell"><label>5%</label><input type="number" step="0.01" id="f_vat_5" value="${esc(v.p5??0)}"></div>
           <div class="vat-cell"><label>8%</label><input type="number" step="0.01" id="f_vat_8" value="${esc(v.p8??0)}"></div>
@@ -1669,6 +1705,45 @@ function renderAIForm(r) {
       </div>
     </div><!-- /ai-form-wrap -->
     </div><!-- /ai-body-layout -->`;
+}
+
+function calcVatDisplay() {
+  const n  = parseFloat(document.getElementById('f_kwotaNetto')?.value)   || 0;
+  const b  = parseFloat(document.getElementById('f_kwotaBrutto')?.value)  || 0;
+  const vt = b - n;
+  const el = document.getElementById('vatLiveDisplay');
+  if (!el) return;
+  el.textContent = (n || b) ? vt.toFixed(2) + ' zł' : '—';
+  el.style.color  = vt > 0 ? '#ffcc80' : vt === 0 && (n || b) ? 'rgba(255,255,255,.4)' : 'rgba(255,255,255,.25)';
+}
+
+function quickJumpKontrahent() {
+  const name = (document.getElementById('f_kontrahent')?.value || '').trim();
+  closeAiPanel();
+  document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const link = document.querySelector('.menu-link[data-page="kontrahenci-page"]');
+  if (link) link.classList.add('active');
+  const page = document.getElementById('kontrahenci-page');
+  if (page) page.classList.add('active');
+  if (name) {
+    setTimeout(() => {
+      const el = document.getElementById('krNazwa');
+      if (el) { el.value = name; el.focus(); }
+    }, 100);
+  }
+}
+
+function quickAddKategoria() {
+  const custom = prompt('Wpisz nazwę nowej kategorii:');
+  if (!custom || !custom.trim()) return;
+  const sel = document.getElementById('f_kategoria');
+  if (!sel) return;
+  const existing = Array.from(sel.options).find(o => o.value.toLowerCase() === custom.trim().toLowerCase());
+  if (existing) { sel.value = existing.value; return; }
+  const opt = document.createElement('option');
+  opt.value = custom.trim(); opt.textContent = custom.trim(); opt.selected = true;
+  sel.appendChild(opt);
 }
 
 function closeAiPanel() {
@@ -2276,7 +2351,10 @@ function startManualEntry(type, docId) {
   if (docId) {
     const arr   = type === 'zakup' ? dokumentyZakup : dokumentySprzedazy;
     const found = arr.find(d => String(d.id) === String(docId));
-    if (found) data = found;
+    if (found) {
+      data = found;
+      if (found.fileData) aiCurrentFile = { name: found.fileName || 'dokument', dataUrl: found.fileData, size: found.size || 0 };
+    }
   }
   document.getElementById('aiPanel').classList.add('open');
   renderAIForm(data);
