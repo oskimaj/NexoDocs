@@ -842,6 +842,7 @@
     <li><a href="#" class="menu-link" data-page="kontrahenci">👥 Kontrahenci</a></li>
     <li><a href="#" class="menu-link" data-page="kadry">👤 Kadry</a></li>
     <li id="pracownicyMenuItem" style="display:none"><a href="#" class="menu-link" data-page="pracownicy">👥 Pracownicy <span class="owner-notif" id="pracownicyBadge" style="display:none">!</span></a></li>
+    <li id="mojaFirmaMenuItem" style="display:none"><a href="#" class="menu-link" data-page="moja-firma">🏛️ Moja Firma</a></li>
     <li id="biuroMenuItem" style="display:none"><a href="#" class="menu-link" data-page="biuro-rachunkowe">🏢 Biuro Rachunkowe</a></li>
   </ul>
   <button class="sidebar-api-btn" onclick="openApiKeyModal()">
@@ -1368,6 +1369,33 @@
       </div>
     </div>
 
+    <!-- MOJA FIRMA (właściciel) -->
+    <div class="page" id="moja-firma">
+      <h2 class="page-title">🏛️ Moja Firma</h2>
+      <div class="prac-page">
+        <div class="prac-section">
+          <h3>📋 Dane firmy</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+            <div class="ob-field"><label>Nazwa biura *</label><input type="text" id="mf-nazwa" placeholder="Biuro Rachunkowe Oskar"></div>
+            <div class="ob-field"><label>NIP firmy *</label><input type="text" id="mf-nip" placeholder="0000000000" maxlength="10"></div>
+          </div>
+          <div class="ob-field"><label>Adres siedziby</label><input type="text" id="mf-adres" placeholder="ul. Przykładowa 1, 00-001 Warszawa"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <div class="ob-field"><label>Telefon</label><input type="tel" id="mf-telefon" placeholder="791-145-824"></div>
+            <div class="ob-field"><label>E-mail firmy</label><input type="email" id="mf-email" placeholder="biuro@firma.pl"></div>
+          </div>
+          <div class="ob-field" style="margin-top:10px;"><label>Opis / Zakres usług</label><textarea id="mf-opis" style="width:100%;min-height:80px;padding:10px 14px;border:1px solid rgba(255,255,255,.18);border-radius:9px;background:rgba(255,255,255,.07);color:white;font-family:inherit;font-size:.9em;resize:vertical;" placeholder="Krótki opis oferty biura..."></textarea></div>
+          <div id="mfMsg" style="display:none;font-size:.84em;margin-bottom:10px;"></div>
+          <button class="ob-submit" style="max-width:280px;" onclick="saveMojaFirma()">✓ Zapisz dane firmy</button>
+        </div>
+
+        <div class="prac-section" id="mfPreviewSection" style="display:none">
+          <h3>👁️ Podgląd profilu publicznego</h3>
+          <div id="mfPreview" style="color:rgba(255,255,255,.72);font-size:.9em;line-height:1.8;"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- BIURO RACHUNKOWE (pracownik) -->
     <div class="page" id="biuro-rachunkowe">
       <h2 class="page-title">🏢 Biuro Rachunkowe</h2>
@@ -1872,6 +1900,7 @@ function navigateTo(pageId) {
   const page = document.getElementById(pageId + '-page') || document.getElementById(pageId);
   if (page) page.classList.add('active');
   if (pageId === 'pracownicy') renderPracownicy();
+  if (pageId === 'moja-firma') renderMojaFirma();
 }
 function applyFiltersWyciagi() {
   const s  = (document.getElementById('searchWyciagi')?.value||'').toLowerCase();
@@ -3478,6 +3507,7 @@ function renderPracownicy() {
         </div>
         <div class="prac-btns">
           <button class="btn-view-emp" onclick="viewEmployeeDocs('${emp.id}','${emp.firstName} ${emp.lastName}','employee')">📄 Podgląd docs</button>
+          <button class="btn-reject" onclick="removeEmployee('${emp.id}','${emp.firstName} ${emp.lastName}')">🗑️ Usuń</button>
         </div>
       </div>`;
     }).join('');
@@ -3542,6 +3572,20 @@ function approvePendingEmployee(pendingId) {
 function rejectPendingEmployee(pendingId) {
   if (!confirm('Odrzucić zgłoszenie tego pracownika?')) return;
   savePendingEmployees(getPendingEmployees().filter(p => p.id !== pendingId));
+  renderPracownicy();
+}
+
+function removeEmployee(empId, empName) {
+  if (!confirm(`Usunąć pracownika ${empName} z firmy?\nPracownik straci dostęp do panelu pracownika.`)) return;
+  const users = getUsers();
+  const idx = users.findIndex(u => u.id === empId);
+  if (idx >= 0) {
+    users[idx].companyOwnerId = null;
+    users[idx].status = null;
+    saveUsers(users);
+  }
+  // Usuń też z pending jeśli istnieje
+  savePendingEmployees(getPendingEmployees().filter(p => p.userId !== empId && p.id !== empId));
   renderPracownicy();
 }
 
@@ -3698,6 +3742,7 @@ function loginSuccess(user) {
     document.getElementById('sidebarUser').textContent = `👤 ${user.firstName} ${user.lastName}`;
     if (user.role === 'owner') {
       document.getElementById('pracownicyMenuItem').style.display = '';
+      document.getElementById('mojaFirmaMenuItem').style.display = '';
       updateOwnerBadge();
       // Onboarding — pierwsze logowanie właściciela
       const profile = JSON.parse(localStorage.getItem('nexo_owner_profile_' + user.id) || 'null');
@@ -3720,6 +3765,65 @@ function loginSuccess(user) {
     }
     initApp();
   }
+}
+
+/* ── MOJA FIRMA ───────────────────────────────── */
+function renderMojaFirma() {
+  if (!currentUser || currentUser.role !== 'owner') return;
+  const profile = JSON.parse(localStorage.getItem('nexo_owner_profile_' + currentUser.id) || 'null') || {};
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+  set('mf-nazwa',   profile.nazwa   || currentUser.companyName || '');
+  set('mf-nip',     profile.nip     || '');
+  set('mf-adres',   profile.adres   || '');
+  set('mf-telefon', profile.telefon || '');
+  set('mf-email',   profile.email   || '');
+  const opisEl = document.getElementById('mf-opis');
+  if (opisEl) opisEl.value = profile.opis || '';
+  // Podgląd
+  if (profile.nip) renderMojaFirmaPreview(profile);
+}
+
+function renderMojaFirmaPreview(p) {
+  const sec = document.getElementById('mfPreviewSection');
+  const el  = document.getElementById('mfPreview');
+  if (!sec || !el) return;
+  sec.style.display = '';
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:start;">
+      <span style="color:rgba(255,255,255,.38);font-size:.78em;text-transform:uppercase;">Nazwa</span><strong>${p.nazwa||'—'}</strong>
+      <span style="color:rgba(255,255,255,.38);font-size:.78em;text-transform:uppercase;">NIP</span><span>${p.nip||'—'}</span>
+      <span style="color:rgba(255,255,255,.38);font-size:.78em;text-transform:uppercase;">Adres</span><span>${p.adres||'—'}</span>
+      <span style="color:rgba(255,255,255,.38);font-size:.78em;text-transform:uppercase;">Telefon</span><span>${p.telefon||'—'}</span>
+      <span style="color:rgba(255,255,255,.38);font-size:.78em;text-transform:uppercase;">E-mail</span><span>${p.email||'—'}</span>
+      ${p.opis ? `<span style="color:rgba(255,255,255,.38);font-size:.78em;text-transform:uppercase;">Opis</span><span>${p.opis}</span>` : ''}
+    </div>`;
+}
+
+function saveMojaFirma() {
+  const get = id => (document.getElementById(id)?.value || '').trim();
+  const nazwa   = get('mf-nazwa');
+  const nip     = get('mf-nip');
+  const adres   = get('mf-adres');
+  const telefon = get('mf-telefon');
+  const email   = get('mf-email');
+  const opis    = get('mf-opis');
+  const msgEl   = document.getElementById('mfMsg');
+  if (!nazwa || !nip) {
+    if (msgEl) { msgEl.style.color='#ef9a9a'; msgEl.textContent='Nazwa i NIP są wymagane.'; msgEl.style.display=''; }
+    return;
+  }
+  if (!/^\d{10}$/.test(nip)) {
+    if (msgEl) { msgEl.style.color='#ef9a9a'; msgEl.textContent='NIP powinien zawierać dokładnie 10 cyfr.'; msgEl.style.display=''; }
+    return;
+  }
+  const profile = { nazwa, nip, adres, telefon, email, opis, updatedAt: Date.now() };
+  localStorage.setItem('nexo_owner_profile_' + currentUser.id, JSON.stringify(profile));
+  // Aktualizuj companyName w profilu użytkownika
+  const users = getUsers();
+  const idx = users.findIndex(u => u.id === currentUser.id);
+  if (idx >= 0) { users[idx].companyName = nazwa; saveUsers(users); currentUser.companyName = nazwa; }
+  if (msgEl) { msgEl.style.color='#a5d6a7'; msgEl.textContent='✓ Dane firmy zostały zapisane.'; msgEl.style.display=''; setTimeout(() => { msgEl.style.display='none'; }, 2500); }
+  renderMojaFirmaPreview(profile);
 }
 
 /* ── OWNER ONBOARDING ─────────────────────────── */
