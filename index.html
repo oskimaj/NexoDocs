@@ -435,6 +435,32 @@
     .client-welcome { background:linear-gradient(135deg,rgba(100,181,246,.12),rgba(255,255,255,.04)); border:1px solid rgba(100,181,246,.2); border-radius:16px; padding:28px 32px; margin-bottom:28px; }
     .client-welcome h2 { font-size:1.5em; color:white; margin-bottom:6px; }
     .client-welcome p { color:rgba(255,255,255,.6); font-size:.92em; }
+    /* ── Baner wybranej firmy ─────────────────────────── */
+    .client-company-bar { display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg,rgba(206,147,216,.14),rgba(100,181,246,.08)); border:1px solid rgba(206,147,216,.3); border-radius:14px; padding:16px 22px; margin-bottom:22px; gap:14px; }
+    .ccb-info { flex:1; }
+    .ccb-label { font-size:.72em; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:rgba(255,255,255,.38); margin-bottom:3px; }
+    .ccb-name  { font-size:1.1em; font-weight:800; color:#ce93d8; }
+    .ccb-email { font-size:.8em; color:rgba(255,255,255,.45); margin-top:2px; }
+    .ccb-none  { font-size:.96em; color:rgba(255,255,255,.4); font-style:italic; }
+    .ccb-change { background:rgba(206,147,216,.15); border:1px solid rgba(206,147,216,.35); color:#ce93d8; border-radius:9px; padding:8px 16px; font-size:.82em; font-weight:700; cursor:pointer; white-space:nowrap; transition:.15s; }
+    .ccb-change:hover { background:rgba(206,147,216,.28); }
+    /* ── Overlay wyboru firmy ────────────────────────── */
+    .company-picker-overlay { position:fixed; inset:0; z-index:9000; background:rgba(5,12,34,.92); backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; }
+    .company-picker-card { background:rgba(18,28,60,.97); border:1px solid rgba(255,255,255,.14); border-radius:20px; padding:36px 32px; width:100%; max-width:520px; max-height:85vh; overflow-y:auto; }
+    .company-picker-card h2 { font-size:1.35em; color:white; margin-bottom:6px; text-align:center; }
+    .company-picker-card .cpc-sub { text-align:center; color:rgba(255,255,255,.45); font-size:.87em; margin-bottom:24px; }
+    .company-list { display:flex; flex-direction:column; gap:10px; }
+    .company-item { display:flex; align-items:center; gap:14px; padding:16px 18px; background:rgba(255,255,255,.05); border:2px solid rgba(255,255,255,.1); border-radius:12px; cursor:pointer; transition:all .18s; }
+    .company-item:hover { border-color:rgba(206,147,216,.5); background:rgba(206,147,216,.08); }
+    .company-item.selected { border-color:#ce93d8; background:rgba(206,147,216,.12); }
+    .ci-icon { font-size:1.8em; flex-shrink:0; }
+    .ci-info { flex:1; }
+    .ci-name  { font-weight:700; color:white; font-size:.98em; }
+    .ci-email { font-size:.78em; color:rgba(255,255,255,.4); margin-top:2px; }
+    .cpc-empty { text-align:center; padding:30px; color:rgba(255,255,255,.35); font-size:.9em; }
+    .cpc-confirm { width:100%; margin-top:20px; background:linear-gradient(135deg,#7b1fa2,#512da8); border:none; color:white; border-radius:10px; padding:14px; font-size:1em; font-weight:700; cursor:pointer; transition:.2s; }
+    .cpc-confirm:hover { background:linear-gradient(135deg,#9c27b0,#673ab7); }
+    .cpc-confirm:disabled { opacity:.35; cursor:not-allowed; }
     .client-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin-bottom:28px; }
     .c-stat { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:20px; text-align:center; }
     .c-stat .cs-num { font-size:2em; font-weight:800; color:#64b5f6; }
@@ -687,9 +713,6 @@
           <div class="rc-desc">Zarządzam firmą i pracownikami</div>
         </label>
       </div>
-      <div class="reg-company-field" id="regCompanyField">
-        <div class="auth-field"><label id="regCompanyLabel">Nazwa firmy</label><input type="text" id="regCompanyName" placeholder="np. ACME Sp. z o.o."></div>
-      </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div class="auth-field"><label>Imię</label><input type="text" id="regFirstName" placeholder="Jan"></div>
         <div class="auth-field"><label>Nazwisko</label><input type="text" id="regLastName" placeholder="Kowalski"></div>
@@ -697,6 +720,12 @@
       <div class="auth-field"><label>E-mail</label><input type="email" id="regEmail" placeholder="twoj@email.pl"></div>
       <div class="auth-field"><label>Hasło</label><input type="password" id="regPassword" placeholder="min. 6 znaków"></div>
       <div class="auth-field"><label>Potwierdź hasło</label><input type="password" id="regPasswordConfirm" placeholder="powtórz hasło" onkeydown="if(event.key==='Enter')doRegister()"></div>
+      <div class="reg-company-field" id="regCompanyField" style="display:none">
+        <div class="auth-field" style="background:rgba(206,147,216,.07);border:1px solid rgba(206,147,216,.25);border-radius:10px;padding:14px 16px;margin-bottom:0;">
+          <label id="regCompanyLabel" style="color:#ce93d8;">Nazwa firmy</label>
+          <input type="text" id="regCompanyName" placeholder="np. ACME Sp. z o.o." style="border-color:rgba(206,147,216,.3);">
+        </div>
+      </div>
       <div id="registerMsg" style="display:none"></div>
       <button class="auth-submit" onclick="doRegister()">Dalej →</button>
     </div>
@@ -712,12 +741,13 @@
     <!-- WERYFIKACJA E-MAIL -->
     <div id="authVerifyScreen" style="display:none" class="verify-box">
       <h3>📧 Weryfikacja e-mail</h3>
-      <p>Wysłaliśmy 6-cyfrowy kod na adres:<br><strong id="verifyEmailDisplay" style="color:#90caf9;"></strong></p>
+      <p>Kod weryfikacyjny został wysłany na adres:<br><strong id="verifyEmailDisplay" style="color:#90caf9;"></strong></p>
       <div class="email-preview">
-        <div class="ep-label">📬 Podgląd wiadomości e-mail</div>
-        <div style="color:rgba(255,255,255,.55);font-size:.85em;margin-bottom:8px;">Twój kod weryfikacyjny NexoDocs:</div>
-        <div id="verifyCodeDisplay" style="font-size:2.4em;font-weight:800;letter-spacing:10px;color:#90caf9;font-family:monospace;">——</div>
-        <div style="font-size:.72em;color:rgba(255,255,255,.28);margin-top:8px;">⏱ Kod ważny przez 10 minut</div>
+        <div class="ep-label">📬 Sprawdź swoją skrzynkę pocztową</div>
+        <div style="color:rgba(255,255,255,.65);font-size:.9em;margin-bottom:10px;">Na podany adres e-mail wysłano wiadomość z 6-cyfrowym kodem. Jeśli nie widzisz wiadomości, sprawdź folder <strong>SPAM</strong>.</div>
+        <a id="verifyMailtoLink" href="#" style="display:inline-block;background:rgba(100,181,246,.15);border:1px solid rgba(100,181,246,.3);color:#90caf9;border-radius:9px;padding:9px 18px;font-size:.85em;font-weight:700;text-decoration:none;cursor:pointer;">📨 Otwórz skrzynkę pocztową</a>
+        <div style="font-size:.72em;color:rgba(255,255,255,.28);margin-top:10px;">⏱ Kod ważny przez 10 minut</div>
+        <div id="verifyCodeDisplay" style="display:none">——</div>
       </div>
       <div class="verify-digits">
         <input type="text" inputmode="numeric" maxlength="1" oninput="verifyDigitInput(this,0)" onkeydown="verifyKeyDown(event,0)">
@@ -1329,6 +1359,16 @@
 
     <!-- HOME -->
     <div class="client-page active" id="cp-home">
+      <!-- Baner wybranej firmy -->
+      <div class="client-company-bar" id="clientCompanyBar">
+        <div class="ci-icon">🏢</div>
+        <div class="ccb-info">
+          <div class="ccb-label">Dokumenty wysyłane do</div>
+          <div class="ccb-name" id="ccbName"><span class="ccb-none">Nie wybrano firmy</span></div>
+          <div class="ccb-email" id="ccbEmail" style="display:none"></div>
+        </div>
+        <button class="ccb-change" onclick="openCompanyPicker(false)">Zmień firmę</button>
+      </div>
       <div class="client-welcome">
         <h2>👋 Witaj w NexoDocs!</h2>
         <p>Przekazuj dokumenty do swojego biura rachunkowego szybko i wygodnie. Wgraj faktury i wyciągi, a my zajmiemy się resztą.</p>
@@ -1337,6 +1377,31 @@
         <div class="c-stat"><div class="cs-num" id="cStatZakup">0</div><div class="cs-lbl">📄 Faktury zakupu</div></div>
         <div class="c-stat"><div class="cs-num" id="cStatSprzedazy">0</div><div class="cs-lbl">📋 Faktury sprzedaży</div></div>
         <div class="c-stat"><div class="cs-num" id="cStatWyciagi">0</div><div class="cs-lbl">🏦 Wyciągi bankowe</div></div>
+      </div>
+      <!-- Współpraca z Biurem Oskar -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;">
+        <div style="background:linear-gradient(135deg,rgba(211,47,47,.13),rgba(255,255,255,.04));border:1px solid rgba(211,47,47,.25);border-radius:14px;padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <div style="font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:rgba(255,255,255,.38);margin-bottom:8px;">Współpraca</div>
+            <div style="font-size:1.15em;font-weight:800;color:white;margin-bottom:4px;">Biuro Rachunkowe Oskar</div>
+            <div style="font-size:.82em;color:rgba(255,255,255,.5);margin-bottom:14px;">Profesjonalne usługi księgowe</div>
+            <div style="font-size:.82em;color:rgba(255,255,255,.6);line-height:1.7;">
+              📞 <a href="tel:+48791145824" style="color:#90caf9;text-decoration:none;">791-145-824</a><br>
+              ✉️ <a href="mailto:oskar.maewski@wp.pl" style="color:#90caf9;text-decoration:none;">oskar.maewski@wp.pl</a><br>
+              🌐 <a href="https://biurooskar.pl" target="_blank" style="color:#90caf9;text-decoration:none;">biurooskar.pl</a>
+            </div>
+          </div>
+          <a href="https://biurooskar.pl" target="_blank" style="display:inline-block;margin-top:14px;background:rgba(211,47,47,.2);border:1px solid rgba(211,47,47,.4);color:#ef9a9a;border-radius:9px;padding:8px 14px;font-size:.8em;font-weight:700;text-decoration:none;">🔗 Odwiedź stronę</a>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:22px 24px;">
+          <div style="font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:rgba(255,255,255,.38);margin-bottom:10px;">Jak to działa</div>
+          <div style="font-size:.85em;color:rgba(255,255,255,.65);line-height:1.75;">
+            <div style="margin-bottom:6px;">📤 Wgraj faktury i wyciągi</div>
+            <div style="margin-bottom:6px;">🔒 Dokumenty trafiają bezpiecznie do biura</div>
+            <div style="margin-bottom:6px;">✅ Księgowi zajmują się resztą</div>
+            <div>📊 Masz zawsze wgląd w przesłane pliki</div>
+          </div>
+        </div>
       </div>
       <div class="about-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
         <div class="about-card"><span class="ac-icon">📤</span><h3>Łatwe przesyłanie</h3><p>Wgraj faktury i wyciągi w kilka sekund. Obsługujemy PDF, JPG, PNG i inne popularne formaty.</p></div>
@@ -2813,16 +2878,19 @@ function selectRole(role) {
   document.querySelectorAll('input[name="regRole"]').forEach(r => { r.checked = r.value === role; });
   const compField = document.getElementById('regCompanyField');
   const compLabel = document.getElementById('regCompanyLabel');
+  const compInput = document.getElementById('regCompanyName');
   if (role === 'employee') {
     compField.style.display = '';
     compLabel.textContent = 'Nazwa firmy, do której dołączam';
-    document.getElementById('regCompanyName').placeholder = 'np. ACME Sp. z o.o. (musi się zgadzać)';
+    compInput.placeholder = 'np. ACME Sp. z o.o. (musi się zgadzać z nazwą właściciela)';
   } else if (role === 'owner') {
     compField.style.display = '';
-    compLabel.textContent = 'Nazwa mojej firmy';
-    document.getElementById('regCompanyName').placeholder = 'np. ACME Sp. z o.o.';
+    compLabel.textContent = 'Nazwa mojej firmy (biura)';
+    compInput.placeholder = 'np. Biuro Rachunkowe Oskar';
+    compInput.focus();
   } else {
     compField.style.display = 'none';
+    if (compInput) compInput.value = '';
   }
 }
 
@@ -3000,6 +3068,8 @@ function startManualEntry(type, docId) {
 // ═══════════════════════════════════════════════════════════
 let clientDocsZakup = [], clientDocsSprzedazy = [], clientDocsWyciagi = [];
 
+let selectedCompanyOwnerId = null;
+
 function initClientApp() {
   clientDocsZakup     = JSON.parse(localStorage.getItem(dataKey('clientDocsZakup'))     || '[]');
   clientDocsSprzedazy = JSON.parse(localStorage.getItem(dataKey('clientDocsSprzedazy')) || '[]');
@@ -3009,11 +3079,92 @@ function initClientApp() {
     const el = document.getElementById('cf' + k.charAt(0).toUpperCase() + k.slice(1));
     if (el && fi[k]) el.value = fi[k];
   });
+  // Wczytaj wybraną firmę
+  const saved = localStorage.getItem(dataKey('clientTargetCompany'));
+  if (saved) {
+    try { const t = JSON.parse(saved); selectedCompanyOwnerId = t.id; updateClientCompanyBar(t); } catch(e) {}
+  }
   updateClientStats();
   renderClientFiles('zakup');
   renderClientFiles('sprzedazy');
   renderClientFiles('wyciagi');
   switchClientTab('home');
+  // Jeśli nie wybrano firmy — pokaż picker
+  if (!selectedCompanyOwnerId) openCompanyPicker(true);
+}
+
+// ─── Baner wybranej firmy ──────────────────────────────────
+function updateClientCompanyBar(company) {
+  const nameEl  = document.getElementById('ccbName');
+  const emailEl = document.getElementById('ccbEmail');
+  if (!nameEl) return;
+  if (company) {
+    nameEl.innerHTML  = `<strong>${company.companyName}</strong>`;
+    emailEl.textContent = company.email;
+    emailEl.style.display = '';
+  } else {
+    nameEl.innerHTML  = '<span class="ccb-none">Nie wybrano firmy</span>';
+    emailEl.style.display = 'none';
+  }
+}
+
+// ─── Picker wyboru firmy ───────────────────────────────────
+function openCompanyPicker(required) {
+  const overlay = document.getElementById('companyPickerOverlay');
+  const list    = document.getElementById('companyPickerList');
+  const skipWrap = document.getElementById('cpcSkipWrap');
+  const confirmBtn = document.getElementById('cpcConfirmBtn');
+
+  // Lista właścicieli (firm)
+  const owners = getUsers().filter(u => u.role === 'owner' && u.companyName);
+  selectedCompanyOwnerId = selectedCompanyOwnerId || null;
+
+  if (!owners.length) {
+    list.innerHTML = '<div class="cpc-empty">Brak zarejestrowanych biur rachunkowych.<br>Poproś właściciela biura o rejestrację.</div>';
+    confirmBtn.disabled = true;
+  } else {
+    list.innerHTML = owners.map(o => `
+      <div class="company-item${selectedCompanyOwnerId === o.id ? ' selected' : ''}"
+           id="ci-${o.id}" onclick="pickCompanyItem('${o.id}')">
+        <div class="ci-icon">👑</div>
+        <div class="ci-info">
+          <div class="ci-name">${o.companyName}</div>
+          <div class="ci-email">${o.email}</div>
+        </div>
+        ${selectedCompanyOwnerId === o.id ? '<div style="color:#ce93d8;font-size:1.3em;">✓</div>' : ''}
+      </div>`).join('');
+    confirmBtn.disabled = !selectedCompanyOwnerId;
+  }
+
+  skipWrap.style.display = required ? 'none' : '';
+  overlay.style.display  = 'flex';
+}
+
+function pickCompanyItem(ownerId) {
+  selectedCompanyOwnerId = ownerId;
+  document.querySelectorAll('.company-item').forEach(el => {
+    const isThis = el.id === 'ci-' + ownerId;
+    el.classList.toggle('selected', isThis);
+    // pokaż/ukryj ptaszek
+    const check = el.querySelector('div[style*="1.3em"]');
+    if (isThis && !check) el.insertAdjacentHTML('beforeend', '<div style="color:#ce93d8;font-size:1.3em;">✓</div>');
+    if (!isThis && check) check.remove();
+  });
+  document.getElementById('cpcConfirmBtn').disabled = false;
+}
+
+function confirmCompanySelection() {
+  if (!selectedCompanyOwnerId) return;
+  const owner = getUsers().find(u => u.id === selectedCompanyOwnerId);
+  if (!owner) return;
+  const target = { id: owner.id, companyName: owner.companyName, email: owner.email };
+  localStorage.setItem(dataKey('clientTargetCompany'), JSON.stringify(target));
+  updateClientCompanyBar(target);
+  closeCompanyPicker();
+}
+
+function closeCompanyPicker() {
+  document.getElementById('companyPickerOverlay').style.display = 'none';
 }
 function switchClientTab(tab) {
   document.querySelectorAll('.c-tab').forEach(t => t.classList.remove('active'));
@@ -3053,8 +3204,11 @@ function clientDelFile(type, id) {
   else                           clientDocsWyciagi   = clientDocsWyciagi.filter(f => f.id !== id);
   saveClientDocs(type); updateClientStats(); renderClientFiles(type);
 }
-function clientDlFile(dataUrl, name) {
-  const a = document.createElement('a'); a.href = dataUrl; a.download = name; a.click();
+function clientDlFile(fileId, type) {
+  const arr = type === 'zakup' ? clientDocsZakup : type === 'sprzedazy' ? clientDocsSprzedazy : clientDocsWyciagi;
+  const f = arr.find(x => x.id === fileId);
+  if (!f) return;
+  const a = document.createElement('a'); a.href = f.dataUrl; a.download = f.name; a.click();
 }
 function renderClientFiles(type) {
   const gridId = type === 'zakup' ? 'cgridZakup' : type === 'sprzedazy' ? 'cgridSprzedazy' : 'cgridWyciagi';
@@ -3064,15 +3218,19 @@ function renderClientFiles(type) {
   if (!arr.length) { grid.innerHTML = '<div style="color:rgba(255,255,255,.35);font-size:.86em;padding:8px 0;">Brak przesłanych dokumentów.</div>'; return; }
   const icon = n => isImage(n) ? '🖼️' : isPDF(n) ? '📕' : '📄';
   const fmtSz = s => s > 1048576 ? (s/1048576).toFixed(1)+' MB' : (s/1024).toFixed(0)+' KB';
-  grid.innerHTML = arr.map(f => `<div class="c-file-card">
+  grid.innerHTML = arr.map(f => {
+    const safeId   = f.id;
+    const safeName = esc(f.name);
+    return `<div class="c-file-card">
     <div class="cfc-icon">${icon(f.name)}</div>
-    <div class="cfc-name">${esc(f.name)}</div>
-    <div class="cfc-meta">${f.added} · ${fmtSz(f.size)}</div>
+    <div class="cfc-name">${safeName}</div>
+    <div class="cfc-meta">${f.added || ''} · ${fmtSz(f.size || 0)}</div>
     <div class="cfc-btns">
-      <button class="cfc-dl" onclick="clientDlFile(\`${f.dataUrl}\`,\`${esc(f.name)}\`)">📥 Pobierz</button>
-      <button class="cfc-rm" onclick="clientDelFile('${type}','${f.id}')">🗑️</button>
+      <button class="cfc-dl" onclick="clientDlFile('${safeId}','${type}')">📥 Pobierz</button>
+      <button class="cfc-rm" onclick="clientDelFile('${type}','${safeId}')">🗑️ Usuń</button>
     </div>
-  </div>`).join('');
+  </div>`;
+  }).join('');
 }
 function saveClientFirma() {
   const fi = {};
@@ -3151,16 +3309,56 @@ function renderPracownicy() {
           <div class="prac-meta">${emp.email} &nbsp;·&nbsp; ${nZakup} fakt. zakupu &nbsp;·&nbsp; ${nSprz} fakt. sprzedaży &nbsp;·&nbsp; ${nWyc} wyciągów</div>
         </div>
         <div class="prac-btns">
-          <button class="btn-view-emp" onclick="viewEmployeeDocs('${emp.id}','${emp.firstName} ${emp.lastName}')">📄 Podgląd docs</button>
+          <button class="btn-view-emp" onclick="viewEmployeeDocs('${emp.id}','${emp.firstName} ${emp.lastName}','employee')">📄 Podgląd docs</button>
         </div>
       </div>`;
     }).join('');
   }
 
+  // Klienci biura — użytkownicy z role='client' którzy wybrali tę firmę
+  const allClients = getUsers().filter(u => u.role === 'client');
+  const myClients = allClients.filter(u => {
+    const saved = localStorage.getItem(`clientTargetCompany_${u.id}`);
+    if (!saved) return false;
+    try { return JSON.parse(saved).id === currentUser.id; } catch(e) { return false; }
+  });
+
+  // Sekcja klientów — dodaj dynamicznie jeśli jeszcze nie istnieje
+  let clientsSection = document.getElementById('pracClientsSection');
+  if (!clientsSection) {
+    const pracPage = document.querySelector('.prac-page');
+    if (pracPage) {
+      clientsSection = document.createElement('div');
+      clientsSection.id = 'pracClientsSection';
+      clientsSection.className = 'prac-section';
+      pracPage.insertBefore(clientsSection, document.getElementById('pracDocsPanel'));
+    }
+  }
+  if (clientsSection) {
+    clientsSection.innerHTML = `<h3>👤 Klienci biura <span style="background:rgba(100,181,246,.2);color:#90caf9;border-radius:12px;padding:2px 8px;font-size:.75em;font-weight:700;">${myClients.length}</span></h3>` +
+      (!myClients.length
+        ? '<p style="color:rgba(255,255,255,.4);font-size:.88em;">Brak klientów przypisanych do Twojej firmy.</p>'
+        : myClients.map(cl => {
+            const nZ = (JSON.parse(localStorage.getItem(`clientDocsZakup_${cl.id}`)     || '[]')).length;
+            const nS = (JSON.parse(localStorage.getItem(`clientDocsSprzedazy_${cl.id}`) || '[]')).length;
+            const nW = (JSON.parse(localStorage.getItem(`clientDocsWyciagi_${cl.id}`)   || '[]')).length;
+            return `<div class="prac-card">
+              <div class="prac-info">
+                <div class="prac-name">🏢 ${cl.firstName} ${cl.lastName}</div>
+                <div class="prac-meta">${cl.email} &nbsp;·&nbsp; ${nZ} fakt. zakupu &nbsp;·&nbsp; ${nS} fakt. sprzedaży &nbsp;·&nbsp; ${nW} wyciągów</div>
+              </div>
+              <div class="prac-btns">
+                <button class="btn-view-emp" onclick="viewEmployeeDocs('${cl.id}','${cl.firstName} ${cl.lastName}','client')">📄 Podgląd docs</button>
+              </div>
+            </div>`;
+          }).join(''));
+  }
+
   updateOwnerBadge();
 }
 
-let viewingEmployeeId = null;
+let viewingEmployeeId   = null;
+let viewingEmployeeType = 'employee'; // 'employee' | 'client'
 
 function approvePendingEmployee(pendingId) {
   const all = getPendingEmployees();
@@ -3179,8 +3377,9 @@ function rejectPendingEmployee(pendingId) {
   renderPracownicy();
 }
 
-function viewEmployeeDocs(empId, empName) {
-  viewingEmployeeId = empId;
+function viewEmployeeDocs(empId, empName, empType) {
+  viewingEmployeeId   = empId;
+  viewingEmployeeType = empType || 'employee';
   document.getElementById('pracDocsPanel').style.display = '';
   document.getElementById('pracDocsPanelTitle').textContent = `📂 Dokumenty: ${empName}`;
   showEmpDocs('zakup');
@@ -3198,12 +3397,30 @@ function showEmpDocs(type) {
       btn.style.border     = k === type ? '1px solid rgba(100,181,246,.4)' : '1px solid rgba(255,255,255,.15)';
     }
   });
-  const keyMap = { zakup: 'dokumentyZakup', sprzedazy: 'dokumentySprzedazy', wyciagi: 'wyciagiData' };
+
+  const isClient = viewingEmployeeType === 'client';
+  // Klienci mają inne klucze niż pracownicy
+  const keyMap = isClient
+    ? { zakup: 'clientDocsZakup', sprzedazy: 'clientDocsSprzedazy', wyciagi: 'clientDocsWyciagi' }
+    : { zakup: 'dokumentyZakup',  sprzedazy: 'dokumentySprzedazy',  wyciagi: 'wyciagiData'       };
   const storageKey = `${keyMap[type]}_${viewingEmployeeId}`;
   const docs = JSON.parse(localStorage.getItem(storageKey) || '[]');
   const cont = document.getElementById('empDocsContent');
+
   if (!docs.length) { cont.innerHTML = '<p style="color:rgba(255,255,255,.4);font-size:.85em;padding:10px 0;">Brak dokumentów.</p>'; return; }
-  if (type === 'wyciagi') {
+
+  if (isClient) {
+    // Klienci przesyłają pliki (dataUrl), nie mają tabel z polami
+    const icon = n => (n||'').match(/\.(jpg|jpeg|png)$/i) ? '🖼️' : (n||'').match(/\.pdf$/i) ? '📕' : '📄';
+    cont.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+      ${docs.map(f => `<div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:1.8em;margin-bottom:6px;">${icon(f.name)}</div>
+        <div style="font-size:.78em;font-weight:600;word-break:break-all;margin-bottom:4px;">${f.name}</div>
+        <div style="font-size:.7em;color:rgba(255,255,255,.35);margin-bottom:8px;">${f.added||''}</div>
+        <a href="${f.dataUrl}" download="${f.name}" style="font-size:.75em;background:rgba(100,181,246,.15);color:#90caf9;padding:4px 10px;border-radius:6px;text-decoration:none;">📥 Pobierz</a>
+      </div>`).join('')}
+    </div>`;
+  } else if (type === 'wyciagi') {
     cont.innerHTML = `<table class="summary-table" style="font-size:.82em;"><thead><tr><th>Nr</th><th>Bank</th><th>Data</th><th>Kwota</th><th>Opis</th></tr></thead><tbody>
       ${docs.map((d,i) => `<tr><td>${i+1}</td><td>${d.bank||'-'}</td><td>${d.dataDokumentu||'-'}</td><td>${d.kwota||'-'}</td><td>${d.opis||'-'}</td></tr>`).join('')}
     </tbody></table>`;
@@ -3284,8 +3501,12 @@ function doRegister() {
   document.getElementById('authRegisterForm').style.display = 'none';
   document.getElementById('authVerifyScreen').style.display = '';
   document.getElementById('verifyEmailDisplay').textContent = email;
-  document.getElementById('verifyCodeDisplay').textContent  = verifyCode;
   document.getElementById('verifyMsg').style.display = 'none';
+  // Ustaw link mailto z kodem w treści
+  const subject = encodeURIComponent('Kod weryfikacyjny NexoDocs');
+  const body    = encodeURIComponent(`Witaj ${firstName},\n\nTwój kod weryfikacyjny NexoDocs:\n\n${verifyCode}\n\nKod jest ważny przez 10 minut.\n\nZespół NexoDocs`);
+  const mailtoLink = document.getElementById('verifyMailtoLink');
+  if (mailtoLink) mailtoLink.href = `mailto:${email}?subject=${subject}&body=${body}`;
   document.querySelectorAll('.verify-digits input').forEach(i => { i.value = ''; });
   setTimeout(() => document.querySelectorAll('.verify-digits input')[0].focus(), 80);
 }
@@ -3361,6 +3582,20 @@ function initApp() {
   document.getElementById('authOverlay').style.display = 'flex';
 })();
 </script>
+<!-- COMPANY PICKER OVERLAY -->
+<div class="company-picker-overlay" id="companyPickerOverlay" style="display:none">
+  <div class="company-picker-card">
+    <div style="text-align:center;font-size:2.2em;margin-bottom:10px;">🏢</div>
+    <h2>Wybierz biuro rachunkowe</h2>
+    <p class="cpc-sub">Do której firmy chcesz przesyłać swoje dokumenty?</p>
+    <div class="company-list" id="companyPickerList"></div>
+    <button class="cpc-confirm" id="cpcConfirmBtn" onclick="confirmCompanySelection()" disabled>✓ Potwierdź wybór</button>
+    <div id="cpcSkipWrap" style="text-align:center;margin-top:12px;display:none">
+      <button style="background:none;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:.82em;text-decoration:underline" onclick="closeCompanyPicker()">Pomiń na teraz</button>
+    </div>
+  </div>
+</div>
+
 <!-- ZOOM MODAL -->
 <div id="pzModal" class="pz-modal" onclick="if(event.target===this)closePreviewZoom()">
   <button class="pz-close" onclick="closePreviewZoom()">✕ Zamknij podgląd</button>
