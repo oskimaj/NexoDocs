@@ -249,6 +249,103 @@
     .sidebar-logout { margin:10px 20px 0; padding:10px 15px; background:rgba(239,83,80,.12); border:1px solid rgba(239,83,80,.28); border-radius:8px; color:#ef9a9a; cursor:pointer; font-size:.86em; font-weight:600; width:calc(100% - 40px); transition:background .3s; }
     .sidebar-logout:hover { background:rgba(239,83,80,.26); }
 
+    /* ── THREE-DOTS MENU ──────────────────────────────────── */
+    .dots-btn { position:fixed; top:14px; right:20px; z-index:1100; width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); color:white; font-size:1.45em; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s; }
+    .dots-btn:hover { background:rgba(255,255,255,.2); }
+    .dots-dropdown { position:fixed; top:62px; right:20px; z-index:1101; background:rgba(13,25,60,.97); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,.18); border-radius:14px; padding:8px; min-width:180px; box-shadow:0 10px 30px rgba(0,0,0,.55); display:none; }
+    .dots-dropdown.open { display:block; animation:fadeInDots .15s ease; }
+    @keyframes fadeInDots { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    .dots-item { display:block; width:100%; padding:11px 16px; background:none; border:none; color:rgba(255,255,255,.82); text-align:left; cursor:pointer; font-size:.93em; border-radius:9px; transition:background .2s; }
+    .dots-item:hover { background:rgba(255,255,255,.1); }
+    .dots-item.danger { color:#ef9a9a; }
+    .dots-sep { border:none; border-top:1px solid rgba(255,255,255,.1); margin:5px 0; }
+
+    /* ── CHECKBOXES / BULK ────────────────────────────────── */
+    .tbl-check { width:34px!important; text-align:center!important; padding:0 4px!important; }
+    .tbl-check input[type=checkbox] { width:15px; height:15px; cursor:pointer; accent-color:#64b5f6; }
+    .bulk-bar { display:none; background:rgba(100,181,246,.08); border:1px solid rgba(100,181,246,.22); border-radius:10px; padding:11px 16px; margin-bottom:14px; align-items:center; gap:12px; flex-wrap:wrap; }
+    .bulk-bar.visible { display:flex; }
+    .bulk-count { font-size:.87em; color:#90caf9; font-weight:700; }
+    .bulk-btn { padding:8px 15px; border-radius:7px; cursor:pointer; font-size:.83em; font-weight:600; border:1px solid transparent; transition:all .2s; background:none; }
+    .bulk-del { background:rgba(239,83,80,.17); color:#ef9a9a; border-color:rgba(239,83,80,.3); }
+    .bulk-del:hover { background:rgba(239,83,80,.3); }
+    .bulk-xml { background:rgba(76,175,80,.17); color:#a5d6a7; border-color:rgba(76,175,80,.3); }
+    .bulk-xml:hover { background:rgba(76,175,80,.3); }
+    .bulk-clear { background:rgba(255,255,255,.07); color:rgba(255,255,255,.55); border-color:rgba(255,255,255,.15); }
+    .bulk-clear:hover { background:rgba(255,255,255,.14); }
+
+    /* ── MANUAL ENTRY BUTTON ──────────────────────────────── */
+    .btn-manual-entry { background:rgba(255,183,77,.13); border:1px solid rgba(255,183,77,.32); color:#ffe082; padding:9px 18px; border-radius:8px; cursor:pointer; font-size:.9em; font-weight:600; transition:background .2s; }
+    .btn-manual-entry:hover { background:rgba(255,183,77,.26); }
+
+    /* ── VERIFICATION SCREEN ──────────────────────────────── */
+    .verify-box { text-align:center; padding:4px 0; }
+    .verify-box h3 { color:#64b5f6; font-size:1.15em; margin-bottom:6px; }
+    .verify-box p { color:rgba(255,255,255,.55); font-size:.86em; margin-bottom:18px; line-height:1.65; }
+    .email-preview { background:rgba(100,181,246,.07); border:1px solid rgba(100,181,246,.22); border-radius:12px; padding:18px 14px; margin-bottom:20px; }
+    .ep-label { font-size:.72em; color:rgba(255,255,255,.38); text-transform:uppercase; letter-spacing:.7px; margin-bottom:8px; }
+    .verify-digits { display:flex; gap:8px; justify-content:center; margin-bottom:18px; }
+    .verify-digits input { width:42px; height:52px; text-align:center; font-size:1.45em; font-weight:700; border:2px solid rgba(255,255,255,.18); border-radius:10px; background:rgba(255,255,255,.07); color:white; transition:border-color .2s; }
+    .verify-digits input:focus { outline:none; border-color:#64b5f6; background:rgba(100,181,246,.1); }
+    .verify-back { background:none; border:none; color:rgba(255,255,255,.4); cursor:pointer; font-size:.83em; margin-top:10px; text-decoration:underline; }
+
+    /* ── ROLE CARDS ───────────────────────────────────────── */
+    .role-row { display:flex; gap:10px; margin-bottom:18px; }
+    .role-card { flex:1; border:2px solid rgba(255,255,255,.13); border-radius:12px; padding:14px 10px; text-align:center; cursor:pointer; transition:all .2s; user-select:none; }
+    .role-card:hover { border-color:rgba(100,181,246,.5); background:rgba(100,181,246,.06); }
+    .role-card input[type=radio] { display:none; }
+    .role-card.selected { border-color:#64b5f6; background:rgba(100,181,246,.1); }
+    .rc-icon { font-size:1.55em; margin-bottom:5px; }
+    .rc-label { font-size:.81em; font-weight:700; color:rgba(255,255,255,.85); }
+    .rc-desc { font-size:.72em; color:rgba(255,255,255,.42); margin-top:3px; }
+
+    /* ── CLIENT VIEW ──────────────────────────────────────── */
+    .client-app { display:none; flex-direction:column; min-height:100vh; }
+    .client-topbar { background:rgba(10,22,52,.97); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,.11); display:flex; align-items:stretch; padding:0 20px; gap:2px; position:sticky; top:0; z-index:200; }
+    .c-logo { font-size:1.2em; font-weight:800; color:white; letter-spacing:1px; display:flex; align-items:center; margin-right:20px; white-space:nowrap; }
+    .c-tab { padding:0 18px; height:58px; background:none; border:none; color:rgba(255,255,255,.42); cursor:pointer; font-size:.87em; font-weight:600; border-bottom:3px solid transparent; white-space:nowrap; transition:all .2s; display:flex; align-items:center; }
+    .c-tab.active { color:#64b5f6; border-bottom-color:#64b5f6; }
+    .c-tab:hover:not(.active) { color:rgba(255,255,255,.8); }
+    .c-user { margin-left:auto; display:flex; align-items:center; gap:12px; color:rgba(255,255,255,.6); font-size:.84em; white-space:nowrap; }
+    .c-logout-btn { background:rgba(239,83,80,.13); border:1px solid rgba(239,83,80,.28); color:#ef9a9a; padding:7px 14px; border-radius:7px; cursor:pointer; font-size:.82em; font-weight:600; }
+    .c-logout-btn:hover { background:rgba(239,83,80,.26); }
+    .client-body { max-width:1100px; margin:0 auto; padding:34px 24px; width:100%; }
+    .client-page { display:none; }
+    .client-page.active { display:block; }
+    .c-upload-zone { border:2px dashed rgba(100,181,246,.35); border-radius:16px; padding:48px 24px; text-align:center; margin-bottom:26px; cursor:pointer; transition:all .25s; position:relative; }
+    .c-upload-zone:hover { border-color:#64b5f6; background:rgba(100,181,246,.05); }
+    .c-upload-zone .cuz-icon { font-size:3.2em; margin-bottom:14px; display:block; }
+    .c-upload-zone h3 { color:#90caf9; font-size:1.1em; margin-bottom:8px; }
+    .c-upload-zone p { color:rgba(255,255,255,.45); font-size:.85em; }
+    .c-file-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; }
+    .c-file-card { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:18px 16px; }
+    .c-file-card .cfc-icon { font-size:2.2em; margin-bottom:8px; }
+    .c-file-card .cfc-name { font-size:.82em; color:white; font-weight:600; margin-bottom:4px; word-break:break-all; }
+    .c-file-card .cfc-meta { font-size:.74em; color:rgba(255,255,255,.38); margin-bottom:12px; }
+    .c-file-card .cfc-btns { display:flex; gap:6px; }
+    .c-file-card button { flex:1; padding:7px; border-radius:7px; cursor:pointer; font-size:.78em; font-weight:600; border:1px solid transparent; }
+    .cfc-dl { background:rgba(100,181,246,.15); color:#90caf9; border-color:rgba(100,181,246,.3); }
+    .cfc-rm { background:rgba(239,83,80,.14); color:#ef9a9a; border-color:rgba(239,83,80,.28); }
+    .client-welcome { background:linear-gradient(135deg,rgba(100,181,246,.12),rgba(255,255,255,.04)); border:1px solid rgba(100,181,246,.2); border-radius:16px; padding:28px 32px; margin-bottom:28px; }
+    .client-welcome h2 { font-size:1.5em; color:white; margin-bottom:6px; }
+    .client-welcome p { color:rgba(255,255,255,.6); font-size:.92em; }
+    .client-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin-bottom:28px; }
+    .c-stat { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:20px; text-align:center; }
+    .c-stat .cs-num { font-size:2em; font-weight:800; color:#64b5f6; }
+    .c-stat .cs-lbl { font-size:.82em; color:rgba(255,255,255,.5); margin-top:4px; }
+    .client-section-title { font-size:1.05em; font-weight:700; color:#90caf9; margin-bottom:16px; margin-top:4px; }
+    .client-firma-form { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.11); border-radius:14px; padding:28px; }
+    .client-firma-form label { display:block; font-size:.78em; font-weight:700; color:rgba(255,255,255,.44); text-transform:uppercase; letter-spacing:.7px; margin-bottom:6px; }
+    .client-firma-form input, .client-firma-form textarea { width:100%; padding:11px 14px; border:1px solid rgba(255,255,255,.17); border-radius:9px; background:rgba(255,255,255,.07); color:white; font-size:.92em; font-family:inherit; margin-bottom:14px; }
+    .client-firma-form input:focus, .client-firma-form textarea:focus { outline:none; border-color:#64b5f6; }
+
+    /* ── ABOUT IMPROVED ───────────────────────────────────── */
+    .about-card { background:linear-gradient(135deg,rgba(100,181,246,.1),rgba(255,255,255,.04)); padding:28px 22px; border-radius:14px; border:1px solid rgba(255,255,255,.12); text-align:center; transition:transform .25s,border-color .25s,box-shadow .25s; }
+    .about-card:hover { transform:translateY(-5px); border-color:#64b5f6; box-shadow:0 12px 32px rgba(100,181,246,.13); }
+    .about-card .ac-icon { font-size:2.5em; display:block; margin-bottom:14px; }
+    .about-card h3 { color:#90caf9; margin-bottom:10px; font-size:1.05em; font-weight:700; border:none; }
+    .about-card p { color:rgba(255,255,255,.68); font-size:.87em; line-height:1.72; }
+
     /* ══════════════════════════════════════════════════════════
        AI FULL-SCREEN PANEL
     ══════════════════════════════════════════════════════════ */
@@ -445,6 +542,21 @@
 
     <!-- REGISTER -->
     <div id="authRegisterForm" style="display:none">
+      <p style="font-size:.76em;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:10px;">Typ konta</p>
+      <div class="role-row">
+        <label class="role-card selected" id="roleClientCard" onclick="selectRole('client')">
+          <input type="radio" name="regRole" value="client" checked>
+          <div class="rc-icon">🏢</div>
+          <div class="rc-label">Klient biura</div>
+          <div class="rc-desc">Przekazuję dokumenty do księgowania</div>
+        </label>
+        <label class="role-card" id="roleEmployeeCard" onclick="selectRole('employee')">
+          <input type="radio" name="regRole" value="employee">
+          <div class="rc-icon">👨‍💼</div>
+          <div class="rc-label">Pracownik biura</div>
+          <div class="rc-desc">Zarządzam i księguję dokumenty</div>
+        </label>
+      </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div class="auth-field"><label>Imię</label><input type="text" id="regFirstName" placeholder="Jan"></div>
         <div class="auth-field"><label>Nazwisko</label><input type="text" id="regLastName" placeholder="Kowalski"></div>
@@ -453,7 +565,30 @@
       <div class="auth-field"><label>Hasło</label><input type="password" id="regPassword" placeholder="min. 6 znaków"></div>
       <div class="auth-field"><label>Potwierdź hasło</label><input type="password" id="regPasswordConfirm" placeholder="powtórz hasło" onkeydown="if(event.key==='Enter')doRegister()"></div>
       <div id="registerMsg" style="display:none"></div>
-      <button class="auth-submit" onclick="doRegister()">✓ Zarejestruj się</button>
+      <button class="auth-submit" onclick="doRegister()">Dalej →</button>
+    </div>
+
+    <!-- WERYFIKACJA E-MAIL -->
+    <div id="authVerifyScreen" style="display:none" class="verify-box">
+      <h3>📧 Weryfikacja e-mail</h3>
+      <p>Wysłaliśmy 6-cyfrowy kod na adres:<br><strong id="verifyEmailDisplay" style="color:#90caf9;"></strong></p>
+      <div class="email-preview">
+        <div class="ep-label">📬 Podgląd wiadomości e-mail</div>
+        <div style="color:rgba(255,255,255,.55);font-size:.85em;margin-bottom:8px;">Twój kod weryfikacyjny NexoDocs:</div>
+        <div id="verifyCodeDisplay" style="font-size:2.4em;font-weight:800;letter-spacing:10px;color:#90caf9;font-family:monospace;">——</div>
+        <div style="font-size:.72em;color:rgba(255,255,255,.28);margin-top:8px;">⏱ Kod ważny przez 10 minut</div>
+      </div>
+      <div class="verify-digits">
+        <input type="text" inputmode="numeric" maxlength="1" oninput="verifyDigitInput(this,0)" onkeydown="verifyKeyDown(event,0)">
+        <input type="text" inputmode="numeric" maxlength="1" oninput="verifyDigitInput(this,1)" onkeydown="verifyKeyDown(event,1)">
+        <input type="text" inputmode="numeric" maxlength="1" oninput="verifyDigitInput(this,2)" onkeydown="verifyKeyDown(event,2)">
+        <input type="text" inputmode="numeric" maxlength="1" oninput="verifyDigitInput(this,3)" onkeydown="verifyKeyDown(event,3)">
+        <input type="text" inputmode="numeric" maxlength="1" oninput="verifyDigitInput(this,4)" onkeydown="verifyKeyDown(event,4)">
+        <input type="text" inputmode="numeric" maxlength="1" oninput="verifyDigitInput(this,5)" onkeydown="verifyKeyDown(event,5)">
+      </div>
+      <div id="verifyMsg" style="display:none"></div>
+      <button class="auth-submit" onclick="doVerify()">✓ Potwierdź konto</button><br>
+      <button class="verify-back" onclick="backToRegister()">← Wróć do rejestracji</button>
     </div>
   </div>
 </div>
@@ -516,6 +651,15 @@
   <button class="sidebar-logout" onclick="doLogout()">🚪 Wyloguj się</button>
 </aside>
 
+<!-- THREE DOTS MENU -->
+<button class="dots-btn" id="dotsBtn" onclick="toggleDots(event)" title="Opcje">⋮</button>
+<div class="dots-dropdown" id="dotsDropdown">
+  <button class="dots-item" onclick="openKonto();toggleDots()">👤 Konto</button>
+  <button class="dots-item" onclick="openOferta();toggleDots()">💼 Oferta</button>
+  <hr class="dots-sep">
+  <button class="dots-item danger" onclick="doLogout()">🚪 Wyloguj się</button>
+</div>
+
 <!-- ════════════════════════════════════════════════
      MAIN CONTENT
 ════════════════════════════════════════════════ -->
@@ -560,20 +704,24 @@
             <h2>ℹ️ O nas i zakres usług</h2>
             <div class="about-grid">
               <div class="about-card">
-                <h3>📋 Czym się zajmujemy</h3>
-                <p>NexoDocs to system do weryfikacji i zarządzania dokumentami księgowymi. Umożliwia sprawne przyjmowanie faktur, wyciągów bankowych i innych dokumentów finansowych.</p>
+                <span class="ac-icon">📋</span>
+                <h3>Czym się zajmujemy</h3>
+                <p>NexoDocs to system do weryfikacji i zarządzania dokumentami księgowymi. Umożliwia sprawne przyjmowanie, organizację i archiwizację faktur oraz wyciągów bankowych.</p>
               </div>
               <div class="about-card">
-                <h3>🤖 Automatyzacja z AI</h3>
-                <p>Dzięki integracji z AI automatycznie odczytujemy dane z faktur — kontrahent, kwoty, daty, stawki VAT — bez ręcznego przepisywania.</p>
+                <span class="ac-icon">🤖</span>
+                <h3>Automatyzacja z AI</h3>
+                <p>Integracja z AI pozwala automatycznie odczytywać dane z faktur — kontrahent, kwoty, daty, stawki VAT — bez ręcznego przepisywania. Oszczędza czas i eliminuje błędy.</p>
               </div>
               <div class="about-card">
-                <h3>🔗 Integracja z KSeF</h3>
-                <p>Bezpośrednie pobieranie faktur z Krajowego Systemu e-Faktur. Wszystkie dokumenty w jednym miejscu, gotowe do weryfikacji i archiwizacji.</p>
+                <span class="ac-icon">🔗</span>
+                <h3>Integracja z KSeF</h3>
+                <p>Bezpośrednie pobieranie faktur z Krajowego Systemu e-Faktur. Wszystkie dokumenty w jednym miejscu, gotowe do weryfikacji, eksportu i archiwizacji.</p>
               </div>
               <div class="about-card">
-                <h3>🏦 Wyciągi bankowe</h3>
-                <p>Import wyciągów w formatach PDF, XML, CSV i MT940. Automatyczne przypisywanie operacji do kontrahentów i kategorii księgowych.</p>
+                <span class="ac-icon">🏦</span>
+                <h3>Wyciągi bankowe</h3>
+                <p>Import wyciągów bankowych w różnych formatach. Automatyczne przypisywanie operacji do kontrahentów i kategorii — pełna kontrola nad przepływem finansowym.</p>
               </div>
             </div>
           </div>
@@ -622,6 +770,14 @@
           <button class="ksef-btn-sm green" onclick="openKSeF('zakup')">📥 Pobierz z KSeF</button>
           <label class="ksef-btn-sm blue" for="uploadDokZakup">📂 Dodaj dokument z komputera</label>
           <input type="file" id="uploadDokZakup" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="startManual(this,'zakup')">
+          <button class="btn-manual-entry" onclick="startManualEntry('zakup')">✏️ Dodaj ręcznie</button>
+        </div>
+        <!-- BULK BAR -->
+        <div class="bulk-bar" id="bulkBarZakup">
+          <span class="bulk-count" id="bulkCountZakup">0 zaznaczonych</span>
+          <button class="bulk-btn bulk-del" onclick="bulkDelete('zakup')">🗑️ Usuń zaznaczone</button>
+          <button class="bulk-btn bulk-xml" onclick="bulkExportXML('zakup')">📤 Eksportuj XML</button>
+          <button class="bulk-btn bulk-clear" onclick="clearSelection('zakup')">✕ Odznacz</button>
         </div>
         <!-- SEARCH + FILTER -->
         <div class="search-filter-row">
@@ -646,6 +802,7 @@
           <table class="summary-table">
             <thead>
               <tr>
+                <th class="tbl-check"><input type="checkbox" id="selAllZakup" onchange="selectAll('zakup',this.checked)" title="Zaznacz wszystkie"></th>
                 <th class="sortable" id="thZakupLp" onclick="sortTable('zakup','lp')">Lp <span class="si">⇅</span></th>
                 <th class="sortable" id="thZakupKontrahent" onclick="sortTable('zakup','kontrahent')">Kontrahent <span class="si">⇅</span></th>
                 <th class="sortable" id="thZakupNrDok" onclick="sortTable('zakup','numerDokumentu')">Nr dokumentu <span class="si">⇅</span></th>
@@ -705,6 +862,14 @@
           <button class="ksef-btn-sm green" onclick="openKSeF('sprzedazy')">📥 Pobierz z KSeF</button>
           <label class="ksef-btn-sm blue" for="uploadDokSprzedazy">📂 Dodaj dokument z komputera</label>
           <input type="file" id="uploadDokSprzedazy" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="startManual(this,'sprzedazy')">
+          <button class="btn-manual-entry" onclick="startManualEntry('sprzedazy')">✏️ Dodaj ręcznie</button>
+        </div>
+        <!-- BULK BAR -->
+        <div class="bulk-bar" id="bulkBarSprzedazy">
+          <span class="bulk-count" id="bulkCountSprzedazy">0 zaznaczonych</span>
+          <button class="bulk-btn bulk-del" onclick="bulkDelete('sprzedazy')">🗑️ Usuń zaznaczone</button>
+          <button class="bulk-btn bulk-xml" onclick="bulkExportXML('sprzedazy')">📤 Eksportuj XML</button>
+          <button class="bulk-btn bulk-clear" onclick="clearSelection('sprzedazy')">✕ Odznacz</button>
         </div>
         <!-- SEARCH + FILTER -->
         <div class="search-filter-row">
@@ -729,6 +894,7 @@
           <table class="summary-table">
             <thead>
               <tr>
+                <th class="tbl-check"><input type="checkbox" id="selAllSprzedazy" onchange="selectAll('sprzedazy',this.checked)" title="Zaznacz wszystkie"></th>
                 <th class="sortable" id="thSprzLp" onclick="sortTable('sprzedazy','lp')">Lp <span class="si">⇅</span></th>
                 <th class="sortable" id="thSprzKontrahent" onclick="sortTable('sprzedazy','kontrahent')">Kontrahent <span class="si">⇅</span></th>
                 <th class="sortable" id="thSprzNrDok" onclick="sortTable('sprzedazy','numerDokumentu')">Nr dokumentu <span class="si">⇅</span></th>
@@ -739,7 +905,7 @@
               </tr>
             </thead>
             <tbody id="summarySprzedazyTable">
-              <tr><td colspan="8" class="no-data">Brak danych</td></tr>
+              <tr><td colspan="9" class="no-data">Brak danych</td></tr>
             </tbody>
           </table>
         </div>
@@ -877,6 +1043,151 @@
   <footer><p>&copy; 2026 NexoDocs. Wszelkie prawa zastrzeżone.</p></footer>
 </div>
 
+<!-- ═══════════════════ CLIENT APP ═══════════════════ -->
+<div class="client-app" id="clientApp">
+  <div class="client-topbar">
+    <div class="c-logo">NexoDocs</div>
+    <button class="c-tab active" id="ctab-home"      onclick="switchClientTab('home')">🏠 Home</button>
+    <button class="c-tab"        id="ctab-zakup"     onclick="switchClientTab('zakup')">📄 Faktury Zakupu</button>
+    <button class="c-tab"        id="ctab-sprzedazy" onclick="switchClientTab('sprzedazy')">📋 Faktury Sprzedaży</button>
+    <button class="c-tab"        id="ctab-wyciagi"   onclick="switchClientTab('wyciagi')">🏦 Wyciągi</button>
+    <button class="c-tab"        id="ctab-firma"     onclick="switchClientTab('firma')">🏢 Moja firma</button>
+    <div class="c-user">
+      <span id="clientUserName">👤</span>
+      <button class="c-logout-btn" onclick="doLogout()">Wyloguj</button>
+    </div>
+  </div>
+  <div class="client-body">
+
+    <!-- HOME -->
+    <div class="client-page active" id="cp-home">
+      <div class="client-welcome">
+        <h2>👋 Witaj w NexoDocs!</h2>
+        <p>Przekazuj dokumenty do swojego biura rachunkowego szybko i wygodnie. Wgraj faktury i wyciągi, a my zajmiemy się resztą.</p>
+      </div>
+      <div class="client-stats">
+        <div class="c-stat"><div class="cs-num" id="cStatZakup">0</div><div class="cs-lbl">📄 Faktury zakupu</div></div>
+        <div class="c-stat"><div class="cs-num" id="cStatSprzedazy">0</div><div class="cs-lbl">📋 Faktury sprzedaży</div></div>
+        <div class="c-stat"><div class="cs-num" id="cStatWyciagi">0</div><div class="cs-lbl">🏦 Wyciągi bankowe</div></div>
+      </div>
+      <div class="about-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+        <div class="about-card"><span class="ac-icon">📤</span><h3>Łatwe przesyłanie</h3><p>Wgraj faktury i wyciągi w kilka sekund. Obsługujemy PDF, JPG, PNG i inne popularne formaty.</p></div>
+        <div class="about-card"><span class="ac-icon">🔒</span><h3>Bezpieczne dane</h3><p>Twoje dokumenty są przechowywane bezpiecznie. Dostęp mają wyłącznie Ty i Twoje biuro rachunkowe.</p></div>
+        <div class="about-card"><span class="ac-icon">📞</span><h3>Kontakt z biurem</h3><p><strong>791-145-824</strong><br><a href="mailto:oskar.maewski@wp.pl" style="color:#90caf9">oskar.maewski@wp.pl</a><br><a href="https://biurooskar.pl" target="_blank" style="color:#90caf9">biurooskar.pl</a></p></div>
+      </div>
+    </div>
+
+    <!-- FAKTURY ZAKUPU -->
+    <div class="client-page" id="cp-zakup">
+      <h2 class="client-section-title">📄 Faktury Zakupu</h2>
+      <div class="c-upload-zone" onclick="document.getElementById('cUploadZakup').click()">
+        <span class="cuz-icon">📤</span>
+        <h3>Dodaj faktury zakupu</h3>
+        <p>Kliknij tutaj lub przeciągnij pliki (PDF, JPG, PNG)</p>
+        <input type="file" id="cUploadZakup" accept=".pdf,.jpg,.jpeg,.png" multiple style="display:none" onchange="clientUpload(this,'zakup')">
+      </div>
+      <div class="c-file-grid" id="cgridZakup"></div>
+    </div>
+
+    <!-- FAKTURY SPRZEDAŻY -->
+    <div class="client-page" id="cp-sprzedazy">
+      <h2 class="client-section-title">📋 Faktury Sprzedaży</h2>
+      <div class="c-upload-zone" onclick="document.getElementById('cUploadSprzedazy').click()">
+        <span class="cuz-icon">📤</span>
+        <h3>Dodaj faktury sprzedaży</h3>
+        <p>Kliknij tutaj lub przeciągnij pliki (PDF, JPG, PNG)</p>
+        <input type="file" id="cUploadSprzedazy" accept=".pdf,.jpg,.jpeg,.png" multiple style="display:none" onchange="clientUpload(this,'sprzedazy')">
+      </div>
+      <div class="c-file-grid" id="cgridSprzedazy"></div>
+    </div>
+
+    <!-- WYCIĄGI -->
+    <div class="client-page" id="cp-wyciagi">
+      <h2 class="client-section-title">🏦 Wyciągi bankowe</h2>
+      <div class="c-upload-zone" onclick="document.getElementById('cUploadWyciagi').click()">
+        <span class="cuz-icon">🏦</span>
+        <h3>Dodaj wyciągi bankowe</h3>
+        <p>Kliknij tutaj lub przeciągnij pliki (PDF, XML, CSV, MT940, JPG)</p>
+        <input type="file" id="cUploadWyciagi" accept=".pdf,.xml,.csv,.txt,.jpg,.jpeg,.png" multiple style="display:none" onchange="clientUpload(this,'wyciagi')">
+      </div>
+      <div class="c-file-grid" id="cgridWyciagi"></div>
+    </div>
+
+    <!-- MOJA FIRMA -->
+    <div class="client-page" id="cp-firma">
+      <h2 class="client-section-title">🏢 Informacje o firmie</h2>
+      <div class="client-firma-form">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div><label>NIP firmy</label><input type="text" id="cfNip" placeholder="0000000000"></div>
+          <div><label>Nazwa firmy</label><input type="text" id="cfNazwa" placeholder="Moja Firma Sp. z o.o."></div>
+        </div>
+        <label>Adres firmy</label>
+        <input type="text" id="cfAdres" placeholder="ul. Przykładowa 1, 00-001 Warszawa">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div><label>Telefon</label><input type="text" id="cfTelefon" placeholder="+48 600 000 000"></div>
+          <div><label>E-mail firmy</label><input type="email" id="cfEmail" placeholder="kontakt@firma.pl"></div>
+        </div>
+        <label>Uwagi dla biura rachunkowego</label>
+        <textarea id="cfUwagi" placeholder="Dodatkowe informacje dla Twojego księgowego..." style="min-height:90px;resize:vertical;"></textarea>
+        <button class="auth-submit" style="max-width:200px;margin:0;" onclick="saveClientFirma()">💾 Zapisz dane</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- KONTO MODAL -->
+<div class="modal-overlay" id="kontoModal">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-header"><h3>👤 Moje konto</h3><button onclick="closeModal('kontoModal')">✕</button></div>
+    <div class="modal-body">
+      <div style="padding:16px;background:rgba(100,181,246,.08);border:1px solid rgba(100,181,246,.2);border-radius:10px;margin-bottom:20px;">
+        <div id="kontoName" style="font-size:1.15em;font-weight:700;color:white;margin-bottom:4px;"></div>
+        <div id="kontoEmail" style="font-size:.85em;color:rgba(255,255,255,.55);"></div>
+        <div id="kontoRole"  style="font-size:.82em;color:#90caf9;margin-top:6px;font-weight:600;"></div>
+      </div>
+      <div style="font-size:.87em;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:12px;">🔐 Zmień hasło</div>
+      <div class="auth-field"><label>Nowe hasło</label><input type="password" id="kontoNewPass" placeholder="min. 6 znaków"></div>
+      <div class="auth-field"><label>Potwierdź hasło</label><input type="password" id="kontoNewPassConfirm" placeholder="powtórz"></div>
+      <div id="kontoMsg" style="display:none"></div>
+      <button class="auth-submit" style="margin-top:4px;" onclick="saveKonto()">💾 Zapisz hasło</button>
+    </div>
+  </div>
+</div>
+
+<!-- OFERTA MODAL -->
+<div class="modal-overlay" id="ofertaModal">
+  <div class="modal" style="max-width:660px;">
+    <div class="modal-header"><h3>💼 Oferta biura rachunkowego</h3><button onclick="closeModal('ofertaModal')">✕</button></div>
+    <div class="modal-body">
+      <p style="color:rgba(255,255,255,.55);font-size:.88em;margin-bottom:22px;">Biuro Rachunkowe Oskar — kompleksowe usługi księgowe dla firm każdej wielkości.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:16px;">
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:22px;text-align:center;">
+          <div style="font-size:2em;margin-bottom:10px;">📊</div>
+          <div style="font-weight:700;color:#90caf9;margin-bottom:8px;font-size:.95em;">Podstawowy</div>
+          <div style="font-size:1.4em;font-weight:800;color:white;margin-bottom:8px;">od 199 zł/mies.</div>
+          <div style="font-size:.78em;color:rgba(255,255,255,.5);line-height:1.65;">Jednoosobowa dział. · do 30 dok./mies. · VAT · PIT</div>
+        </div>
+        <div style="background:linear-gradient(135deg,rgba(100,181,246,.14),rgba(100,181,246,.04));border:2px solid rgba(100,181,246,.4);border-radius:14px;padding:22px;text-align:center;">
+          <div style="font-size:2em;margin-bottom:10px;">🏆</div>
+          <div style="font-weight:700;color:#64b5f6;margin-bottom:8px;font-size:.95em;">Standard</div>
+          <div style="font-size:1.4em;font-weight:800;color:white;margin-bottom:8px;">od 399 zł/mies.</div>
+          <div style="font-size:.78em;color:rgba(255,255,255,.5);line-height:1.65;">Sp. z o.o. / SK · do 100 dok./mies. · Pełna księgowość · Kadry</div>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:22px;text-align:center;">
+          <div style="font-size:2em;margin-bottom:10px;">🚀</div>
+          <div style="font-weight:700;color:#90caf9;margin-bottom:8px;font-size:.95em;">Premium</div>
+          <div style="font-size:1.4em;font-weight:800;color:white;margin-bottom:8px;">od 699 zł/mies.</div>
+          <div style="font-size:.78em;color:rgba(255,255,255,.5);line-height:1.65;">Bez limitu dok. · Doradztwo · Reprezentacja w US · NexoDocs</div>
+        </div>
+      </div>
+      <div style="margin-top:22px;padding:14px 18px;background:rgba(100,181,246,.07);border-radius:10px;text-align:center;font-size:.86em;color:rgba(255,255,255,.6);">
+        📞 <strong>791-145-824</strong> &nbsp;·&nbsp; ✉️ <a href="mailto:oskar.maewski@wp.pl" style="color:#90caf9">oskar.maewski@wp.pl</a> &nbsp;·&nbsp; 🌐 <a href="https://biurooskar.pl" target="_blank" style="color:#90caf9">biurooskar.pl</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ═══════════════════════════════════════════════════════════
 // NAVIGATION
@@ -944,8 +1255,9 @@ const isPDF   = n => /\.pdf$/i.test(n||'');
 // ═══════════════════════════════════════════════════════════
 function renderTableZakup(data) {
   const tb = document.getElementById('summaryZakupTable');
-  if (!data.length) { tb.innerHTML = '<tr><td colspan="8" class="no-data">Brak danych</td></tr>'; return; }
+  if (!data.length) { tb.innerHTML = '<tr><td colspan="9" class="no-data">Brak danych</td></tr>'; return; }
   tb.innerHTML = data.map((d,i) => `<tr>
+    <td class="tbl-check"><input type="checkbox" class="doc-sel" data-id="${d.id}" data-type="z" onchange="updateBulkBar('zakup')"></td>
     <td class="lp-col">${i+1}</td>
     <td>${esc(d.kontrahent)||'—'}</td>
     <td>${esc(d.numerDokumentu)||'—'}</td>
@@ -955,6 +1267,7 @@ function renderTableZakup(data) {
     <td>${d.rejestr||'Zakup'}</td>
     <td class="tbl-actions">
       <button class="btn-ta" title="Uzupełnij AI" onclick="startAIForDoc('${d.id}','z')">🤖</button>
+      <button class="btn-ta" title="Uzupełnij ręcznie" onclick="startManualEntry('zakup','${d.id}')">✏️</button>
       <button class="btn-ta" title="Pobierz" onclick="dlFile('${d.id}','z')">📥</button>
       <button class="btn-ta btn-ta-del" title="Usuń" onclick="delFile('${d.id}','z')">🗑️</button>
     </td>
@@ -962,8 +1275,9 @@ function renderTableZakup(data) {
 }
 function renderTableSprzedazy(data) {
   const tb = document.getElementById('summarySprzedazyTable');
-  if (!data.length) { tb.innerHTML = '<tr><td colspan="8" class="no-data">Brak danych</td></tr>'; return; }
+  if (!data.length) { tb.innerHTML = '<tr><td colspan="9" class="no-data">Brak danych</td></tr>'; return; }
   tb.innerHTML = data.map((d,i) => `<tr>
+    <td class="tbl-check"><input type="checkbox" class="doc-sel" data-id="${d.id}" data-type="s" onchange="updateBulkBar('sprzedazy')"></td>
     <td class="lp-col">${i+1}</td>
     <td>${esc(d.kontrahent)||'—'}</td>
     <td>${esc(d.numerDokumentu)||'—'}</td>
@@ -973,6 +1287,7 @@ function renderTableSprzedazy(data) {
     <td>${d.rejestr||'Sprzedaż'}</td>
     <td class="tbl-actions">
       <button class="btn-ta" title="Uzupełnij AI" onclick="startAIForDoc('${d.id}','s')">🤖</button>
+      <button class="btn-ta" title="Uzupełnij ręcznie" onclick="startManualEntry('sprzedazy','${d.id}')">✏️</button>
       <button class="btn-ta" title="Pobierz" onclick="dlFile('${d.id}','s')">📥</button>
       <button class="btn-ta btn-ta-del" title="Usuń" onclick="delFile('${d.id}','s')">🗑️</button>
     </td>
@@ -1805,6 +2120,257 @@ function clearChat() {
 }
 
 // ═══════════════════════════════════════════════════════════
+// ROLE SELECTION
+// ═══════════════════════════════════════════════════════════
+function selectRole(role) {
+  document.getElementById('roleClientCard').classList.toggle('selected', role === 'client');
+  document.getElementById('roleEmployeeCard').classList.toggle('selected', role === 'employee');
+  document.querySelectorAll('input[name="regRole"]').forEach(r => { r.checked = r.value === role; });
+}
+
+// ═══════════════════════════════════════════════════════════
+// EMAIL VERIFICATION
+// ═══════════════════════════════════════════════════════════
+let pendingUser = null;
+let verifyCode  = null;
+
+function verifyDigitInput(el, idx) {
+  el.value = el.value.replace(/[^0-9]/g, '');
+  const inputs = document.querySelectorAll('.verify-digits input');
+  if (el.value && idx < 5) inputs[idx + 1].focus();
+  const all = Array.from(inputs).map(i => i.value).join('');
+  if (all.length === 6) setTimeout(doVerify, 200);
+}
+function verifyKeyDown(e, idx) {
+  if (e.key === 'Backspace' && !e.target.value && idx > 0)
+    document.querySelectorAll('.verify-digits input')[idx - 1].focus();
+}
+function doVerify() {
+  const inputs  = document.querySelectorAll('.verify-digits input');
+  const entered = Array.from(inputs).map(i => i.value).join('');
+  if (entered.length < 6) { showAuthMsg('verifyMsg', 'Wpisz pełny 6-cyfrowy kod.'); return; }
+  if (entered !== verifyCode) {
+    showAuthMsg('verifyMsg', '❌ Nieprawidłowy kod. Spróbuj ponownie.');
+    inputs.forEach(i => { i.value = ''; });
+    inputs[0].focus();
+    return;
+  }
+  const users = getUsers();
+  saveUsers([...users, pendingUser]);
+  const savedEmail = pendingUser.email;
+  pendingUser = null; verifyCode = null;
+  showAuthMsg('verifyMsg', '✅ Konto potwierdzone! Możesz się zalogować.', true);
+  setTimeout(() => {
+    document.getElementById('authVerifyScreen').style.display = 'none';
+    document.getElementById('loginEmail').value = savedEmail;
+    switchAuthTab('login');
+  }, 1500);
+}
+function backToRegister() {
+  document.getElementById('authVerifyScreen').style.display = 'none';
+  document.getElementById('authRegisterForm').style.display = '';
+  document.getElementById('verifyMsg').style.display = 'none';
+  pendingUser = null; verifyCode = null;
+}
+
+// ═══════════════════════════════════════════════════════════
+// THREE-DOTS MENU
+// ═══════════════════════════════════════════════════════════
+function toggleDots(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('dotsDropdown').classList.toggle('open');
+}
+document.addEventListener('click', () => { document.getElementById('dotsDropdown')?.classList.remove('open'); });
+
+function openKonto() {
+  if (!currentUser) return;
+  document.getElementById('kontoName').textContent  = `${currentUser.firstName} ${currentUser.lastName}`;
+  document.getElementById('kontoEmail').textContent = currentUser.email;
+  document.getElementById('kontoRole').textContent  = currentUser.role === 'client' ? '🏢 Klient biura' : '👨‍💼 Pracownik biura';
+  document.getElementById('kontoMsg').style.display = 'none';
+  document.getElementById('kontoNewPass').value = '';
+  document.getElementById('kontoNewPassConfirm').value = '';
+  document.getElementById('kontoModal').classList.add('open');
+}
+function saveKonto() {
+  const np  = document.getElementById('kontoNewPass').value;
+  const np2 = document.getElementById('kontoNewPassConfirm').value;
+  if (!np)            { showAuthMsg('kontoMsg', 'Wpisz nowe hasło.');              return; }
+  if (np.length < 6)  { showAuthMsg('kontoMsg', 'Hasło min. 6 znaków.');           return; }
+  if (np !== np2)     { showAuthMsg('kontoMsg', 'Hasła nie są identyczne.');        return; }
+  const users = getUsers();
+  const idx   = users.findIndex(u => u.id === currentUser.id);
+  if (idx < 0) return;
+  users[idx].passwordHash = simpleHash(np);
+  saveUsers(users);
+  showAuthMsg('kontoMsg', '✅ Hasło zmienione!', true);
+}
+function openOferta() {
+  document.getElementById('ofertaModal').classList.add('open');
+}
+
+// ═══════════════════════════════════════════════════════════
+// CHECKBOXES / BULK
+// ═══════════════════════════════════════════════════════════
+function selectAll(type, checked) {
+  const tbId = type === 'zakup' ? 'summaryZakupTable' : 'summarySprzedazyTable';
+  document.querySelectorAll(`#${tbId} .doc-sel`).forEach(cb => { cb.checked = checked; });
+  updateBulkBar(type);
+}
+function getSelected(type) {
+  const tbId = type === 'zakup' ? 'summaryZakupTable' : 'summarySprzedazyTable';
+  return Array.from(document.querySelectorAll(`#${tbId} .doc-sel:checked`)).map(cb => cb.dataset.id);
+}
+function updateBulkBar(type) {
+  const ids     = getSelected(type);
+  const barId   = type === 'zakup' ? 'bulkBarZakup'   : 'bulkBarSprzedazy';
+  const countId = type === 'zakup' ? 'bulkCountZakup' : 'bulkCountSprzedazy';
+  const selAllId = type === 'zakup' ? 'selAllZakup' : 'selAllSprzedazy';
+  document.getElementById(barId).classList.toggle('visible', ids.length > 0);
+  document.getElementById(countId).textContent = `${ids.length} zaznaczonych`;
+  const allCbs = document.querySelectorAll(`#${type === 'zakup' ? 'summaryZakupTable' : 'summarySprzedazyTable'} .doc-sel`);
+  const selAllEl = document.getElementById(selAllId);
+  if (selAllEl) selAllEl.checked = allCbs.length > 0 && ids.length === allCbs.length;
+}
+function clearSelection(type) {
+  const selAllId = type === 'zakup' ? 'selAllZakup' : 'selAllSprzedazy';
+  const el = document.getElementById(selAllId);
+  if (el) el.checked = false;
+  selectAll(type, false);
+}
+function bulkDelete(type) {
+  const ids = getSelected(type);
+  if (!ids.length) return;
+  if (!confirm(`Usunąć ${ids.length} zaznaczonych dokumentów?`)) return;
+  if (type === 'zakup') {
+    ids.forEach(id => { dokumentyZakup = dokumentyZakup.filter(d => String(d.id) !== id); });
+    localStorage.setItem(dataKey('dokumentyZakup'), JSON.stringify(dokumentyZakup));
+    applyFiltersZakup();
+  } else {
+    ids.forEach(id => { dokumentySprzedazy = dokumentySprzedazy.filter(d => String(d.id) !== id); });
+    localStorage.setItem(dataKey('dokumentySprzedazy'), JSON.stringify(dokumentySprzedazy));
+    applyFiltersSprzedazy();
+  }
+  clearSelection(type);
+}
+function bulkExportXML(type) {
+  const ids = getSelected(type);
+  if (!ids.length) { alert('Nie zaznaczono żadnych dokumentów.'); return; }
+  const orig     = type === 'zakup' ? dokumentyZakup : dokumentySprzedazy;
+  const filtered = orig.filter(d => ids.includes(String(d.id)));
+  if (type === 'zakup') {
+    dokumentyZakup = filtered; exportOptimaXML('zakup'); dokumentyZakup = orig;
+  } else {
+    dokumentySprzedazy = filtered; exportOptimaXML('sprzedazy'); dokumentySprzedazy = orig;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// MANUAL ENTRY (open AI form with existing or empty data)
+// ═══════════════════════════════════════════════════════════
+function startManualEntry(type, docId) {
+  aiCurrentType  = type === 'zakup' ? 'zakup' : 'sprzedazy';
+  aiCurrentFile  = null;
+  aiCurrentDocId = docId || null;
+  let data = {};
+  if (docId) {
+    const arr   = type === 'zakup' ? dokumentyZakup : dokumentySprzedazy;
+    const found = arr.find(d => String(d.id) === String(docId));
+    if (found) data = found;
+  }
+  document.getElementById('aiPanel').classList.add('open');
+  renderAIForm(data);
+}
+
+// ═══════════════════════════════════════════════════════════
+// CLIENT APP
+// ═══════════════════════════════════════════════════════════
+let clientDocsZakup = [], clientDocsSprzedazy = [], clientDocsWyciagi = [];
+
+function initClientApp() {
+  clientDocsZakup     = JSON.parse(localStorage.getItem(dataKey('clientDocsZakup'))     || '[]');
+  clientDocsSprzedazy = JSON.parse(localStorage.getItem(dataKey('clientDocsSprzedazy')) || '[]');
+  clientDocsWyciagi   = JSON.parse(localStorage.getItem(dataKey('clientDocsWyciagi'))   || '[]');
+  const fi = JSON.parse(localStorage.getItem(dataKey('clientFirma')) || '{}');
+  ['nip','nazwa','adres','telefon','email','uwagi'].forEach(k => {
+    const el = document.getElementById('cf' + k.charAt(0).toUpperCase() + k.slice(1));
+    if (el && fi[k]) el.value = fi[k];
+  });
+  updateClientStats();
+  renderClientFiles('zakup');
+  renderClientFiles('sprzedazy');
+  renderClientFiles('wyciagi');
+  switchClientTab('home');
+}
+function switchClientTab(tab) {
+  document.querySelectorAll('.c-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.client-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('ctab-' + tab).classList.add('active');
+  document.getElementById('cp-' + tab).classList.add('active');
+}
+function updateClientStats() {
+  const ids = ['cStatZakup','cStatSprzedazy','cStatWyciagi'];
+  const vals = [clientDocsZakup.length, clientDocsSprzedazy.length, clientDocsWyciagi.length];
+  ids.forEach((id, i) => { const el = document.getElementById(id); if (el) el.textContent = vals[i]; });
+}
+function clientUpload(input, type) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  input.value = '';
+  const arr = type === 'zakup' ? clientDocsZakup : type === 'sprzedazy' ? clientDocsSprzedazy : clientDocsWyciagi;
+  let done = 0;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      arr.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), name: file.name, size: file.size, dataUrl: e.target.result, added: new Date().toLocaleDateString('pl-PL') });
+      if (++done === files.length) { saveClientDocs(type); updateClientStats(); renderClientFiles(type); }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function saveClientDocs(type) {
+  const map = { zakup:'clientDocsZakup', sprzedazy:'clientDocsSprzedazy', wyciagi:'clientDocsWyciagi' };
+  const arr = type === 'zakup' ? clientDocsZakup : type === 'sprzedazy' ? clientDocsSprzedazy : clientDocsWyciagi;
+  localStorage.setItem(dataKey(map[type]), JSON.stringify(arr));
+}
+function clientDelFile(type, id) {
+  if (!confirm('Usunąć ten plik?')) return;
+  if      (type === 'zakup')     clientDocsZakup     = clientDocsZakup.filter(f => f.id !== id);
+  else if (type === 'sprzedazy') clientDocsSprzedazy = clientDocsSprzedazy.filter(f => f.id !== id);
+  else                           clientDocsWyciagi   = clientDocsWyciagi.filter(f => f.id !== id);
+  saveClientDocs(type); updateClientStats(); renderClientFiles(type);
+}
+function clientDlFile(dataUrl, name) {
+  const a = document.createElement('a'); a.href = dataUrl; a.download = name; a.click();
+}
+function renderClientFiles(type) {
+  const gridId = type === 'zakup' ? 'cgridZakup' : type === 'sprzedazy' ? 'cgridSprzedazy' : 'cgridWyciagi';
+  const arr    = type === 'zakup' ? clientDocsZakup : type === 'sprzedazy' ? clientDocsSprzedazy : clientDocsWyciagi;
+  const grid   = document.getElementById(gridId);
+  if (!grid) return;
+  if (!arr.length) { grid.innerHTML = '<div style="color:rgba(255,255,255,.35);font-size:.86em;padding:8px 0;">Brak przesłanych dokumentów.</div>'; return; }
+  const icon = n => isImage(n) ? '🖼️' : isPDF(n) ? '📕' : '📄';
+  const fmtSz = s => s > 1048576 ? (s/1048576).toFixed(1)+' MB' : (s/1024).toFixed(0)+' KB';
+  grid.innerHTML = arr.map(f => `<div class="c-file-card">
+    <div class="cfc-icon">${icon(f.name)}</div>
+    <div class="cfc-name">${esc(f.name)}</div>
+    <div class="cfc-meta">${f.added} · ${fmtSz(f.size)}</div>
+    <div class="cfc-btns">
+      <button class="cfc-dl" onclick="clientDlFile(\`${f.dataUrl}\`,\`${esc(f.name)}\`)">📥 Pobierz</button>
+      <button class="cfc-rm" onclick="clientDelFile('${type}','${f.id}')">🗑️</button>
+    </div>
+  </div>`).join('');
+}
+function saveClientFirma() {
+  const fi = {};
+  ['Nip','Nazwa','Adres','Telefon','Email','Uwagi'].forEach(k => {
+    const el = document.getElementById('cf'+k); if (el) fi[k.toLowerCase()] = el.value;
+  });
+  localStorage.setItem(dataKey('clientFirma'), JSON.stringify(fi));
+  alert('✅ Dane firmy zapisane!');
+}
+
+// ═══════════════════════════════════════════════════════════
 // AUTH SYSTEM
 // ═══════════════════════════════════════════════════════════
 function simpleHash(str) {
@@ -1845,26 +2411,43 @@ function doRegister() {
   const email     = (document.getElementById('regEmail').value     || '').trim().toLowerCase();
   const pass      =  document.getElementById('regPassword').value;
   const passConf  =  document.getElementById('regPasswordConfirm').value;
+  const roleEl    =  document.querySelector('input[name="regRole"]:checked');
+  const role      =  roleEl ? roleEl.value : 'client';
   if (!firstName || !lastName)  { showAuthMsg('registerMsg', 'Podaj imię i nazwisko.'); return; }
   if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) { showAuthMsg('registerMsg', 'Podaj poprawny adres e-mail.'); return; }
   if (pass.length < 6)          { showAuthMsg('registerMsg', 'Hasło musi mieć minimum 6 znaków.'); return; }
   if (pass !== passConf)        { showAuthMsg('registerMsg', 'Hasła nie są identyczne.'); return; }
   const users = getUsers();
   if (users.find(u => u.email === email)) { showAuthMsg('registerMsg', 'Konto z tym e-mailem już istnieje.'); return; }
-  const user = { id: Date.now().toString(36), email, passwordHash: simpleHash(pass), firstName, lastName };
-  saveUsers([...users, user]);
-  showAuthMsg('registerMsg', '✅ Konto utworzone! Za chwilę przejdziesz do logowania…', true);
-  document.getElementById('loginEmail').value = email;
-  setTimeout(() => switchAuthTab('login'), 2000);
+  pendingUser = { id: Date.now().toString(36), email, passwordHash: simpleHash(pass), firstName, lastName, role };
+  verifyCode  = String(Math.floor(100000 + Math.random() * 900000));
+  document.getElementById('authRegisterForm').style.display = 'none';
+  document.getElementById('authVerifyScreen').style.display = '';
+  document.getElementById('verifyEmailDisplay').textContent = email;
+  document.getElementById('verifyCodeDisplay').textContent  = verifyCode;
+  document.getElementById('verifyMsg').style.display = 'none';
+  document.querySelectorAll('.verify-digits input').forEach(i => { i.value = ''; });
+  setTimeout(() => document.querySelectorAll('.verify-digits input')[0].focus(), 80);
 }
 
 function loginSuccess(user) {
   currentUser = user;
-  localStorage.setItem('nexo_session', JSON.stringify({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName }));
-  document.getElementById('authOverlay').style.display = 'none';
-  document.getElementById('sidebarUser').textContent = `👤 ${user.firstName} ${user.lastName}`;
+  localStorage.setItem('nexo_session', JSON.stringify({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role }));
   loadUserData();
-  initApp();
+  document.getElementById('authOverlay').style.display = 'none';
+  if (user.role === 'client') {
+    document.querySelector('.sidebar').style.display      = 'none';
+    document.querySelector('.main-content').style.display = 'none';
+    document.querySelector('footer').style.display        = 'none';
+    document.getElementById('dotsBtn').style.display      = 'none';
+    document.getElementById('dotsDropdown').style.display = 'none';
+    document.getElementById('clientApp').style.display    = 'flex';
+    document.getElementById('clientUserName').textContent = `👤 ${user.firstName} ${user.lastName}`;
+    initClientApp();
+  } else {
+    document.getElementById('sidebarUser').textContent = `👤 ${user.firstName} ${user.lastName}`;
+    initApp();
+  }
 }
 
 function doLogout() {
