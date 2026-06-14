@@ -153,15 +153,27 @@
     .ai-banner-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(123,31,162,.6); }
 
     /* ── SUMMARY TABLE ───────────────────────────────────────── */
-    .summary-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 25px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); overflow-x: auto; }
-    .summary-table { width: 100%; border-collapse: collapse; }
+    .summary-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 16px 12px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); overflow-x: auto; }
+    .summary-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
     .summary-table thead { background: linear-gradient(135deg,rgba(100,181,246,.25),rgba(100,181,246,.12)); }
-    .summary-table th { padding: 14px 14px; text-align: left; color: #90caf9; font-weight: 700; border-bottom: 2px solid rgba(100,181,246,.35); white-space: nowrap; font-size: .88em; text-transform: uppercase; letter-spacing: .5px; }
+    .summary-table th { padding: 8px 5px; text-align: left; color: #90caf9; font-weight: 700; border-bottom: 2px solid rgba(100,181,246,.35); white-space: nowrap; font-size: .76em; text-transform: uppercase; letter-spacing: .3px; overflow: hidden; text-overflow: ellipsis; }
+    .summary-table colgroup .col-chk   { width: 32px; }
+    .summary-table colgroup .col-lp    { width: 30px; }
+    .summary-table colgroup .col-kont  { width: 13%; }
+    .summary-table colgroup .col-nr    { width: 9%; }
+    .summary-table colgroup .col-dwpl  { width: 7%; }
+    .summary-table colgroup .col-dwyst { width: 7%; }
+    .summary-table colgroup .col-kwota { width: 8%; }
+    .summary-table colgroup .col-term  { width: 7%; }
+    .summary-table colgroup .col-stat  { width: 10%; }
+    .summary-table colgroup .col-kat   { width: 9%; }
+    .summary-table colgroup .col-rej   { width: 9%; }
+    .summary-table colgroup .col-act   { width: 11%; }
     .summary-table tbody tr { border-left: 3px solid transparent; transition: background .15s, border-color .15s; }
     .summary-table tbody tr:nth-child(odd)  { background: rgba(255,255,255,.04); }
     .summary-table tbody tr:nth-child(even) { background: rgba(255,255,255,.015); }
     .summary-table tbody tr:hover { background: rgba(100,181,246,.1); border-left-color: #64b5f6; }
-    .summary-table td { padding: 13px 14px; border-bottom: 1px solid rgba(255,255,255,.07); white-space: nowrap; font-size: .93em; color: rgba(255,255,255,.9); }
+    .summary-table td { padding: 8px 5px; border-bottom: 1px solid rgba(255,255,255,.07); white-space: nowrap; font-size: .83em; color: rgba(255,255,255,.9); overflow: hidden; text-overflow: ellipsis; }
     .td-kwota { color: #a5d6a7; font-weight: 700; font-size: .97em; }
     .td-kontrahent { font-weight: 600; color: white; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
     .td-rejestr { display: inline-block; padding: 2px 9px; border-radius: 12px; font-size: .77em; font-weight: 700; background: rgba(100,181,246,.18); color: #90caf9; }
@@ -352,12 +364,44 @@
     .verify-back { background:none; border:none; color:rgba(255,255,255,.4); cursor:pointer; font-size:.83em; margin-top:10px; text-decoration:underline; }
 
     /* ── ROLE CARDS ───────────────────────────────────────── */
-    .role-row { display:flex; gap:10px; margin-bottom:18px; }
-    .role-card { flex:1; border:2px solid rgba(255,255,255,.13); border-radius:12px; padding:14px 10px; text-align:center; cursor:pointer; transition:all .2s; user-select:none; }
+    .role-row { display:flex; gap:8px; margin-bottom:14px; }
+    .role-card { flex:1; border:2px solid rgba(255,255,255,.13); border-radius:12px; padding:11px 8px; text-align:center; cursor:pointer; transition:all .2s; user-select:none; }
     .role-card:hover { border-color:rgba(100,181,246,.5); background:rgba(100,181,246,.06); }
     .role-card input[type=radio] { display:none; }
     .role-card.selected { border-color:#64b5f6; background:rgba(100,181,246,.1); }
-    .rc-icon { font-size:1.55em; margin-bottom:5px; }
+    .role-card.owner-card.selected { border-color:#ce93d8; background:rgba(206,147,216,.1); }
+    .rc-icon { font-size:1.4em; margin-bottom:4px; }
+    .rc-label { font-size:.82em; font-weight:700; margin-bottom:2px; }
+    .rc-desc { font-size:.68em; color:rgba(255,255,255,.45); line-height:1.3; }
+    /* company field in register */
+    .reg-company-field { display:none; animation: fadeInDown .2s; }
+    @keyframes fadeInDown { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+    /* pending waiting screen */
+    .pending-box { text-align:center; padding:20px 10px; }
+    .pending-box h3 { font-size:1.2em; margin-bottom:10px; color:#ffcc80; }
+    .pending-box p { font-size:.86em; color:rgba(255,255,255,.6); line-height:1.6; margin-bottom:14px; }
+    .pending-badge { display:inline-block; background:rgba(239,83,80,.18); border:1px solid rgba(239,83,80,.35); color:#ef9a9a; border-radius:20px; padding:4px 14px; font-size:.78em; font-weight:700; margin-bottom:14px; }
+    /* owner pracownicy page */
+    .prac-page { padding:20px 30px; }
+    .prac-section { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:20px; margin-bottom:20px; }
+    .prac-section h3 { font-size:1em; color:#90caf9; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+    .prac-pending-badge { background:rgba(239,83,80,.25); color:#ef9a9a; border-radius:12px; padding:2px 8px; font-size:.75em; font-weight:700; }
+    .prac-card { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:rgba(255,255,255,.05); border-radius:10px; margin-bottom:8px; border:1px solid rgba(255,255,255,.1); }
+    .prac-card:last-child { margin-bottom:0; }
+    .prac-info { flex:1; }
+    .prac-name { font-weight:700; font-size:.95em; color:white; }
+    .prac-meta { font-size:.78em; color:rgba(255,255,255,.45); margin-top:2px; }
+    .prac-btns { display:flex; gap:6px; }
+    .btn-approve { background:rgba(165,214,167,.2); border:1px solid rgba(165,214,167,.4); color:#a5d6a7; border-radius:8px; padding:6px 14px; font-size:.8em; font-weight:700; cursor:pointer; transition:.15s; }
+    .btn-approve:hover { background:rgba(165,214,167,.35); }
+    .btn-reject { background:rgba(239,83,80,.15); border:1px solid rgba(239,83,80,.35); color:#ef9a9a; border-radius:8px; padding:6px 14px; font-size:.8em; font-weight:700; cursor:pointer; transition:.15s; }
+    .btn-reject:hover { background:rgba(239,83,80,.28); }
+    .btn-view-emp { background:rgba(100,181,246,.15); border:1px solid rgba(100,181,246,.3); color:#90caf9; border-radius:8px; padding:6px 12px; font-size:.78em; font-weight:700; cursor:pointer; transition:.15s; }
+    .btn-view-emp:hover { background:rgba(100,181,246,.28); }
+    .prac-docs-panel { background:rgba(0,0,0,.3); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:16px; margin-top:16px; }
+    .prac-docs-panel h4 { color:#64b5f6; font-size:.92em; margin-bottom:10px; }
+    .owner-notif { display:inline-flex; align-items:center; justify-content:center; background:#ef5350; color:white; border-radius:50%; width:17px; height:17px; font-size:.65em; font-weight:800; margin-left:5px; vertical-align:middle; animation:pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
     .rc-label { font-size:.81em; font-weight:700; color:rgba(255,255,255,.85); }
     .rc-desc { font-size:.72em; color:rgba(255,255,255,.42); margin-top:3px; }
 
@@ -470,10 +514,10 @@
     .ai-error-box p { margin-bottom: 20px; color: rgba(255,255,255,.6); font-size: .9em; }
 
     /* two-column panel layout */
-    .ai-body-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
-    .ai-doc-preview { position: sticky; top: 20px; background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; }
+    .ai-body-layout { display: grid; grid-template-columns: 62fr 38fr; gap: 20px; align-items: stretch; }
+    .ai-doc-preview { position: sticky; top: 20px; background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; }
     .ai-preview-img-wrap { flex: 1; min-height: 0; display: flex; align-items: stretch; }
-    .ai-doc-preview img { width: 100%; height: calc(100vh - 175px); border-radius: 8px; object-fit: contain; object-position: top center; display: block; cursor: zoom-in; }
+    .ai-doc-preview img { width: 100%; height: calc(100vh - 120px); border-radius: 8px; object-fit: contain; object-position: top center; display: block; cursor: zoom-in; }
     .ai-preview-img-wrap { flex: 1; min-height: 0; }
     /* VAT rate buttons */
     .vat-rate-btn { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); color: rgba(255,255,255,.65); border-radius: 8px; padding: 7px 14px; font-size: .88em; font-weight: 600; cursor: pointer; transition: .15s; }
@@ -633,9 +677,18 @@
         <label class="role-card" id="roleEmployeeCard" onclick="selectRole('employee')">
           <input type="radio" name="regRole" value="employee">
           <div class="rc-icon">👨‍💼</div>
-          <div class="rc-label">Pracownik biura</div>
-          <div class="rc-desc">Zarządzam i księguję dokumenty</div>
+          <div class="rc-label">Pracownik firmy</div>
+          <div class="rc-desc">Dołączam do firmy właściciela</div>
         </label>
+        <label class="role-card owner-card" id="roleOwnerCard" onclick="selectRole('owner')">
+          <input type="radio" name="regRole" value="owner">
+          <div class="rc-icon">👑</div>
+          <div class="rc-label">Właściciel firmy</div>
+          <div class="rc-desc">Zarządzam firmą i pracownikami</div>
+        </label>
+      </div>
+      <div class="reg-company-field" id="regCompanyField">
+        <div class="auth-field"><label id="regCompanyLabel">Nazwa firmy</label><input type="text" id="regCompanyName" placeholder="np. ACME Sp. z o.o."></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div class="auth-field"><label>Imię</label><input type="text" id="regFirstName" placeholder="Jan"></div>
@@ -646,6 +699,14 @@
       <div class="auth-field"><label>Potwierdź hasło</label><input type="password" id="regPasswordConfirm" placeholder="powtórz hasło" onkeydown="if(event.key==='Enter')doRegister()"></div>
       <div id="registerMsg" style="display:none"></div>
       <button class="auth-submit" onclick="doRegister()">Dalej →</button>
+    </div>
+
+    <!-- OCZEKIWANIE NA ZATWIERDZENIE -->
+    <div id="authPendingScreen" style="display:none" class="pending-box">
+      <div style="font-size:2.2em;margin-bottom:10px;">⏳</div>
+      <h3>Konto oczekuje zatwierdzenia</h3>
+      <p>Twoje zgłoszenie zostało wysłane do właściciela firmy<br><strong id="pendingCompanyName" style="color:#90caf9;"></strong><br><br>Właściciel musi zalogować się i zaakceptować Twoje konto w zakładce <strong>Pracownicy</strong>. Po zatwierdzeniu będziesz mógł się zalogować.</p>
+      <button class="verify-back" onclick="backFromPending()">← Wróć do logowania</button>
     </div>
 
     <!-- WERYFIKACJA E-MAIL -->
@@ -724,6 +785,7 @@
     <li><a href="#" class="menu-link" data-page="raporty">📊 Raporty</a></li>
     <li><a href="#" class="menu-link" data-page="kontrahenci">👥 Kontrahenci</a></li>
     <li><a href="#" class="menu-link" data-page="kadry">👤 Kadry</a></li>
+    <li id="pracownicyMenuItem" style="display:none"><a href="#" class="menu-link" data-page="pracownicy">👥 Pracownicy <span class="owner-notif" id="pracownicyBadge" style="display:none">!</span></a></li>
   </ul>
   <button class="sidebar-api-btn" onclick="openApiKeyModal()">
     <span class="api-dot" id="apiDot"></span>Klucz API OpenRouter
@@ -936,16 +998,21 @@
         <!-- TABLE -->
         <div class="summary-section">
           <table class="summary-table">
+            <colgroup>
+              <col class="col-chk"><col class="col-lp"><col class="col-kont"><col class="col-nr">
+              <col class="col-dwpl"><col class="col-dwyst"><col class="col-kwota"><col class="col-term">
+              <col class="col-stat"><col class="col-kat"><col class="col-rej"><col class="col-act">
+            </colgroup>
             <thead>
               <tr>
                 <th class="tbl-check"><input type="checkbox" id="selAllZakup" onchange="selectAll('zakup',this.checked)" title="Zaznacz wszystkie"></th>
-                <th class="sortable" id="thZakupLp" onclick="sortTable('zakup','lp')">Lp <span class="si">⇅</span></th>
-                <th class="sortable" id="thZakupKontrahent" onclick="sortTable('zakup','kontrahent')">Kontrahent <span class="si">⇅</span></th>
-                <th class="sortable" id="thZakupNrDok" onclick="sortTable('zakup','numerDokumentu')">Nr dokumentu <span class="si">⇅</span></th>
-                <th class="sortable" id="thZakupDataWplywu" onclick="sortTable('zakup','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
-                <th class="sortable" id="thZakupDataWyst" onclick="sortTable('zakup','dataWystawienia')">Data wystawienia <span class="si">⇅</span></th>
-                <th class="sortable" id="thZakupKwota" onclick="sortTable('zakup','kwotaBrutto')">Kwota brutto <span class="si">⇅</span></th>
-                <th>Termin płatn.</th><th>Status</th><th>Kategoria</th><th>Rejestr</th><th>Akcje</th>
+                <th class="sortable" id="thZakupLp" onclick="sortTable('zakup','lp')">Lp⇅</th>
+                <th class="sortable" id="thZakupKontrahent" onclick="sortTable('zakup','kontrahent')">Kontrahent⇅</th>
+                <th class="sortable" id="thZakupNrDok" onclick="sortTable('zakup','numerDokumentu')">Nr dok.⇅</th>
+                <th class="sortable" id="thZakupDataWplywu" onclick="sortTable('zakup','dataWplywu')">Wpływ⇅</th>
+                <th class="sortable" id="thZakupDataWyst" onclick="sortTable('zakup','dataWystawienia')">Wystaw.⇅</th>
+                <th class="sortable" id="thZakupKwota" onclick="sortTable('zakup','kwotaBrutto')">Brutto⇅</th>
+                <th>Termin</th><th>Status</th><th>Kategoria</th><th>Rejestr</th><th>Akcje</th>
               </tr>
             </thead>
             <tbody id="summaryZakupTable">
@@ -1047,16 +1114,21 @@
         <!-- TABLE -->
         <div class="summary-section">
           <table class="summary-table">
+            <colgroup>
+              <col class="col-chk"><col class="col-lp"><col class="col-kont"><col class="col-nr">
+              <col class="col-dwpl"><col class="col-dwyst"><col class="col-kwota"><col class="col-term">
+              <col class="col-stat"><col class="col-kat"><col class="col-rej"><col class="col-act">
+            </colgroup>
             <thead>
               <tr>
                 <th class="tbl-check"><input type="checkbox" id="selAllSprzedazy" onchange="selectAll('sprzedazy',this.checked)" title="Zaznacz wszystkie"></th>
-                <th class="sortable" id="thSprzLp" onclick="sortTable('sprzedazy','lp')">Lp <span class="si">⇅</span></th>
-                <th class="sortable" id="thSprzKontrahent" onclick="sortTable('sprzedazy','kontrahent')">Kontrahent <span class="si">⇅</span></th>
-                <th class="sortable" id="thSprzNrDok" onclick="sortTable('sprzedazy','numerDokumentu')">Nr dokumentu <span class="si">⇅</span></th>
-                <th class="sortable" id="thSprzDataWplywu" onclick="sortTable('sprzedazy','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
-                <th class="sortable" id="thSprzDataWyst" onclick="sortTable('sprzedazy','dataWystawienia')">Data wystawienia <span class="si">⇅</span></th>
-                <th class="sortable" id="thSprzKwota" onclick="sortTable('sprzedazy','kwotaBrutto')">Kwota brutto <span class="si">⇅</span></th>
-                <th>Termin płatn.</th><th>Status</th><th>Kategoria</th><th>Rejestr</th><th>Akcje</th>
+                <th class="sortable" id="thSprzLp" onclick="sortTable('sprzedazy','lp')">Lp⇅</th>
+                <th class="sortable" id="thSprzKontrahent" onclick="sortTable('sprzedazy','kontrahent')">Kontrahent⇅</th>
+                <th class="sortable" id="thSprzNrDok" onclick="sortTable('sprzedazy','numerDokumentu')">Nr dok.⇅</th>
+                <th class="sortable" id="thSprzDataWplywu" onclick="sortTable('sprzedazy','dataWplywu')">Wpływ⇅</th>
+                <th class="sortable" id="thSprzDataWyst" onclick="sortTable('sprzedazy','dataWystawienia')">Wystaw.⇅</th>
+                <th class="sortable" id="thSprzKwota" onclick="sortTable('sprzedazy','kwotaBrutto')">Brutto⇅</th>
+                <th>Termin</th><th>Status</th><th>Kategoria</th><th>Rejestr</th><th>Akcje</th>
               </tr>
             </thead>
             <tbody id="summarySprzedazyTable">
@@ -1201,6 +1273,37 @@
             <tbody id="kdTableBody"><tr><td colspan="7" class="kr-no-data">Brak pracowników</td></tr></tbody>
           </table>
         </div>
+      </div>
+    </div>
+
+    <!-- ═══════ PRACOWNICY FIRMY (tylko dla właściciela) ═══════ -->
+    <div class="page" id="pracownicy">
+      <h2 class="page-title">👥 Pracownicy firmy</h2>
+      <div class="prac-page">
+
+        <!-- Oczekujące zgłoszenia -->
+        <div class="prac-section" id="pracPendingSection">
+          <h3>⏳ Oczekujące zgłoszenia <span class="prac-pending-badge" id="pracPendingCount">0</span></h3>
+          <div id="pracPendingList"><p style="color:rgba(255,255,255,.4);font-size:.88em;">Brak oczekujących zgłoszeń.</p></div>
+        </div>
+
+        <!-- Lista pracowników -->
+        <div class="prac-section">
+          <h3>✅ Pracownicy firmy</h3>
+          <div id="pracEmployeeList"><p style="color:rgba(255,255,255,.4);font-size:.88em;">Brak zatwierdzonych pracowników.</p></div>
+        </div>
+
+        <!-- Dokumenty wybranego pracownika -->
+        <div class="prac-docs-panel" id="pracDocsPanel" style="display:none">
+          <h4 id="pracDocsPanelTitle">Dokumenty pracownika</h4>
+          <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+            <button onclick="showEmpDocs('zakup')"  id="empTabZakup"  style="border:1px solid rgba(100,181,246,.4);background:rgba(100,181,246,.15);color:#90caf9;border-radius:8px;padding:6px 14px;font-size:.82em;cursor:pointer;">📄 Faktury Zakupu</button>
+            <button onclick="showEmpDocs('sprzedazy')" id="empTabSprz" style="border:1px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);border-radius:8px;padding:6px 14px;font-size:.82em;cursor:pointer;">📋 Faktury Sprzedaży</button>
+            <button onclick="showEmpDocs('wyciagi')"   id="empTabWyc"  style="border:1px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);border-radius:8px;padding:6px 14px;font-size:.82em;cursor:pointer;">🏦 Wyciągi</button>
+          </div>
+          <div id="empDocsContent"></div>
+        </div>
+
       </div>
     </div>
 
@@ -1363,7 +1466,10 @@ document.querySelectorAll('.menu-link').forEach(link => {
     document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     link.classList.add('active');
-    document.getElementById(link.dataset.page).classList.add('active');
+    const pg = link.dataset.page;
+    const el = document.getElementById(pg + '-page') || document.getElementById(pg);
+    if (el) el.classList.add('active');
+    if (pg === 'pracownicy') renderPracownicy();
   });
 });
 
@@ -1636,6 +1742,7 @@ function navigateTo(pageId) {
   if (link) link.classList.add('active');
   const page = document.getElementById(pageId + '-page') || document.getElementById(pageId);
   if (page) page.classList.add('active');
+  if (pageId === 'pracownicy') renderPracownicy();
 }
 function applyFiltersWyciagi() {
   const s  = (document.getElementById('searchWyciagi')?.value||'').toLowerCase();
@@ -2702,7 +2809,21 @@ function clearChat() {
 function selectRole(role) {
   document.getElementById('roleClientCard').classList.toggle('selected', role === 'client');
   document.getElementById('roleEmployeeCard').classList.toggle('selected', role === 'employee');
+  document.getElementById('roleOwnerCard').classList.toggle('selected', role === 'owner');
   document.querySelectorAll('input[name="regRole"]').forEach(r => { r.checked = r.value === role; });
+  const compField = document.getElementById('regCompanyField');
+  const compLabel = document.getElementById('regCompanyLabel');
+  if (role === 'employee') {
+    compField.style.display = '';
+    compLabel.textContent = 'Nazwa firmy, do której dołączam';
+    document.getElementById('regCompanyName').placeholder = 'np. ACME Sp. z o.o. (musi się zgadzać)';
+  } else if (role === 'owner') {
+    compField.style.display = '';
+    compLabel.textContent = 'Nazwa mojej firmy';
+    document.getElementById('regCompanyName').placeholder = 'np. ACME Sp. z o.o.';
+  } else {
+    compField.style.display = 'none';
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -2972,10 +3093,132 @@ function simpleHash(str) {
 }
 function getUsers() { return JSON.parse(localStorage.getItem('nexo_users') || '[]'); }
 function saveUsers(u) { localStorage.setItem('nexo_users', JSON.stringify(u)); }
+function getPendingEmployees() { return JSON.parse(localStorage.getItem('nexo_pending_employees') || '[]'); }
+function savePendingEmployees(a) { localStorage.setItem('nexo_pending_employees', JSON.stringify(a)); }
+
+// ═══════════════════════════════════════════════════════════
+// OWNER — powiadomienie i zarządzanie pracownikami
+// ═══════════════════════════════════════════════════════════
+function updateOwnerBadge() {
+  if (!currentUser || currentUser.role !== 'owner') return;
+  const pending = getPendingEmployees().filter(p => p.companyName && currentUser.companyName &&
+    p.companyName.trim().toLowerCase() === currentUser.companyName.trim().toLowerCase());
+  const badge = document.getElementById('pracownicyBadge');
+  if (badge) { badge.style.display = pending.length ? '' : 'none'; badge.textContent = pending.length; }
+}
+
+function renderPracownicy() {
+  if (!currentUser || currentUser.role !== 'owner') return;
+  const myCompany = (currentUser.companyName || '').trim().toLowerCase();
+
+  // Oczekujące
+  const pending = getPendingEmployees().filter(p => (p.companyName || '').trim().toLowerCase() === myCompany);
+  const pendingEl = document.getElementById('pracPendingList');
+  const pendingCount = document.getElementById('pracPendingCount');
+  pendingCount.textContent = pending.length;
+  if (!pending.length) {
+    pendingEl.innerHTML = '<p style="color:rgba(255,255,255,.4);font-size:.88em;">Brak oczekujących zgłoszeń.</p>';
+  } else {
+    pendingEl.innerHTML = pending.map(p => `
+      <div class="prac-card">
+        <div class="prac-info">
+          <div class="prac-name">👤 ${p.firstName} ${p.lastName}</div>
+          <div class="prac-meta">${p.email} &nbsp;·&nbsp; ${new Date(p.requestedAt).toLocaleDateString('pl-PL')}</div>
+        </div>
+        <div class="prac-btns">
+          <button class="btn-approve" onclick="approvePendingEmployee('${p.id}')">✓ Zatwierdź</button>
+          <button class="btn-reject"  onclick="rejectPendingEmployee('${p.id}')">✕ Odrzuć</button>
+        </div>
+      </div>`).join('');
+  }
+
+  // Zatwierdzeni pracownicy
+  const employees = getUsers().filter(u => u.companyOwnerId === currentUser.id);
+  const empEl = document.getElementById('pracEmployeeList');
+  if (!employees.length) {
+    empEl.innerHTML = '<p style="color:rgba(255,255,255,.4);font-size:.88em;">Brak zatwierdzonych pracowników.</p>';
+  } else {
+    empEl.innerHTML = employees.map(emp => {
+      const zakupKey = `dokumentyZakup_${emp.id}`;
+      const sprzKey  = `dokumentySprzedazy_${emp.id}`;
+      const wycKey   = `wyciagiData_${emp.id}`;
+      const nZakup   = (JSON.parse(localStorage.getItem(zakupKey)  || '[]')).length;
+      const nSprz    = (JSON.parse(localStorage.getItem(sprzKey)   || '[]')).length;
+      const nWyc     = (JSON.parse(localStorage.getItem(wycKey)    || '[]')).length;
+      return `<div class="prac-card">
+        <div class="prac-info">
+          <div class="prac-name">✅ ${emp.firstName} ${emp.lastName}</div>
+          <div class="prac-meta">${emp.email} &nbsp;·&nbsp; ${nZakup} fakt. zakupu &nbsp;·&nbsp; ${nSprz} fakt. sprzedaży &nbsp;·&nbsp; ${nWyc} wyciągów</div>
+        </div>
+        <div class="prac-btns">
+          <button class="btn-view-emp" onclick="viewEmployeeDocs('${emp.id}','${emp.firstName} ${emp.lastName}')">📄 Podgląd docs</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  updateOwnerBadge();
+}
+
+let viewingEmployeeId = null;
+
+function approvePendingEmployee(pendingId) {
+  const all = getPendingEmployees();
+  const emp = all.find(p => p.id === pendingId);
+  if (!emp) return;
+  const users = getUsers();
+  users.push({ ...emp, status: 'approved', companyOwnerId: currentUser.id });
+  saveUsers(users);
+  savePendingEmployees(all.filter(p => p.id !== pendingId));
+  renderPracownicy();
+}
+
+function rejectPendingEmployee(pendingId) {
+  if (!confirm('Odrzucić zgłoszenie tego pracownika?')) return;
+  savePendingEmployees(getPendingEmployees().filter(p => p.id !== pendingId));
+  renderPracownicy();
+}
+
+function viewEmployeeDocs(empId, empName) {
+  viewingEmployeeId = empId;
+  document.getElementById('pracDocsPanel').style.display = '';
+  document.getElementById('pracDocsPanelTitle').textContent = `📂 Dokumenty: ${empName}`;
+  showEmpDocs('zakup');
+  document.getElementById('pracDocsPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function showEmpDocs(type) {
+  if (!viewingEmployeeId) return;
+  const tabs = { zakup: 'empTabZakup', sprzedazy: 'empTabSprz', wyciagi: 'empTabWyc' };
+  Object.entries(tabs).forEach(([k, id]) => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      btn.style.background = k === type ? 'rgba(100,181,246,.15)' : 'transparent';
+      btn.style.color      = k === type ? '#90caf9' : 'rgba(255,255,255,.5)';
+      btn.style.border     = k === type ? '1px solid rgba(100,181,246,.4)' : '1px solid rgba(255,255,255,.15)';
+    }
+  });
+  const keyMap = { zakup: 'dokumentyZakup', sprzedazy: 'dokumentySprzedazy', wyciagi: 'wyciagiData' };
+  const storageKey = `${keyMap[type]}_${viewingEmployeeId}`;
+  const docs = JSON.parse(localStorage.getItem(storageKey) || '[]');
+  const cont = document.getElementById('empDocsContent');
+  if (!docs.length) { cont.innerHTML = '<p style="color:rgba(255,255,255,.4);font-size:.85em;padding:10px 0;">Brak dokumentów.</p>'; return; }
+  if (type === 'wyciagi') {
+    cont.innerHTML = `<table class="summary-table" style="font-size:.82em;"><thead><tr><th>Nr</th><th>Bank</th><th>Data</th><th>Kwota</th><th>Opis</th></tr></thead><tbody>
+      ${docs.map((d,i) => `<tr><td>${i+1}</td><td>${d.bank||'-'}</td><td>${d.dataDokumentu||'-'}</td><td>${d.kwota||'-'}</td><td>${d.opis||'-'}</td></tr>`).join('')}
+    </tbody></table>`;
+  } else {
+    cont.innerHTML = `<table class="summary-table" style="font-size:.82em;"><thead><tr><th>Nr</th><th>Kontrahent</th><th>Numer dok.</th><th>Data wpł.</th><th>Kwota brutto</th><th>Status</th></tr></thead><tbody>
+      ${docs.map((d,i) => `<tr><td>${i+1}</td><td>${d.kontrahent||'-'}</td><td>${d.numerDokumentu||'-'}</td><td>${d.dataWplywu||'-'}</td><td>${d.kwotaBrutto||'-'} zł</td><td>${d.statusPlatnosci||'-'}</td></tr>`).join('')}
+    </tbody></table>`;
+  }
+}
 
 function switchAuthTab(tab) {
   document.getElementById('authLoginForm').style.display    = tab === 'login'    ? '' : 'none';
   document.getElementById('authRegisterForm').style.display = tab === 'register' ? '' : 'none';
+  document.getElementById('authVerifyScreen').style.display  = 'none';
+  document.getElementById('authPendingScreen').style.display = 'none';
   document.getElementById('authTabLogin').classList.toggle('active',    tab === 'login');
   document.getElementById('authTabRegister').classList.toggle('active', tab === 'register');
   ['loginMsg','registerMsg'].forEach(id => { document.getElementById(id).style.display = 'none'; });
@@ -2992,26 +3235,51 @@ function doLogin() {
   const email = (document.getElementById('loginEmail').value || '').trim().toLowerCase();
   const pass  =  document.getElementById('loginPassword').value;
   if (!email || !pass) { showAuthMsg('loginMsg', 'Podaj e-mail i hasło.'); return; }
+  // Sprawdź oczekujących
+  const pendingEmp = getPendingEmployees().find(p => p.email === email && p.passwordHash === simpleHash(pass));
+  if (pendingEmp) {
+    document.getElementById('authPendingScreen').style.display = '';
+    document.getElementById('authLoginForm').style.display = 'none';
+    document.getElementById('pendingCompanyName').textContent = pendingEmp.companyName;
+    return;
+  }
   const user = getUsers().find(u => u.email === email && u.passwordHash === simpleHash(pass));
   if (!user) { showAuthMsg('loginMsg', 'Nieprawidłowy e-mail lub hasło.'); return; }
   loginSuccess(user);
 }
 
 function doRegister() {
-  const firstName = (document.getElementById('regFirstName').value || '').trim();
-  const lastName  = (document.getElementById('regLastName').value  || '').trim();
-  const email     = (document.getElementById('regEmail').value     || '').trim().toLowerCase();
-  const pass      =  document.getElementById('regPassword').value;
-  const passConf  =  document.getElementById('regPasswordConfirm').value;
-  const roleEl    =  document.querySelector('input[name="regRole"]:checked');
-  const role      =  roleEl ? roleEl.value : 'client';
+  const firstName   = (document.getElementById('regFirstName').value  || '').trim();
+  const lastName    = (document.getElementById('regLastName').value   || '').trim();
+  const email       = (document.getElementById('regEmail').value      || '').trim().toLowerCase();
+  const pass        =  document.getElementById('regPassword').value;
+  const passConf    =  document.getElementById('regPasswordConfirm').value;
+  const roleEl      =  document.querySelector('input[name="regRole"]:checked');
+  const role        =  roleEl ? roleEl.value : 'client';
+  const companyName = (document.getElementById('regCompanyName').value || '').trim();
+
   if (!firstName || !lastName)  { showAuthMsg('registerMsg', 'Podaj imię i nazwisko.'); return; }
   if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) { showAuthMsg('registerMsg', 'Podaj poprawny adres e-mail.'); return; }
   if (pass.length < 6)          { showAuthMsg('registerMsg', 'Hasło musi mieć minimum 6 znaków.'); return; }
   if (pass !== passConf)        { showAuthMsg('registerMsg', 'Hasła nie są identyczne.'); return; }
+  if ((role === 'employee' || role === 'owner') && !companyName) {
+    showAuthMsg('registerMsg', 'Podaj nazwę firmy.'); return;
+  }
   const users = getUsers();
   if (users.find(u => u.email === email)) { showAuthMsg('registerMsg', 'Konto z tym e-mailem już istnieje.'); return; }
-  pendingUser = { id: Date.now().toString(36), email, passwordHash: simpleHash(pass), firstName, lastName, role };
+
+  if (role === 'employee') {
+    const pending = getPendingEmployees();
+    if (pending.find(p => p.email === email)) { showAuthMsg('registerMsg', 'Zgłoszenie z tym e-mailem już istnieje.'); return; }
+    const np = { id: Date.now().toString(36), email, passwordHash: simpleHash(pass), firstName, lastName, role: 'employee', companyName, requestedAt: new Date().toISOString(), status: 'pending' };
+    savePendingEmployees([...pending, np]);
+    document.getElementById('authRegisterForm').style.display = 'none';
+    document.getElementById('authPendingScreen').style.display = '';
+    document.getElementById('pendingCompanyName').textContent = companyName;
+    return;
+  }
+
+  pendingUser = { id: Date.now().toString(36), email, passwordHash: simpleHash(pass), firstName, lastName, role, companyName: companyName || null };
   verifyCode  = String(Math.floor(100000 + Math.random() * 900000));
   document.getElementById('authRegisterForm').style.display = 'none';
   document.getElementById('authVerifyScreen').style.display = '';
@@ -3020,6 +3288,11 @@ function doRegister() {
   document.getElementById('verifyMsg').style.display = 'none';
   document.querySelectorAll('.verify-digits input').forEach(i => { i.value = ''; });
   setTimeout(() => document.querySelectorAll('.verify-digits input')[0].focus(), 80);
+}
+
+function backFromPending() {
+  document.getElementById('authPendingScreen').style.display = 'none';
+  switchAuthTab('login');
 }
 
 function loginSuccess(user) {
@@ -3038,6 +3311,10 @@ function loginSuccess(user) {
     initClientApp();
   } else {
     document.getElementById('sidebarUser').textContent = `👤 ${user.firstName} ${user.lastName}`;
+    if (user.role === 'owner') {
+      document.getElementById('pracownicyMenuItem').style.display = '';
+      updateOwnerBadge();
+    }
     initApp();
   }
 }
