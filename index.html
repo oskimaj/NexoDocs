@@ -425,7 +425,7 @@
     /* two-column panel layout */
     .ai-body-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
     .ai-doc-preview { position: sticky; top: 20px; background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 16px; }
-    .ai-doc-preview img { width: 100%; border-radius: 8px; object-fit: contain; max-height: 70vh; display: block; cursor: zoom-in; }
+    .ai-doc-preview img { width: 100%; border-radius: 8px; object-fit: contain; max-height: calc(100vh - 220px); min-height: 300px; display: block; cursor: zoom-in; }
     .ai-doc-preview .pdf-icon { text-align: center; padding: 30px 10px; font-size: 5em; line-height: 1; }
     .ai-doc-preview .preview-name { text-align: center; color: rgba(255,255,255,.55); font-size: .8em; margin-top: 10px; word-break: break-all; line-height: 1.4; }
     @media(max-width:900px) { .ai-body-layout { grid-template-columns: 1fr; } .ai-doc-preview { position: static; } }
@@ -797,11 +797,12 @@
           <button class="ksef-btn-sm green" onclick="openKSeF('zakup')">📥 Pobierz z KSeF</button>
           <label class="ksef-btn-sm blue" for="uploadDokZakup">📂 Dodaj dokument z komputera</label>
           <input type="file" id="uploadDokZakup" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="startManual(this,'zakup')">
-          <button class="btn-manual-entry" onclick="startManualEntry('zakup')">✏️ Dodaj ręcznie</button>
+          <button class="btn-manual-entry" onclick="startManualEntry('zakup')">✏️ Uzupełnij ręcznie</button>
         </div>
         <!-- BULK BAR -->
         <div class="bulk-bar" id="bulkBarZakup">
           <span class="bulk-count" id="bulkCountZakup">0 zaznaczonych</span>
+          <button class="bulk-btn" style="background:rgba(206,147,216,.15);border-color:rgba(206,147,216,.35);color:#ce93d8;" onclick="bulkManualEntry('zakup')">✏️ Uzupełnij ręcznie</button>
           <button class="bulk-btn bulk-del" onclick="bulkDelete('zakup')">🗑️ Usuń zaznaczone</button>
           <button class="bulk-btn bulk-xml" onclick="bulkExportXML('zakup')">📤 Eksportuj XML</button>
           <button class="bulk-btn bulk-clear" onclick="clearSelection('zakup')">✕ Odznacz</button>
@@ -889,11 +890,12 @@
           <button class="ksef-btn-sm green" onclick="openKSeF('sprzedazy')">📥 Pobierz z KSeF</button>
           <label class="ksef-btn-sm blue" for="uploadDokSprzedazy">📂 Dodaj dokument z komputera</label>
           <input type="file" id="uploadDokSprzedazy" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="startManual(this,'sprzedazy')">
-          <button class="btn-manual-entry" onclick="startManualEntry('sprzedazy')">✏️ Dodaj ręcznie</button>
+          <button class="btn-manual-entry" onclick="startManualEntry('sprzedazy')">✏️ Uzupełnij ręcznie</button>
         </div>
         <!-- BULK BAR -->
         <div class="bulk-bar" id="bulkBarSprzedazy">
           <span class="bulk-count" id="bulkCountSprzedazy">0 zaznaczonych</span>
+          <button class="bulk-btn" style="background:rgba(206,147,216,.15);border-color:rgba(206,147,216,.35);color:#ce93d8;" onclick="bulkManualEntry('sprzedazy')">✏️ Uzupełnij ręcznie</button>
           <button class="bulk-btn bulk-del" onclick="bulkDelete('sprzedazy')">🗑️ Usuń zaznaczone</button>
           <button class="bulk-btn bulk-xml" onclick="bulkExportXML('sprzedazy')">📤 Eksportuj XML</button>
           <button class="bulk-btn bulk-clear" onclick="clearSelection('sprzedazy')">✕ Odznacz</button>
@@ -2411,6 +2413,16 @@ function bulkExportXML(type) {
 // ═══════════════════════════════════════════════════════════
 // MANUAL ENTRY (open AI form with existing or empty data)
 // ═══════════════════════════════════════════════════════════
+function bulkManualEntry(type) {
+  const ids = getSelected(type);
+  if (!ids.length) { alert('Zaznacz dokument w tabeli, aby go uzupełnić.'); return; }
+  if (ids.length > 1) {
+    if (!confirm(`Zaznaczono ${ids.length} dokumentów. Zostanie otwarty pierwszy zaznaczony dokument.\nPozostałe edytuj osobno przez przycisk ✏️ przy wierszu.`)) return;
+  }
+  clearSelection(type);
+  startManualEntry(type, ids[0]);
+}
+
 function startManualEntry(type, docId) {
   aiCurrentType  = type === 'zakup' ? 'zakup' : 'sprzedazy';
   aiCurrentFile  = null;
