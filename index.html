@@ -145,6 +145,12 @@
     .btn-ta-del:hover { background: rgba(239,83,80,.35); border-color: rgba(239,83,80,.4); }
     .summary-table tr:hover .td-kwota { color: #c8e6c9; }
     .lp-col { color: rgba(255,255,255,.3); font-size: .82em; width: 36px; text-align: center; }
+    .row-approved { background: rgba(76,175,80,.07) !important; border-left-color: #66bb6a !important; }
+    .row-approved:hover { background: rgba(76,175,80,.14) !important; }
+    .row-approved .td-kwota { color: #81c784 !important; }
+    .badge-approv { display:inline-block; background:rgba(76,175,80,.22); color:#81c784; padding:2px 7px; border-radius:8px; font-size:.7em; font-weight:700; margin-left:5px; vertical-align:middle; }
+    .btn-zatwierdz-ai { background: linear-gradient(135deg,#388e3c,#2e7d32); color:white; border:none; border-radius:10px; padding:14px 28px; font-size:1em; font-weight:700; cursor:pointer; transition:.2s; box-shadow:0 4px 14px rgba(76,175,80,.35); }
+    .btn-zatwierdz-ai:hover { filter:brightness(1.15); transform:translateY(-1px); }
 
     /* ── KSEF ────────────────────────────────────────────────── */
     .ksef-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 30px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); display: flex; align-items: center; justify-content: space-between; }
@@ -1265,7 +1271,7 @@ const isPDF   = n => /\.pdf$/i.test(n||'');
 function renderTableZakup(data) {
   const tb = document.getElementById('summaryZakupTable');
   if (!data.length) { tb.innerHTML = '<tr><td colspan="9" class="no-data">Brak danych</td></tr>'; return; }
-  tb.innerHTML = data.map((d,i) => `<tr>
+  tb.innerHTML = data.map((d,i) => `<tr class="${d.zatwierdzone ? 'row-approved' : ''}">
     <td class="tbl-check"><input type="checkbox" class="doc-sel" data-id="${d.id}" data-type="z" onchange="updateBulkBar('zakup')"></td>
     <td class="lp-col">${i+1}</td>
     <td class="td-kontrahent" title="${esc(d.kontrahent)}">${esc(d.kontrahent)||'<span style="opacity:.3">—</span>'}</td>
@@ -1273,11 +1279,11 @@ function renderTableZakup(data) {
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWplywu)}</td>
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWystawienia)}</td>
     <td class="td-kwota">${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '<span style="opacity:.3">—</span>'}</td>
-    <td><span class="td-rejestr">${d.rejestr||'Zakup'}</span></td>
+    <td><span class="td-rejestr">${d.rejestr||'Zakup'}</span>${d.zatwierdzone ? '<span class="badge-approv">✓ zatw.</span>' : ''}</td>
     <td class="tbl-actions">
-      <button class="btn-ta" title="${d.fileData?'Masz plik — uzupełnij AI':'Brak pliku — uzupełnij AI'}" onclick="startAIForDoc('${d.id}','z')">🤖${d.fileData?'':'<sup style="color:#ef9a9a;font-size:.65em">!</sup>'}</button>
-      <button class="btn-ta" title="Uzupełnij ręcznie" onclick="startManualEntry('zakup','${d.id}')">✏️</button>
-      <button class="btn-ta ${d.fileData?'':'btn-ta-dis'}" title="${d.fileData?'Pobierz plik':'Brak pliku do pobrania'}" onclick="dlFile('${d.id}','z')" ${d.fileData?'':'style="opacity:.35;cursor:default"'}>📥</button>
+      <button class="btn-ta" title="${d.fileData?'Uzupełnij AI':'Brak pliku'}" onclick="startAIForDoc('${d.id}','z')">🤖</button>
+      <button class="btn-ta" title="Uzupełnij / edytuj ręcznie" onclick="startManualEntry('zakup','${d.id}')">✏️</button>
+      <button class="btn-ta" title="${d.fileData?'Pobierz plik':'Brak pliku do pobrania'}" onclick="dlFile('${d.id}','z')" ${d.fileData?'':'style="opacity:.3;cursor:default"'}>📥</button>
       <button class="btn-ta btn-ta-del" title="Usuń" onclick="delFile('${d.id}','z')">🗑️</button>
     </td>
   </tr>`).join('');
@@ -1285,7 +1291,7 @@ function renderTableZakup(data) {
 function renderTableSprzedazy(data) {
   const tb = document.getElementById('summarySprzedazyTable');
   if (!data.length) { tb.innerHTML = '<tr><td colspan="9" class="no-data">Brak danych</td></tr>'; return; }
-  tb.innerHTML = data.map((d,i) => `<tr>
+  tb.innerHTML = data.map((d,i) => `<tr class="${d.zatwierdzone ? 'row-approved' : ''}">
     <td class="tbl-check"><input type="checkbox" class="doc-sel" data-id="${d.id}" data-type="s" onchange="updateBulkBar('sprzedazy')"></td>
     <td class="lp-col">${i+1}</td>
     <td class="td-kontrahent" title="${esc(d.kontrahent)}">${esc(d.kontrahent)||'<span style="opacity:.3">—</span>'}</td>
@@ -1293,11 +1299,11 @@ function renderTableSprzedazy(data) {
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWplywu)}</td>
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWystawienia)}</td>
     <td class="td-kwota">${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '<span style="opacity:.3">—</span>'}</td>
-    <td><span class="td-rejestr" style="background:rgba(165,214,167,.15);color:#a5d6a7;">${d.rejestr||'Sprzedaż'}</span></td>
+    <td><span class="td-rejestr" style="background:rgba(165,214,167,.15);color:#a5d6a7;">${d.rejestr||'Sprzedaż'}</span>${d.zatwierdzone ? '<span class="badge-approv">✓ zatw.</span>' : ''}</td>
     <td class="tbl-actions">
-      <button class="btn-ta" title="${d.fileData?'Masz plik — uzupełnij AI':'Brak pliku — uzupełnij AI'}" onclick="startAIForDoc('${d.id}','s')">🤖${d.fileData?'':'<sup style="color:#ef9a9a;font-size:.65em">!</sup>'}</button>
-      <button class="btn-ta" title="Uzupełnij ręcznie" onclick="startManualEntry('sprzedazy','${d.id}')">✏️</button>
-      <button class="btn-ta ${d.fileData?'':'btn-ta-dis'}" title="${d.fileData?'Pobierz plik':'Brak pliku do pobrania'}" onclick="dlFile('${d.id}','s')" ${d.fileData?'':'style="opacity:.35;cursor:default"'}>📥</button>
+      <button class="btn-ta" title="${d.fileData?'Uzupełnij AI':'Brak pliku'}" onclick="startAIForDoc('${d.id}','s')">🤖</button>
+      <button class="btn-ta" title="Uzupełnij / edytuj ręcznie" onclick="startManualEntry('sprzedazy','${d.id}')">✏️</button>
+      <button class="btn-ta" title="${d.fileData?'Pobierz plik':'Brak pliku do pobrania'}" onclick="dlFile('${d.id}','s')" ${d.fileData?'':'style="opacity:.3;cursor:default"'}>📥</button>
       <button class="btn-ta btn-ta-del" title="Usuń" onclick="delFile('${d.id}','s')">🗑️</button>
     </td>
   </tr>`).join('');
@@ -1701,7 +1707,8 @@ function renderAIForm(r) {
 
       <div class="ai-form-actions">
         <button class="btn-cancel-ai" onclick="closeAiPanel()">Anuluj</button>
-        <button class="btn-save-ai" onclick="saveAIDoc()">💾 Zapisz dokument</button>
+        <button class="btn-save-ai" onclick="saveAIDoc(false)">💾 Zapisz dokument</button>
+        <button class="btn-zatwierdz-ai" onclick="saveAIDoc(true)">✅ Zatwierdź dokument</button>
       </div>
     </div><!-- /ai-form-wrap -->
     </div><!-- /ai-body-layout -->`;
@@ -1755,7 +1762,7 @@ function closeAiPanel() {
 // ═══════════════════════════════════════════════════════════
 // SAVE AI DOC
 // ═══════════════════════════════════════════════════════════
-function saveAIDoc() {
+function saveAIDoc(zatwierdzone = false) {
   const today = new Date().toISOString().split('T')[0];
   const fields = {
     numerDokumentu:  document.getElementById('f_numerDokumentu').value.trim(),
@@ -1778,12 +1785,15 @@ function saveAIDoc() {
       p23: document.getElementById('f_vat_23').value,
     }
   };
+  if (zatwierdzone) {
+    fields.zatwierdzone = true;
+    fields.zatwierdzonaData = today;
+  }
 
   const updateList = (list, id, extraFields) =>
     list.map(d => String(d.id) === String(id) ? { ...d, ...extraFields } : d);
 
   if (aiCurrentDocId !== null) {
-    // UPDATE existing doc
     if (aiCurrentType === 'zakup') {
       dokumentyZakup = updateList(dokumentyZakup, aiCurrentDocId, fields);
       localStorage.setItem(dataKey('dokumentyZakup'), JSON.stringify(dokumentyZakup));
@@ -1794,13 +1804,13 @@ function saveAIDoc() {
       applyFiltersSprzedazy();
     }
   } else {
-    // CREATE new doc
     const doc = {
       id: Date.now(),
-      fileName:  aiCurrentFile?.name || 'dokument.pdf',
-      fileData:  aiCurrentFile?.dataUrl || '',
-      size:      aiCurrentFile?.size || 0,
-      addedDate: today,
+      fileName:    aiCurrentFile?.name || 'dokument.pdf',
+      fileData:    aiCurrentFile?.dataUrl || '',
+      size:        aiCurrentFile?.size || 0,
+      addedDate:   today,
+      zatwierdzone: zatwierdzone,
       ...fields
     };
     if (aiCurrentType === 'zakup') {
@@ -1815,7 +1825,7 @@ function saveAIDoc() {
   }
 
   closeAiPanel();
-  alert('✅ Dokument zapisany!');
+  alert(zatwierdzone ? '✅ Dokument zatwierdzony i gotowy do eksportu!' : '💾 Dokument zapisany!');
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1856,7 +1866,7 @@ function startManual(input, type) {
       id: Date.now(),
       fileName: file.name, fileData: e.target.result, size: file.size,
       addedDate: today,
-      numerDokumentu:'', kontrahent:'', dataWplywu:'', dataWystawienia:'',
+      numerDokumentu:'', kontrahent:'', dataWplywu: today, dataWystawienia:'',
       dataSprzedazy:'', terminPlatnosci:'',
       rejestr: type === 'zakup' ? 'Zakup' : 'Sprzedaż',
       kategoria:'', opisKategorii:'', kwotaNetto:'', kwotaBrutto:'', waluta:'PLN', vat:{}
@@ -1870,7 +1880,12 @@ function startManual(input, type) {
       localStorage.setItem(dataKey('dokumentySprzedazy'), JSON.stringify(dokumentySprzedazy));
       applyFiltersSprzedazy();
     }
-    alert('✅ Dokument dodany! Kliknij 🤖 w tabeli, aby uzupełnić dane przez AI.');
+    // Automatycznie otwórz formularz z podglądem dokumentu
+    aiCurrentType  = type;
+    aiCurrentFile  = { name: file.name, dataUrl: e.target.result, size: file.size };
+    aiCurrentDocId = doc.id;
+    document.getElementById('aiPanel').classList.add('open');
+    renderAIForm(doc);
   };
   reader.readAsDataURL(file);
 }
