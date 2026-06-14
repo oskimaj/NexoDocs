@@ -46,7 +46,34 @@
 
     /* ── MAIN ───────────────────────────────────────────────── */
     .main-content { margin-left: 250px; width: calc(100% - 250px); display: flex; flex-direction: column; min-height: 100vh; }
-    header { background: rgba(0,0,0,0.3); padding: 40px 20px; text-align: center; border-bottom: 3px solid rgba(255,255,255,0.2); }
+    header { background: rgba(0,0,0,0.3); padding: 20px 28px 20px 28px; border-bottom: 3px solid rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:space-between; }
+    header .logo { text-align:center; flex:1; }
+    header .logo h1 { font-size:1.6em; }
+    header .logo p { font-size:.8em; }
+    .header-biuro-btn { background:rgba(206,147,216,.15); border:1px solid rgba(206,147,216,.35); color:#ce93d8; border-radius:10px; padding:9px 16px; font-size:.82em; font-weight:700; cursor:pointer; white-space:nowrap; transition:.15s; display:none; }
+    .header-biuro-btn:hover { background:rgba(206,147,216,.28); }
+    /* Onboarding overlay */
+    .onboarding-overlay { position:fixed; inset:0; z-index:9500; background:rgba(3,7,22,.97); display:flex; align-items:center; justify-content:center; }
+    .onboarding-card { background:rgba(18,28,60,.99); border:1px solid rgba(255,255,255,.15); border-radius:22px; padding:38px 34px; width:100%; max-width:560px; max-height:90vh; overflow-y:auto; }
+    .onboarding-card h2 { font-size:1.35em; color:white; margin-bottom:6px; text-align:center; }
+    .onboarding-card .ob-sub { text-align:center; color:rgba(255,255,255,.42); font-size:.85em; margin-bottom:24px; }
+    .ob-field { margin-bottom:14px; }
+    .ob-field label { display:block; font-size:.75em; font-weight:700; color:rgba(255,255,255,.42); text-transform:uppercase; letter-spacing:.7px; margin-bottom:5px; }
+    .ob-field input, .ob-field textarea { width:100%; padding:11px 14px; border:1px solid rgba(255,255,255,.18); border-radius:9px; background:rgba(255,255,255,.07); color:white; font-size:.92em; font-family:inherit; }
+    .ob-field textarea { resize:vertical; min-height:70px; }
+    .ob-submit { width:100%; margin-top:6px; background:linear-gradient(135deg,#7b1fa2,#1565c0); border:none; color:white; border-radius:11px; padding:14px; font-size:1em; font-weight:700; cursor:pointer; transition:.2s; }
+    .ob-submit:hover { opacity:.88; }
+    /* Panel biuro pracownika */
+    .emp-biuro-panel { position:fixed; inset:0; z-index:8500; background:rgba(5,12,34,.88); backdrop-filter:blur(10px); display:flex; align-items:center; justify-content:center; }
+    .emp-biuro-card { background:rgba(18,28,60,.99); border:1px solid rgba(255,255,255,.14); border-radius:20px; padding:34px 30px; width:100%; max-width:480px; }
+    .emp-biuro-card h3 { font-size:1.15em; color:white; margin-bottom:4px; }
+    .emp-biuro-card .ebc-sub { font-size:.84em; color:rgba(255,255,255,.4); margin-bottom:20px; }
+    .ebc-field { margin-bottom:14px; }
+    .ebc-field label { display:block; font-size:.75em; font-weight:700; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:.6px; margin-bottom:5px; }
+    .ebc-field input { width:100%; padding:10px 14px; border:1px solid rgba(255,255,255,.18); border-radius:9px; background:rgba(255,255,255,.07); color:white; font-size:.9em; font-family:inherit; }
+    .ebc-btns { display:flex; gap:10px; margin-top:18px; }
+    .ebc-save { flex:1; background:linear-gradient(135deg,#7b1fa2,#1565c0); border:none; color:white; border-radius:9px; padding:11px; font-size:.9em; font-weight:700; cursor:pointer; }
+    .ebc-cancel { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.55); border-radius:9px; padding:11px 18px; font-size:.9em; cursor:pointer; }
     .logo h1 { font-size: 3em; font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,.5); letter-spacing: 2px; }
     .logo p { font-size: 1.2em; color: rgba(255,255,255,.9); font-weight: 300; }
     main { flex: 1; padding: 40px 20px; overflow-y: auto; }
@@ -740,14 +767,13 @@
 
     <!-- WERYFIKACJA E-MAIL -->
     <div id="authVerifyScreen" style="display:none" class="verify-box">
-      <h3>📧 Weryfikacja e-mail</h3>
-      <p>Kod weryfikacyjny został wysłany na adres:<br><strong id="verifyEmailDisplay" style="color:#90caf9;"></strong></p>
-      <div class="email-preview">
-        <div class="ep-label">📬 Sprawdź swoją skrzynkę pocztową</div>
-        <div style="color:rgba(255,255,255,.65);font-size:.9em;margin-bottom:10px;">Na podany adres e-mail wysłano wiadomość z 6-cyfrowym kodem. Jeśli nie widzisz wiadomości, sprawdź folder <strong>SPAM</strong>.</div>
-        <a id="verifyMailtoLink" href="#" style="display:inline-block;background:rgba(100,181,246,.15);border:1px solid rgba(100,181,246,.3);color:#90caf9;border-radius:9px;padding:9px 18px;font-size:.85em;font-weight:700;text-decoration:none;cursor:pointer;">📨 Otwórz skrzynkę pocztową</a>
-        <div style="font-size:.72em;color:rgba(255,255,255,.28);margin-top:10px;">⏱ Kod ważny przez 10 minut</div>
-        <div id="verifyCodeDisplay" style="display:none">——</div>
+      <h3>📧 Weryfikacja konta</h3>
+      <p style="font-size:.88em;color:rgba(255,255,255,.55);margin-bottom:14px;">Konto: <strong id="verifyEmailDisplay" style="color:#90caf9;"></strong></p>
+      <div class="email-preview" style="text-align:center;">
+        <div class="ep-label">🔑 Twój kod weryfikacyjny</div>
+        <div style="font-size:.8em;color:rgba(255,255,255,.45);margin-bottom:12px;">Przepisz ten kod do pól poniżej</div>
+        <div id="verifyCodeDisplay" style="font-size:2.6em;font-weight:900;letter-spacing:14px;color:#64b5f6;font-family:monospace;background:rgba(100,181,246,.08);border:2px solid rgba(100,181,246,.25);border-radius:12px;padding:16px 20px;display:inline-block;margin-bottom:10px;">——</div>
+        <div style="font-size:.72em;color:rgba(255,255,255,.28);margin-top:6px;">⏱ Kod ważny przez 10 minut · Nie odświeżaj strony</div>
       </div>
       <div class="verify-digits">
         <input type="text" inputmode="numeric" maxlength="1" oninput="verifyDigitInput(this,0)" onkeydown="verifyKeyDown(event,0)">
@@ -838,9 +864,13 @@
 ════════════════════════════════════════════════ -->
 <div class="main-content">
   <header>
+    <div style="width:160px"></div>
     <div class="logo">
       <h1>NexoDocs</h1>
       <p>Weryfikacja Dokumentów Księgowych</p>
+    </div>
+    <div style="width:160px;display:flex;justify-content:flex-end;">
+      <button class="header-biuro-btn" id="headerBiuroBtn" onclick="openEmpBiuroPanel()">🏢 Biuro</button>
     </div>
   </header>
 
@@ -3639,12 +3669,8 @@ function doRegister() {
   document.getElementById('authRegisterForm').style.display = 'none';
   document.getElementById('authVerifyScreen').style.display = '';
   document.getElementById('verifyEmailDisplay').textContent = email;
+  document.getElementById('verifyCodeDisplay').textContent  = verifyCode;
   document.getElementById('verifyMsg').style.display = 'none';
-  // Ustaw link mailto z kodem w treści
-  const subject = encodeURIComponent('Kod weryfikacyjny NexoDocs');
-  const body    = encodeURIComponent(`Witaj ${firstName},\n\nTwój kod weryfikacyjny NexoDocs:\n\n${verifyCode}\n\nKod jest ważny przez 10 minut.\n\nZespół NexoDocs`);
-  const mailtoLink = document.getElementById('verifyMailtoLink');
-  if (mailtoLink) mailtoLink.href = `mailto:${email}?subject=${subject}&body=${body}`;
   document.querySelectorAll('.verify-digits input').forEach(i => { i.value = ''; });
   setTimeout(() => document.querySelectorAll('.verify-digits input')[0].focus(), 80);
 }
@@ -3673,12 +3699,100 @@ function loginSuccess(user) {
     if (user.role === 'owner') {
       document.getElementById('pracownicyMenuItem').style.display = '';
       updateOwnerBadge();
+      // Onboarding — pierwsze logowanie właściciela
+      const profile = JSON.parse(localStorage.getItem('nexo_owner_profile_' + user.id) || 'null');
+      if (!profile || !profile.nip) {
+        setTimeout(() => {
+          const el = document.getElementById('ownerOnboardingOverlay');
+          if (el) {
+            el.style.display = 'flex';
+            // Pre-fill nazwa z rejestracji
+            const nazwaEl = document.getElementById('obNazwa');
+            if (nazwaEl && user.companyName) nazwaEl.value = user.companyName;
+            document.getElementById('obNazwa')?.focus();
+          }
+        }, 400);
+      }
     }
     if (user.role === 'employee') {
       document.getElementById('biuroMenuItem').style.display = '';
+      document.getElementById('headerBiuroBtn').style.display = '';
     }
     initApp();
   }
+}
+
+/* ── OWNER ONBOARDING ─────────────────────────── */
+function saveOwnerOnboarding() {
+  const nazwa   = (document.getElementById('obNazwa')?.value   || '').trim();
+  const nip     = (document.getElementById('obNip')?.value     || '').trim();
+  const adres   = (document.getElementById('obAdres')?.value   || '').trim();
+  const telefon = (document.getElementById('obTelefon')?.value || '').trim();
+  const email   = (document.getElementById('obEmail')?.value   || '').trim();
+  const opis    = (document.getElementById('obOpis')?.value    || '').trim();
+  const msgEl   = document.getElementById('obMsg');
+  if (!nazwa || !nip) {
+    if (msgEl) { msgEl.textContent = 'Nazwa biura i NIP są wymagane.'; msgEl.style.display=''; }
+    return;
+  }
+  if (!/^\d{10}$/.test(nip)) {
+    if (msgEl) { msgEl.textContent = 'NIP powinien zawierać dokładnie 10 cyfr.'; msgEl.style.display=''; }
+    return;
+  }
+  const profile = { nazwa, nip, adres, telefon, email, opis, createdAt: Date.now() };
+  localStorage.setItem('nexo_owner_profile_' + currentUser.id, JSON.stringify(profile));
+  // Aktualizuj też companyName na profilu właściciela
+  const users = getUsers();
+  const idx = users.findIndex(u => u.id === currentUser.id);
+  if (idx >= 0) { users[idx].companyName = nazwa; saveUsers(users); currentUser.companyName = nazwa; }
+  document.getElementById('ownerOnboardingOverlay').style.display = 'none';
+  if (msgEl) msgEl.style.display = 'none';
+}
+
+/* ── EMPLOYEE BIURO PANEL ─────────────────────── */
+function openEmpBiuroPanel() {
+  const panel = document.getElementById('empBiuroPanel');
+  if (!panel) return;
+  // Załaduj zapisane dane
+  const saved = JSON.parse(localStorage.getItem('nexo_emp_biuro_' + currentUser.id) || 'null');
+  const nazEl = document.getElementById('ebcNazwa');
+  const nipEl = document.getElementById('ebcNip');
+  if (nazEl) nazEl.value = saved?.nazwa || currentUser.companyName || '';
+  if (nipEl) nipEl.value = saved?.nip || '';
+  const msgEl = document.getElementById('ebcMsg');
+  if (msgEl) msgEl.style.display = 'none';
+  panel.style.display = 'flex';
+  setTimeout(() => nazEl?.focus(), 80);
+}
+
+function closeEmpBiuroPanel() {
+  const panel = document.getElementById('empBiuroPanel');
+  if (panel) panel.style.display = 'none';
+}
+
+function saveEmpBiuro() {
+  const nazwa = (document.getElementById('ebcNazwa')?.value || '').trim();
+  const nip   = (document.getElementById('ebcNip')?.value   || '').trim();
+  const msgEl = document.getElementById('ebcMsg');
+  if (!nazwa) {
+    if (msgEl) { msgEl.style.color='#ef9a9a'; msgEl.textContent='Podaj nazwę biura.'; msgEl.style.display=''; }
+    return;
+  }
+  // Zapisz dane biura pracownika
+  localStorage.setItem('nexo_emp_biuro_' + currentUser.id, JSON.stringify({ nazwa, nip }));
+  // Wyślij zgłoszenie do biura (szukamy właściciela o tej nazwie)
+  const pending = getPendingEmployees();
+  const already = pending.find(p => p.userId === currentUser.id && p.companyName === nazwa);
+  if (!already) {
+    pending.push({ userId: currentUser.id, name: currentUser.firstName + ' ' + currentUser.lastName, email: currentUser.email, companyName: nazwa, nip, role: 'employee', requestedAt: Date.now() });
+    savePendingEmployees(pending);
+  }
+  // Aktualizuj companyName w profilu
+  const users = getUsers();
+  const idx = users.findIndex(u => u.id === currentUser.id);
+  if (idx >= 0) { users[idx].companyName = nazwa; saveUsers(users); currentUser.companyName = nazwa; }
+  if (msgEl) { msgEl.style.color='#a5d6a7'; msgEl.textContent='✓ Dane zapisane. Zgłoszenie wysłane do biura.'; msgEl.style.display=''; }
+  setTimeout(() => closeEmpBiuroPanel(), 1400);
 }
 
 function doLogout() {
@@ -3723,6 +3837,66 @@ function initApp() {
   document.getElementById('authOverlay').style.display = 'flex';
 })();
 </script>
+<!-- ONBOARDING OVERLAY (właściciel — pierwsze logowanie) -->
+<div class="onboarding-overlay" id="ownerOnboardingOverlay" style="display:none">
+  <div class="onboarding-card">
+    <div style="text-align:center;font-size:2.4em;margin-bottom:10px;">👑</div>
+    <h2>Uzupełnij dane swojego biura</h2>
+    <p class="ob-sub">Przed przejściem do aplikacji wypełnij podstawowe informacje o swojej firmie. Klienci i pracownicy będą je widzieć.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="ob-field">
+        <label>Nazwa biura *</label>
+        <input type="text" id="obNazwa" placeholder="Biuro Rachunkowe Oskar">
+      </div>
+      <div class="ob-field">
+        <label>NIP firmy *</label>
+        <input type="text" id="obNip" placeholder="0000000000" maxlength="10">
+      </div>
+    </div>
+    <div class="ob-field">
+      <label>Adres firmy</label>
+      <input type="text" id="obAdres" placeholder="ul. Przykładowa 1, 00-001 Warszawa">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="ob-field">
+        <label>Telefon kontaktowy</label>
+        <input type="tel" id="obTelefon" placeholder="791-145-824">
+      </div>
+      <div class="ob-field">
+        <label>E-mail kontaktowy</label>
+        <input type="email" id="obEmail" placeholder="biuro@firma.pl">
+      </div>
+    </div>
+    <div class="ob-field">
+      <label>Opis / Zakres usług</label>
+      <textarea id="obOpis" placeholder="Krótki opis oferty biura..."></textarea>
+    </div>
+    <div id="obMsg" style="display:none;margin-bottom:10px;font-size:.85em;color:#ef9a9a;"></div>
+    <button class="ob-submit" onclick="saveOwnerOnboarding()">✓ Zapisz dane i przejdź do aplikacji</button>
+  </div>
+</div>
+
+<!-- EMPLOYEE BIURO PANEL -->
+<div class="emp-biuro-panel" id="empBiuroPanel" style="display:none">
+  <div class="emp-biuro-card">
+    <h3>🏢 Moje biuro rachunkowe</h3>
+    <p class="ebc-sub">Dane biura, w którym pracujesz. Wpisz NIP i nazwę — muszą się zgadzać z profilem właściciela biura.</p>
+    <div class="ebc-field">
+      <label>Nazwa biura rachunkowego *</label>
+      <input type="text" id="ebcNazwa" placeholder="np. Biuro Rachunkowe Oskar">
+    </div>
+    <div class="ebc-field">
+      <label>NIP biura</label>
+      <input type="text" id="ebcNip" placeholder="0000000000" maxlength="10">
+    </div>
+    <div id="ebcMsg" style="display:none;margin-bottom:10px;font-size:.83em;"></div>
+    <div class="ebc-btns">
+      <button class="ebc-save" onclick="saveEmpBiuro()">✓ Zapisz i wyślij zgłoszenie</button>
+      <button class="ebc-cancel" onclick="closeEmpBiuroPanel()">Anuluj</button>
+    </div>
+  </div>
+</div>
+
 <!-- COMPANY PICKER OVERLAY -->
 <div class="company-picker-overlay" id="companyPickerOverlay" style="display:none">
   <div class="company-picker-card">
