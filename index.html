@@ -375,9 +375,9 @@
 
     .ai-panel {
       min-height: 100vh;
-      max-width: 980px;
+      max-width: 1500px;
       margin: 0 auto;
-      padding: 40px 30px;
+      padding: 30px 30px;
       display: flex;
       flex-direction: column;
       gap: 0;
@@ -426,7 +426,12 @@
     .ai-body-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
     .ai-doc-preview { position: sticky; top: 20px; background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; }
     .ai-preview-img-wrap { flex: 1; min-height: 0; display: flex; align-items: stretch; }
-    .ai-doc-preview img { width: 100%; border-radius: 8px; object-fit: contain; object-position: top; display: block; cursor: zoom-in; flex: 1; min-height: 200px; }
+    .ai-doc-preview img { width: 100%; height: calc(100vh - 290px); border-radius: 8px; object-fit: contain; object-position: top center; display: block; cursor: zoom-in; }
+    .ai-preview-img-wrap { flex: 1; min-height: 0; }
+    /* VAT rate buttons */
+    .vat-rate-btn { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); color: rgba(255,255,255,.65); border-radius: 8px; padding: 7px 14px; font-size: .88em; font-weight: 600; cursor: pointer; transition: .15s; }
+    .vat-rate-btn:hover { background: rgba(255,204,128,.15); border-color: rgba(255,204,128,.4); color: #ffcc80; }
+    .vat-rate-btn.active { background: rgba(255,204,128,.25); border-color: #ffcc80; color: #ffcc80; box-shadow: 0 0 8px rgba(255,204,128,.3); }
     .ai-doc-preview .pdf-icon { text-align: center; padding: 30px 10px; font-size: 5em; line-height: 1; }
     .ai-doc-preview .preview-name { text-align: center; color: rgba(255,255,255,.55); font-size: .8em; margin-top: 10px; word-break: break-all; line-height: 1.4; }
     @media(max-width:900px) { .ai-body-layout { grid-template-columns: 1fr; } .ai-doc-preview { position: static; } }
@@ -1289,7 +1294,9 @@ function renderTableZakup(data) {
   tb.innerHTML = data.map((d,i) => `<tr class="${d.zatwierdzone ? 'row-approved' : ''}">
     <td class="tbl-check"><input type="checkbox" class="doc-sel" data-id="${d.id}" data-type="z" onchange="updateBulkBar('zakup')"></td>
     <td class="lp-col">${i+1}</td>
-    <td class="td-kontrahent" title="${esc(d.kontrahent)}">${esc(d.kontrahent)||'<span style="opacity:.3">—</span>'}</td>
+    <td class="td-kontrahent" title="Kliknij, aby filtrować po tym kontrahencie" style="${d.kontrahent?'cursor:pointer;':''}">
+      ${d.kontrahent ? `<span onclick="filterByKontrahent('${esc(d.kontrahent)}','zakup')" style="text-decoration:underline dotted;text-underline-offset:3px;">${esc(d.kontrahent)}</span>` : '<span style="opacity:.3">—</span>'}
+    </td>
     <td style="color:rgba(255,255,255,.7)">${esc(d.numerDokumentu)||'<span style="opacity:.3">—</span>'}</td>
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWplywu)}</td>
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWystawienia)}</td>
@@ -1309,7 +1316,9 @@ function renderTableSprzedazy(data) {
   tb.innerHTML = data.map((d,i) => `<tr class="${d.zatwierdzone ? 'row-approved' : ''}">
     <td class="tbl-check"><input type="checkbox" class="doc-sel" data-id="${d.id}" data-type="s" onchange="updateBulkBar('sprzedazy')"></td>
     <td class="lp-col">${i+1}</td>
-    <td class="td-kontrahent" title="${esc(d.kontrahent)}">${esc(d.kontrahent)||'<span style="opacity:.3">—</span>'}</td>
+    <td class="td-kontrahent" title="Kliknij, aby filtrować po tym kontrahencie" style="${d.kontrahent?'cursor:pointer;':''}">
+      ${d.kontrahent ? `<span onclick="filterByKontrahent('${esc(d.kontrahent)}','sprzedazy')" style="text-decoration:underline dotted;text-underline-offset:3px;">${esc(d.kontrahent)}</span>` : '<span style="opacity:.3">—</span>'}
+    </td>
     <td style="color:rgba(255,255,255,.7)">${esc(d.numerDokumentu)||'<span style="opacity:.3">—</span>'}</td>
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWplywu)}</td>
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWystawienia)}</td>
@@ -1706,28 +1715,45 @@ function renderAIForm(r) {
       </div>
 
       <div class="ai-section-title">💰 Kwoty i VAT</div>
-      <div class="ai-grid">
-        <div class="ai-field">
-          <label>Kwota netto (zł)</label>
-          <input type="number" step="0.01" id="f_kwotaNetto" value="${initNettoVal}" oninput="calcVatDisplay()">
-        </div>
-        <div class="ai-field">
-          <label>Kwota brutto (zł)</label>
-          <input type="number" step="0.01" id="f_kwotaBrutto" value="${initBruttoVal}" oninput="calcVatDisplay()">
+
+      <!-- STAWKA VAT — wybierz, potem wpisz netto lub brutto -->
+      <div style="margin-bottom:14px;">
+        <label style="font-size:.76em;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:8px;">Stawka VAT</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="vatRateBtns">
+          <button type="button" class="vat-rate-btn${(()=>{const s=window._vatRate||'';return s===''?' active':''})()}" data-rate="" onclick="selectVatRate('')">Brak</button>
+          <button type="button" class="vat-rate-btn${window._vatRate==='zw'?' active':''}" data-rate="zw" onclick="selectVatRate('zw')">Zwol. (zw)</button>
+          <button type="button" class="vat-rate-btn${window._vatRate==='0'?' active':''}" data-rate="0" onclick="selectVatRate('0')">0%</button>
+          <button type="button" class="vat-rate-btn${window._vatRate==='5'?' active':''}" data-rate="5" onclick="selectVatRate('5')">5%</button>
+          <button type="button" class="vat-rate-btn${window._vatRate==='8'?' active':''}" data-rate="8" onclick="selectVatRate('8')">8%</button>
+          <button type="button" class="vat-rate-btn${window._vatRate==='23'?' active':''}" data-rate="23" onclick="selectVatRate('23')">23%</button>
         </div>
       </div>
 
-      <div style="margin-top:16px;">
-        <label style="font-size:.78em;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:10px;">
-          Rozbicie VAT według stawek (zł)
-        </label>
-        <div class="vat-row">
-          <div class="vat-cell"><label>Zwol. (zw)</label><input type="number" step="0.01" id="f_vat_zw" value="${esc(v.zw??0)}"></div>
-          <div class="vat-cell"><label>0%</label><input type="number" step="0.01" id="f_vat_0" value="${esc(v.p0??0)}"></div>
-          <div class="vat-cell"><label>5%</label><input type="number" step="0.01" id="f_vat_5" value="${esc(v.p5??0)}"></div>
-          <div class="vat-cell"><label>8%</label><input type="number" step="0.01" id="f_vat_8" value="${esc(v.p8??0)}"></div>
-          <div class="vat-cell"><label>23%</label><input type="number" step="0.01" id="f_vat_23" value="${esc(v.p23??0)}"></div>
+      <div class="ai-grid">
+        <div class="ai-field">
+          <label>Kwota netto (zł)</label>
+          <input type="number" step="0.01" id="f_kwotaNetto" value="${initNettoVal}" oninput="calcVatAuto('netto')">
         </div>
+        <div class="ai-field">
+          <label>Kwota brutto (zł)</label>
+          <input type="number" step="0.01" id="f_kwotaBrutto" value="${initBruttoVal}" oninput="calcVatAuto('brutto')">
+        </div>
+      </div>
+
+      <!-- wyliczona kwota VAT -->
+      <div style="margin:10px 0 14px;display:flex;align-items:center;gap:18px;">
+        <span style="font-size:.76em;color:rgba(255,255,255,.4);">Kwota VAT =</span>
+        <span id="f_vat_computed" style="font-size:1.1em;font-weight:700;color:#ffcc80;">—</span>
+        <span style="font-size:.72em;color:rgba(255,255,255,.25);">(wyliczona automatycznie)</span>
+      </div>
+
+      <!-- ukryte pola rozbicia — wypełniane automatycznie -->
+      <div style="display:none">
+        <input type="number" id="f_vat_zw"  value="${esc(v.zw??0)}">
+        <input type="number" id="f_vat_0"   value="${esc(v.p0??0)}">
+        <input type="number" id="f_vat_5"   value="${esc(v.p5??0)}">
+        <input type="number" id="f_vat_8"   value="${esc(v.p8??0)}">
+        <input type="number" id="f_vat_23"  value="${esc(v.p23??0)}">
       </div>
 
       <div class="ai-form-actions">
@@ -1739,6 +1765,65 @@ function renderAIForm(r) {
     </div><!-- /ai-body-layout -->`;
 }
 
+window._vatRate = window._vatRate || '';
+
+function selectVatRate(rate) {
+  window._vatRate = rate;
+  document.querySelectorAll('.vat-rate-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.rate === rate);
+  });
+  calcVatAuto(null);
+}
+
+function calcVatAuto(changed) {
+  const rate = window._vatRate;
+  const rateMap = { '': null, 'zw': 0, '0': 0, '5': 0.05, '8': 0.08, '23': 0.23 };
+  const vatPct  = rateMap[rate] ?? null;
+
+  const nEl = document.getElementById('f_kwotaNetto');
+  const bEl = document.getElementById('f_kwotaBrutto');
+  if (!nEl || !bEl) return;
+
+  const netto  = parseFloat(nEl.value) || 0;
+  const brutto = parseFloat(bEl.value) || 0;
+
+  let vatAmount = 0;
+
+  if (vatPct !== null) {
+    if (changed === 'netto' && netto) {
+      vatAmount = netto * vatPct;
+      bEl.value = (netto + vatAmount).toFixed(2);
+    } else if (changed === 'brutto' && brutto) {
+      const nettoCalc = brutto / (1 + vatPct);
+      vatAmount = brutto - nettoCalc;
+      nEl.value = nettoCalc.toFixed(2);
+    } else if (!changed) {
+      if (netto) {
+        vatAmount = netto * vatPct;
+        bEl.value = (netto + vatAmount).toFixed(2);
+      } else if (brutto) {
+        const nettoCalc = brutto / (1 + vatPct);
+        vatAmount = brutto - nettoCalc;
+        nEl.value = nettoCalc.toFixed(2);
+      }
+    }
+    // fill hidden breakdown fields
+    ['zw','0','5','8','23'].forEach(r => {
+      const el = document.getElementById(`f_vat_${r}`);
+      if (el) el.value = r === rate ? vatAmount.toFixed(2) : '0';
+    });
+  } else {
+    vatAmount = (parseFloat(bEl.value)||0) - (parseFloat(nEl.value)||0);
+  }
+
+  // update computed display
+  const comp = document.getElementById('f_vat_computed');
+  if (comp) {
+    comp.textContent = vatAmount > 0 ? vatAmount.toFixed(2) + ' zł' : vatAmount === 0 && (netto||brutto) ? '0,00 zł' : '—';
+  }
+  calcVatDisplay();
+}
+
 function calcVatDisplay() {
   const n  = parseFloat(document.getElementById('f_kwotaNetto')?.value)   || 0;
   const b  = parseFloat(document.getElementById('f_kwotaBrutto')?.value)  || 0;
@@ -1747,6 +1832,17 @@ function calcVatDisplay() {
   if (!el) return;
   el.textContent = (n || b) ? vt.toFixed(2) + ' zł' : '—';
   el.style.color  = vt > 0 ? '#ffcc80' : vt === 0 && (n || b) ? 'rgba(255,255,255,.4)' : 'rgba(255,255,255,.25)';
+}
+
+function filterByKontrahent(name, type) {
+  if (!name) return;
+  const searchId = type === 'zakup' ? 'searchZakup' : 'searchSprzedazy';
+  const el = document.getElementById(searchId);
+  if (!el) return;
+  el.value = name;
+  if (type === 'zakup') applyFiltersZakup();
+  else applyFiltersSprzedazy();
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function quickJumpKontrahent() {
