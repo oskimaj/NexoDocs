@@ -816,6 +816,7 @@
     <li><a href="#" class="menu-link" data-page="kontrahenci">👥 Kontrahenci</a></li>
     <li><a href="#" class="menu-link" data-page="kadry">👤 Kadry</a></li>
     <li id="pracownicyMenuItem" style="display:none"><a href="#" class="menu-link" data-page="pracownicy">👥 Pracownicy <span class="owner-notif" id="pracownicyBadge" style="display:none">!</span></a></li>
+    <li id="biuroMenuItem" style="display:none"><a href="#" class="menu-link" data-page="biuro-rachunkowe">🏢 Biuro Rachunkowe</a></li>
   </ul>
   <button class="sidebar-api-btn" onclick="openApiKeyModal()">
     <span class="api-dot" id="apiDot"></span>Klucz API OpenRouter
@@ -1337,6 +1338,38 @@
       </div>
     </div>
 
+    <!-- BIURO RACHUNKOWE (pracownik) -->
+    <div class="page" id="biuro-rachunkowe">
+      <h2 class="page-title">🏢 Biuro Rachunkowe</h2>
+      <div class="prac-page">
+        <div class="prac-section" id="biuroStatusSection">
+          <!-- wypełniane przez renderBiuroRachunkowe() -->
+        </div>
+        <div class="prac-section" id="biuroChangeSection" style="display:none">
+          <h3>🔄 Zmień biuro rachunkowe</h3>
+          <p style="color:rgba(255,255,255,.5);font-size:.86em;margin-bottom:14px;">Wpisz dokładną nazwę biura rachunkowego. Musi się zgadzać z nazwą podaną przez właściciela biura podczas rejestracji.</p>
+          <div class="auth-field" style="margin-bottom:14px;">
+            <label>Nazwa biura rachunkowego</label>
+            <input type="text" id="biuroChangeInput" placeholder="np. Biuro Rachunkowe Oskar" style="width:100%;padding:11px 14px;border:1px solid rgba(255,255,255,.2);border-radius:9px;background:rgba(255,255,255,.07);color:white;font-size:.92em;font-family:inherit;">
+          </div>
+          <div id="biuroChangeMsg" style="display:none;margin-bottom:10px;"></div>
+          <div style="display:flex;gap:10px;">
+            <button onclick="submitBiuroChange()" style="background:linear-gradient(135deg,#1565c0,#0d47a1);border:none;color:white;border-radius:9px;padding:10px 22px;font-size:.88em;font-weight:700;cursor:pointer;">✓ Wyślij zgłoszenie</button>
+            <button onclick="document.getElementById('biuroChangeSection').style.display='none'" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);border-radius:9px;padding:10px 18px;font-size:.88em;cursor:pointer;">Anuluj</button>
+          </div>
+        </div>
+        <div class="prac-section">
+          <h3>ℹ️ Jak to działa</h3>
+          <div style="font-size:.86em;color:rgba(255,255,255,.6);line-height:1.75;">
+            <div style="margin-bottom:6px;">1. Podajesz dokładną nazwę biura rachunkowego (jak właściciel zarejestrował).</div>
+            <div style="margin-bottom:6px;">2. Właściciel biura widzi Twoje zgłoszenie w zakładce <strong>Pracownicy</strong>.</div>
+            <div style="margin-bottom:6px;">3. Po zatwierdzeniu masz dostęp do systemu jako pracownik biura.</div>
+            <div>4. Właściciel widzi Twoje dokumenty w swoim panelu.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
   <footer><p>&copy; 2026 NexoDocs. Wszelkie prawa zastrzeżone.</p></footer>
 </div>
@@ -1535,6 +1568,7 @@ document.querySelectorAll('.menu-link').forEach(link => {
     const el = document.getElementById(pg + '-page') || document.getElementById(pg);
     if (el) el.classList.add('active');
     if (pg === 'pracownicy') renderPracownicy();
+    if (pg === 'biuro-rachunkowe') renderBiuroRachunkowe();
   });
 });
 
@@ -2880,14 +2914,14 @@ function selectRole(role) {
   const compLabel = document.getElementById('regCompanyLabel');
   const compInput = document.getElementById('regCompanyName');
   if (role === 'employee') {
-    compField.style.display = '';
-    compLabel.textContent = 'Nazwa firmy, do której dołączam';
-    compInput.placeholder = 'np. ACME Sp. z o.o. (musi się zgadzać z nazwą właściciela)';
+    compField.style.display = 'block';
+    compLabel.textContent = 'Nazwa biura rachunkowego, do którego dołączam';
+    compInput.placeholder = 'np. Biuro Rachunkowe Oskar (musi się zgadzać dokładnie)';
   } else if (role === 'owner') {
-    compField.style.display = '';
-    compLabel.textContent = 'Nazwa mojej firmy (biura)';
+    compField.style.display = 'block';
+    compLabel.textContent = 'Nazwa mojego biura rachunkowego';
     compInput.placeholder = 'np. Biuro Rachunkowe Oskar';
-    compInput.focus();
+    setTimeout(() => compInput.focus(), 50);
   } else {
     compField.style.display = 'none';
     if (compInput) compInput.value = '';
@@ -3257,6 +3291,110 @@ function savePendingEmployees(a) { localStorage.setItem('nexo_pending_employees'
 // ═══════════════════════════════════════════════════════════
 // OWNER — powiadomienie i zarządzanie pracownikami
 // ═══════════════════════════════════════════════════════════
+// ─── Biuro Rachunkowe (pracownik) ─────────────────────────
+function renderBiuroRachunkowe() {
+  if (!currentUser) return;
+  const section = document.getElementById('biuroStatusSection');
+  if (!section) return;
+  const companyName = currentUser.companyName || '';
+  const ownerId     = currentUser.companyOwnerId || '';
+
+  if (ownerId) {
+    // Znaleziono zatwierdzonego właściciela
+    const owner = getUsers().find(u => u.id === ownerId);
+    const ownerName  = owner ? owner.companyName || owner.firstName + ' ' + owner.lastName : companyName;
+    const ownerEmail = owner ? owner.email : '';
+    section.innerHTML = `
+      <h3>✅ Zatwierdzony pracownik biura</h3>
+      <div style="background:linear-gradient(135deg,rgba(76,175,80,.12),rgba(255,255,255,.04));border:1px solid rgba(76,175,80,.3);border-radius:12px;padding:20px 22px;margin-top:10px;">
+        <div style="font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:rgba(255,255,255,.38);margin-bottom:6px;">Twoje biuro rachunkowe</div>
+        <div style="font-size:1.2em;font-weight:800;color:#a5d6a7;margin-bottom:4px;">🏢 ${ownerName}</div>
+        ${ownerEmail ? `<div style="font-size:.82em;color:rgba(255,255,255,.45);margin-bottom:16px;">✉️ ${ownerEmail}</div>` : ''}
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <div style="background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.3);border-radius:8px;padding:6px 14px;font-size:.8em;color:#a5d6a7;font-weight:700;">✅ Status: Zatwierdzony</div>
+        </div>
+      </div>
+      <p style="font-size:.8em;color:rgba(255,255,255,.35);margin-top:12px;">Aby zmienić biuro, skontaktuj się z administratorem lub wyloguj i zarejestruj nowe konto.</p>`;
+  } else if (companyName) {
+    // Oczekuje na zatwierdzenie
+    section.innerHTML = `
+      <h3>⏳ Oczekuje na zatwierdzenie</h3>
+      <div style="background:linear-gradient(135deg,rgba(255,193,7,.1),rgba(255,255,255,.04));border:1px solid rgba(255,193,7,.3);border-radius:12px;padding:20px 22px;margin-top:10px;">
+        <div style="font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:rgba(255,255,255,.38);margin-bottom:6px;">Zgłoszone biuro</div>
+        <div style="font-size:1.2em;font-weight:800;color:#ffe082;margin-bottom:4px;">🏢 ${companyName}</div>
+        <div style="font-size:.82em;color:rgba(255,255,255,.5);margin-bottom:16px;">Właściciel biura musi zatwierdzić Twoje zgłoszenie w zakładce <strong>Pracownicy</strong>.</div>
+        <div style="background:rgba(255,193,7,.15);border:1px solid rgba(255,193,7,.3);border-radius:8px;padding:6px 14px;font-size:.8em;color:#ffe082;font-weight:700;display:inline-block;">⏳ Status: Oczekuje na zatwierdzenie</div>
+      </div>
+      <div style="margin-top:14px;">
+        <button onclick="document.getElementById('biuroChangeSection').style.display='';document.getElementById('biuroChangeInput').value=''" 
+          style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);border-radius:9px;padding:8px 18px;font-size:.82em;cursor:pointer;">🔄 Zmień nazwę biura</button>
+      </div>`;
+  } else {
+    // Brak przypisanego biura
+    section.innerHTML = `
+      <h3>🏢 Przypisz swoje biuro rachunkowe</h3>
+      <p style="color:rgba(255,255,255,.5);font-size:.86em;margin-bottom:16px;">Nie masz jeszcze przypisanego biura rachunkowego. Wpisz nazwę biura, do którego chcesz dołączyć.</p>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px 20px;">
+        <div class="auth-field" style="margin-bottom:14px;">
+          <label style="display:block;font-size:.78em;font-weight:700;color:rgba(255,255,255,.44);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;">Nazwa biura rachunkowego</label>
+          <input type="text" id="biuroInlineInput" placeholder="np. Biuro Rachunkowe Oskar" 
+            style="width:100%;padding:11px 14px;border:1px solid rgba(255,255,255,.2);border-radius:9px;background:rgba(255,255,255,.07);color:white;font-size:.92em;font-family:inherit;">
+        </div>
+        <div id="biuroInlineMsg" style="display:none;margin-bottom:10px;font-size:.83em;"></div>
+        <button onclick="submitBiuroInline()" 
+          style="background:linear-gradient(135deg,#1565c0,#0d47a1);border:none;color:white;border-radius:9px;padding:10px 24px;font-size:.88em;font-weight:700;cursor:pointer;">✓ Wyślij zgłoszenie</button>
+      </div>`;
+  }
+}
+
+function submitBiuroInline() {
+  const input = document.getElementById('biuroInlineInput');
+  const msg   = document.getElementById('biuroInlineMsg');
+  const name  = (input ? input.value : '').trim();
+  if (!name) { showBiuroMsg(msg, 'Podaj nazwę biura.', false); return; }
+  _doBiuroChange(name, msg);
+}
+
+function submitBiuroChange() {
+  const input = document.getElementById('biuroChangeInput');
+  const msg   = document.getElementById('biuroChangeMsg');
+  const name  = (input ? input.value : '').trim();
+  if (!name) { showBiuroMsg(msg, 'Podaj nazwę biura.', false); return; }
+  _doBiuroChange(name, msg);
+}
+
+function _doBiuroChange(companyName, msgEl) {
+  // Sprawdź czy istnieje właściciel z taką nazwą firmy
+  const owner = getUsers().find(u => u.role === 'owner' &&
+    (u.companyName || '').trim().toLowerCase() === companyName.toLowerCase());
+  // Niezależnie od wyniku — zapisz zgłoszenie oczekujące
+  const pending = getPendingEmployees().filter(p => p.id !== currentUser.id);
+  pending.push({
+    id: currentUser.id,
+    email: currentUser.email,
+    firstName: currentUser.firstName,
+    lastName: currentUser.lastName,
+    companyName: companyName,
+    requestedAt: new Date().toISOString(),
+    status: 'pending'
+  });
+  savePendingEmployees(pending);
+  // Zaktualizuj currentUser.companyName w localStorage
+  const users = getUsers();
+  const idx = users.findIndex(u => u.id === currentUser.id);
+  if (idx >= 0) { users[idx].companyName = companyName; saveUsers(users); currentUser.companyName = companyName; }
+  if (msgEl) showBiuroMsg(msgEl, owner ? `Zgłoszenie wysłane do: ${owner.companyName}` : 'Zgłoszenie wysłane. Oczekuj na zatwierdzenie właściciela.', true);
+  setTimeout(() => renderBiuroRachunkowe(), 1200);
+  document.getElementById('biuroChangeSection').style.display = 'none';
+}
+
+function showBiuroMsg(el, text, isOk) {
+  if (!el) return;
+  el.textContent = text;
+  el.style.color  = isOk ? '#a5d6a7' : '#ef9a9a';
+  el.style.display = '';
+}
+
 function updateOwnerBadge() {
   if (!currentUser || currentUser.role !== 'owner') return;
   const pending = getPendingEmployees().filter(p => p.companyName && currentUser.companyName &&
@@ -3535,6 +3673,9 @@ function loginSuccess(user) {
     if (user.role === 'owner') {
       document.getElementById('pracownicyMenuItem').style.display = '';
       updateOwnerBadge();
+    }
+    if (user.role === 'employee') {
+      document.getElementById('biuroMenuItem').style.display = '';
     }
     initApp();
   }
