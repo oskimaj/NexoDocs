@@ -95,6 +95,34 @@
     .chat-send-btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
     @media(max-width:1200px) { .home-layout { flex-direction: column; } .nexochat-panel { width:100%; height:500px; position:static; } }
 
+    /* ── KONTRAHENT PICKER BAR ──────────────────────────────── */
+    .kt-picker-bar { display:flex; align-items:center; gap:12px; background:rgba(100,181,246,.07); border:1px solid rgba(100,181,246,.2); border-radius:12px; padding:13px 20px; margin-bottom:16px; flex-wrap:wrap; }
+    .kt-picker-bar label { font-size:.82em; font-weight:700; color:#90caf9; white-space:nowrap; letter-spacing:.4px; }
+    .kt-picker-bar select { flex:1; min-width:220px; padding:9px 14px; border:1px solid rgba(100,181,246,.35); border-radius:9px; background:rgba(255,255,255,.08); color:white; font-size:.95em; cursor:pointer; }
+    .kt-picker-bar select option { background:#1a2a4a; }
+    .kt-picker-bar select:focus { outline:none; border-color:#64b5f6; }
+    .kt-clear-btn { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.2); color:rgba(255,255,255,.55); border-radius:8px; padding:7px 13px; cursor:pointer; font-size:.82em; white-space:nowrap; transition:.15s; }
+    .kt-clear-btn:hover { background:rgba(239,83,80,.2); border-color:rgba(239,83,80,.4); color:#ef9a9a; }
+    /* ── HOME STATS BAR ─────────────────────────────────────── */
+    .stats-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px; }
+    .stat-card { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:20px 18px; display:flex; flex-direction:column; align-items:center; gap:6px; transition:.2s; }
+    .stat-card:hover { background:rgba(255,255,255,.12); transform:translateY(-2px); }
+    .stat-icon { font-size:1.8em; }
+    .stat-num { font-size:2em; font-weight:800; color:white; line-height:1; }
+    .stat-label { font-size:.74em; color:rgba(255,255,255,.45); font-weight:600; text-transform:uppercase; letter-spacing:.5px; text-align:center; }
+    .stat-card.blue  { border-color:rgba(100,181,246,.3); } .stat-card.blue .stat-num  { color:#90caf9; }
+    .stat-card.green { border-color:rgba(76,175,80,.3);  } .stat-card.green .stat-num { color:#81c784; }
+    .stat-card.amber { border-color:rgba(255,204,128,.3);} .stat-card.amber .stat-num { color:#ffcc80; }
+    .stat-card.pink  { border-color:rgba(206,147,216,.3);} .stat-card.pink .stat-num  { color:#ce93d8; }
+    @media(max-width:900px) { .stats-bar { grid-template-columns:repeat(2,1fr); } }
+    /* ── QUICK ACTION TILES ─────────────────────────────────── */
+    .quick-actions { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:28px; }
+    .qa-tile { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:18px 16px; display:flex; align-items:center; gap:14px; cursor:pointer; transition:.18s; text-decoration:none; color:white; }
+    .qa-tile:hover { background:rgba(255,255,255,.12); transform:translateY(-2px); border-color:rgba(255,255,255,.25); }
+    .qa-tile .qa-icon { font-size:1.8em; flex-shrink:0; }
+    .qa-tile .qa-text strong { display:block; font-size:.95em; margin-bottom:2px; }
+    .qa-tile .qa-text span { font-size:.75em; color:rgba(255,255,255,.45); }
+    @media(max-width:900px) { .quick-actions { grid-template-columns:repeat(2,1fr); } }
     /* ── SEARCH/FILTER ───────────────────────────────────────── */
     .search-filter-row { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 20px 25px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); display: flex; gap: 15px; align-items: center; }
     .search-filter-row input[type="text"] { flex: 1; padding: 12px; border: 1px solid rgba(255,255,255,.3); border-radius: 8px; background: rgba(255,255,255,.1); color: white; font-size: 1em; }
@@ -151,6 +179,25 @@
     .badge-approv { display:inline-block; background:rgba(76,175,80,.22); color:#81c784; padding:2px 7px; border-radius:8px; font-size:.7em; font-weight:700; margin-left:5px; vertical-align:middle; }
     .btn-zatwierdz-ai { background: linear-gradient(135deg,#388e3c,#2e7d32); color:white; border:none; border-radius:10px; padding:14px 28px; font-size:1em; font-weight:700; cursor:pointer; transition:.2s; box-shadow:0 4px 14px rgba(76,175,80,.35); }
     .btn-zatwierdz-ai:hover { filter:brightness(1.15); transform:translateY(-1px); }
+    /* ── STATUS PŁATNOŚCI ───────────────────────────────────── */
+    .badge-status { display:inline-flex; align-items:center; gap:3px; padding:2px 8px; border-radius:10px; font-size:.72em; font-weight:700; white-space:nowrap; }
+    .badge-status.oplacona     { background:rgba(76,175,80,.22);  color:#81c784; }
+    .badge-status.nieoplacona  { background:rgba(255,152,0,.18);  color:#ffb74d; }
+    .badge-status.przeterminowana { background:rgba(239,83,80,.22); color:#ef9a9a; animation:blink-red 2s infinite; }
+    @keyframes blink-red { 0%,100%{opacity:1} 50%{opacity:.55} }
+    .row-overdue { border-left-color:#ef5350 !important; background:rgba(239,83,80,.06) !important; }
+    .row-overdue:hover { background:rgba(239,83,80,.12) !important; }
+    /* ── KATEGORIA BADGE ────────────────────────────────────── */
+    .badge-kat { display:inline-block; padding:2px 7px; border-radius:8px; font-size:.7em; font-weight:600; background:rgba(206,147,216,.14); color:#ce93d8; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; vertical-align:middle; }
+    /* ── TERMIN DATE ────────────────────────────────────────── */
+    .td-termin-ok       { color:#81c784; font-weight:600; }
+    .td-termin-overdue  { color:#ef9a9a; font-weight:700; }
+    .td-termin-soon     { color:#ffb74d; font-weight:600; }
+    /* ── PDF PRINT ──────────────────────────────────────────── */
+    @media print {
+      body > *:not(#pdfPrintFrame) { display:none !important; }
+      #pdfPrintFrame { display:block !important; position:static !important; }
+    }
 
     /* ── KSEF ────────────────────────────────────────────────── */
     .ksef-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 30px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,.2); display: flex; align-items: center; justify-content: space-between; }
@@ -426,7 +473,7 @@
     .ai-body-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
     .ai-doc-preview { position: sticky; top: 20px; background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; }
     .ai-preview-img-wrap { flex: 1; min-height: 0; display: flex; align-items: stretch; }
-    .ai-doc-preview img { width: 100%; height: calc(100vh - 290px); border-radius: 8px; object-fit: contain; object-position: top center; display: block; cursor: zoom-in; }
+    .ai-doc-preview img { width: 100%; height: calc(100vh - 175px); border-radius: 8px; object-fit: contain; object-position: top center; display: block; cursor: zoom-in; }
     .ai-preview-img-wrap { flex: 1; min-height: 0; }
     /* VAT rate buttons */
     .vat-rate-btn { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); color: rgba(255,255,255,.65); border-radius: 8px; padding: 7px 14px; font-size: .88em; font-weight: 600; cursor: pointer; transition: .15s; }
@@ -708,6 +755,43 @@
 
     <!-- HOME -->
     <div class="page active" id="home">
+
+      <!-- STATS BAR -->
+      <div class="stats-bar" id="homeStatsBar">
+        <div class="stat-card blue"><div class="stat-icon">📄</div><div class="stat-num" id="stat-zakup">0</div><div class="stat-label">Faktury zakupu</div></div>
+        <div class="stat-card green"><div class="stat-icon">📋</div><div class="stat-num" id="stat-sprzedaz">0</div><div class="stat-label">Faktury sprzedaży</div></div>
+        <div class="stat-card amber"><div class="stat-icon">✅</div><div class="stat-num" id="stat-zatw">0</div><div class="stat-label">Zatwierdzone</div></div>
+        <div class="stat-card pink"><div class="stat-icon">👥</div><div class="stat-num" id="stat-kontr">0</div><div class="stat-label">Kontrahenci</div></div>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="quick-actions">
+        <a class="qa-tile" onclick="navigateTo('faktury-zakupu')">
+          <div class="qa-icon">📥</div>
+          <div class="qa-text"><strong>Faktury zakupu</strong><span>Dodaj lub przeglądaj faktury</span></div>
+        </a>
+        <a class="qa-tile" onclick="navigateTo('faktury-sprzedazy')">
+          <div class="qa-icon">📤</div>
+          <div class="qa-text"><strong>Faktury sprzedaży</strong><span>Zarządzaj wystawionymi fakturami</span></div>
+        </a>
+        <a class="qa-tile" onclick="navigateTo('wyciagi')">
+          <div class="qa-icon">🏦</div>
+          <div class="qa-text"><strong>Wyciągi bankowe</strong><span>Importuj i przeglądaj wyciągi</span></div>
+        </a>
+        <a class="qa-tile" onclick="navigateTo('kontrahenci')">
+          <div class="qa-icon">👥</div>
+          <div class="qa-text"><strong>Kontrahenci</strong><span>Baza danych kontrahentów</span></div>
+        </a>
+        <a class="qa-tile" onclick="navigateTo('raporty')">
+          <div class="qa-icon">📊</div>
+          <div class="qa-text"><strong>Raporty</strong><span>Podsumowania i zestawienia</span></div>
+        </a>
+        <a class="qa-tile" onclick="navigateTo('faktury-zakupu');setTimeout(()=>document.getElementById('aiFileZakup')?.click(),400)">
+          <div class="qa-icon">🤖</div>
+          <div class="qa-text"><strong>Uzupełnij AI</strong><span>Wyślij fakturę do analizy AI</span></div>
+        </a>
+      </div>
+
       <div class="home-layout">
 
         <!-- LEFT: informacje -->
@@ -787,6 +871,15 @@
         <button class="tab-btn" onclick="showTab('zakup','export')">📤 Eksportuj</button>
       </div>
 
+      <!-- KONTRAHENT PICKER -->
+      <div class="kt-picker-bar">
+        <label>👥 Kontrahent:</label>
+        <select id="kontrahentPickerZakup" onchange="applyFiltersZakup()">
+          <option value="">— Wszyscy kontrahenci —</option>
+        </select>
+        <button class="kt-clear-btn" onclick="document.getElementById('kontrahentPickerZakup').value='';applyFiltersZakup()">✕ Wyczyść</button>
+      </div>
+
       <!-- TAB: Dokumenty -->
       <div class="tab-content active" id="zakup-tab-docs">
         <!-- AI BANNER -->
@@ -830,6 +923,15 @@
             <option>2020</option><option>2021</option><option>2022</option><option>2023</option>
             <option>2024</option><option>2025</option><option>2026</option><option>2027</option>
           </select>
+          <select id="katFilterZakup" onchange="applyFiltersZakup()">
+            <option value="">🏷️ Wszystkie kategorie</option>
+          </select>
+          <select id="statusFilterZakup" onchange="applyFiltersZakup()">
+            <option value="">💳 Wszystkie statusy</option>
+            <option value="nieoplacona">○ Nieopłacona</option>
+            <option value="oplacona">✓ Opłacona</option>
+            <option value="przeterminowana">⚠ Przeterminowana</option>
+          </select>
         </div>
         <!-- TABLE -->
         <div class="summary-section">
@@ -843,11 +945,11 @@
                 <th class="sortable" id="thZakupDataWplywu" onclick="sortTable('zakup','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
                 <th class="sortable" id="thZakupDataWyst" onclick="sortTable('zakup','dataWystawienia')">Data wystawienia <span class="si">⇅</span></th>
                 <th class="sortable" id="thZakupKwota" onclick="sortTable('zakup','kwotaBrutto')">Kwota brutto <span class="si">⇅</span></th>
-                <th>Rejestr</th><th>Akcje</th>
+                <th>Termin płatn.</th><th>Status</th><th>Kategoria</th><th>Rejestr</th><th>Akcje</th>
               </tr>
             </thead>
             <tbody id="summaryZakupTable">
-              <tr><td colspan="8" class="no-data">Brak danych</td></tr>
+              <tr><td colspan="12" class="no-data">Brak danych</td></tr>
             </tbody>
           </table>
         </div>
@@ -878,6 +980,15 @@
       <div class="tab-bar">
         <button class="tab-btn active" onclick="showTab('sprzedazy','docs')">📋 Dokumenty</button>
         <button class="tab-btn" onclick="showTab('sprzedazy','export')">📤 Eksportuj</button>
+      </div>
+
+      <!-- KONTRAHENT PICKER -->
+      <div class="kt-picker-bar">
+        <label>👥 Kontrahent:</label>
+        <select id="kontrahentPickerSprzedazy" onchange="applyFiltersSprzedazy()">
+          <option value="">— Wszyscy kontrahenci —</option>
+        </select>
+        <button class="kt-clear-btn" onclick="document.getElementById('kontrahentPickerSprzedazy').value='';applyFiltersSprzedazy()">✕ Wyczyść</button>
       </div>
 
       <!-- TAB: Dokumenty -->
@@ -923,6 +1034,15 @@
             <option>2020</option><option>2021</option><option>2022</option><option>2023</option>
             <option>2024</option><option>2025</option><option>2026</option><option>2027</option>
           </select>
+          <select id="katFilterSprzedazy" onchange="applyFiltersSprzedazy()">
+            <option value="">🏷️ Wszystkie kategorie</option>
+          </select>
+          <select id="statusFilterSprzedazy" onchange="applyFiltersSprzedazy()">
+            <option value="">💳 Wszystkie statusy</option>
+            <option value="nieoplacona">○ Nieopłacona</option>
+            <option value="oplacona">✓ Opłacona</option>
+            <option value="przeterminowana">⚠ Przeterminowana</option>
+          </select>
         </div>
         <!-- TABLE -->
         <div class="summary-section">
@@ -936,11 +1056,11 @@
                 <th class="sortable" id="thSprzDataWplywu" onclick="sortTable('sprzedazy','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
                 <th class="sortable" id="thSprzDataWyst" onclick="sortTable('sprzedazy','dataWystawienia')">Data wystawienia <span class="si">⇅</span></th>
                 <th class="sortable" id="thSprzKwota" onclick="sortTable('sprzedazy','kwotaBrutto')">Kwota brutto <span class="si">⇅</span></th>
-                <th>Rejestr</th><th>Akcje</th>
+                <th>Termin płatn.</th><th>Status</th><th>Kategoria</th><th>Rejestr</th><th>Akcje</th>
               </tr>
             </thead>
             <tbody id="summarySprzedazyTable">
-              <tr><td colspan="9" class="no-data">Brak danych</td></tr>
+              <tr><td colspan="12" class="no-data">Brak danych</td></tr>
             </tbody>
           </table>
         </div>
@@ -967,6 +1087,16 @@
     <!-- WYCIAGI -->
     <div class="page" id="wyciagi">
       <h2 class="page-title">🏦 Wyciągi</h2>
+
+      <!-- KONTRAHENT PICKER -->
+      <div class="kt-picker-bar">
+        <label>👥 Kontrahent:</label>
+        <select id="kontrahentPickerWyciagi" onchange="applyFiltersWyciagi()">
+          <option value="">— Wszyscy kontrahenci —</option>
+        </select>
+        <button class="kt-clear-btn" onclick="document.getElementById('kontrahentPickerWyciagi').value='';applyFiltersWyciagi()">✕ Wyczyść</button>
+      </div>
+
       <div class="wyciagi-actions">
         <div class="wyciagi-actions-info">
           <h3>📁 Import i eksport wyciągów bankowych</h3>
@@ -1288,49 +1418,90 @@ const isPDF   = n => /\.pdf$/i.test(n||'');
 // ═══════════════════════════════════════════════════════════
 // RENDER TABLES
 // ═══════════════════════════════════════════════════════════
+// ── helpers for status / termin ──────────────────────────────
+function computeStatus(d) {
+  const today = new Date().toISOString().split('T')[0];
+  if (d.statusPlatnosci === 'oplacona') return 'oplacona';
+  if (d.terminPlatnosci && d.terminPlatnosci < today) return 'przeterminowana';
+  return d.statusPlatnosci || 'nieoplacona';
+}
+function terminClass(d) {
+  const today = new Date().toISOString().split('T')[0];
+  if (!d.terminPlatnosci) return '';
+  const diff = Math.ceil((new Date(d.terminPlatnosci) - new Date(today)) / 86400000);
+  if (diff < 0)  return 'td-termin-overdue';
+  if (diff <= 7) return 'td-termin-soon';
+  return 'td-termin-ok';
+}
+function statusLabel(s) {
+  if (s === 'oplacona')       return '✓ Opłacona';
+  if (s === 'przeterminowana') return '⚠ Przetermin.';
+  return '○ Nieopłacona';
+}
+function rowClass(d) {
+  const st = computeStatus(d);
+  if (st === 'przeterminowana') return 'row-overdue';
+  if (d.zatwierdzone) return 'row-approved';
+  return '';
+}
+
 function renderTableZakup(data) {
   const tb = document.getElementById('summaryZakupTable');
-  if (!data.length) { tb.innerHTML = '<tr><td colspan="9" class="no-data">Brak danych</td></tr>'; return; }
-  tb.innerHTML = data.map((d,i) => `<tr class="${d.zatwierdzone ? 'row-approved' : ''}">
+  if (!data.length) { tb.innerHTML = '<tr><td colspan="12" class="no-data">Brak danych</td></tr>'; return; }
+  tb.innerHTML = data.map((d,i) => {
+    const st = computeStatus(d);
+    return `<tr class="${rowClass(d)}">
     <td class="tbl-check"><input type="checkbox" class="doc-sel" data-id="${d.id}" data-type="z" onchange="updateBulkBar('zakup')"></td>
     <td class="lp-col">${i+1}</td>
-    <td class="td-kontrahent" title="Kliknij, aby filtrować po tym kontrahencie" style="${d.kontrahent?'cursor:pointer;':''}">
+    <td class="td-kontrahent" title="Kliknij, aby filtrować" style="${d.kontrahent?'cursor:pointer;':''}">
       ${d.kontrahent ? `<span onclick="filterByKontrahent('${esc(d.kontrahent)}','zakup')" style="text-decoration:underline dotted;text-underline-offset:3px;">${esc(d.kontrahent)}</span>` : '<span style="opacity:.3">—</span>'}
     </td>
     <td style="color:rgba(255,255,255,.7)">${esc(d.numerDokumentu)||'<span style="opacity:.3">—</span>'}</td>
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWplywu)}</td>
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWystawienia)}</td>
     <td class="td-kwota">${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '<span style="opacity:.3">—</span>'}</td>
+    <td class="${terminClass(d)}">${d.terminPlatnosci ? fmt(d.terminPlatnosci) : '<span style="opacity:.25">—</span>'}</td>
+    <td><span class="badge-status ${st}">${statusLabel(st)}</span></td>
+    <td>${d.kategoria ? `<span class="badge-kat" title="${esc(d.kategoria)}">${esc(d.kategoria)}</span>` : '<span style="opacity:.25">—</span>'}</td>
     <td><span class="td-rejestr">${d.rejestr||'Zakup'}</span>${d.zatwierdzone ? '<span class="badge-approv">✓ zatw.</span>' : ''}</td>
     <td class="tbl-actions">
       <button class="btn-ta" title="${d.fileData?'Uzupełnij AI':'Brak pliku'}" onclick="startAIForDoc('${d.id}','z')">🤖</button>
-      <button class="btn-ta" title="Uzupełnij / edytuj ręcznie" onclick="startManualEntry('zakup','${d.id}')">✏️</button>
-      <button class="btn-ta" title="${d.fileData?'Pobierz plik':'Brak pliku do pobrania'}" onclick="dlFile('${d.id}','z')" ${d.fileData?'':'style="opacity:.3;cursor:default"'}>📥</button>
+      <button class="btn-ta" title="Edytuj ręcznie" onclick="startManualEntry('zakup','${d.id}')">✏️</button>
+      <button class="btn-ta" title="Eksportuj PDF" onclick="exportDocPDF('${d.id}','z')">📄</button>
+      <button class="btn-ta" title="${d.fileData?'Pobierz plik':'Brak pliku'}" onclick="dlFile('${d.id}','z')" ${d.fileData?'':'style="opacity:.3;cursor:default"'}>📥</button>
       <button class="btn-ta btn-ta-del" title="Usuń" onclick="delFile('${d.id}','z')">🗑️</button>
     </td>
-  </tr>`).join('');
+  </tr>`;
+  }).join('');
 }
 function renderTableSprzedazy(data) {
   const tb = document.getElementById('summarySprzedazyTable');
-  if (!data.length) { tb.innerHTML = '<tr><td colspan="9" class="no-data">Brak danych</td></tr>'; return; }
-  tb.innerHTML = data.map((d,i) => `<tr class="${d.zatwierdzone ? 'row-approved' : ''}">
+  if (!data.length) { tb.innerHTML = '<tr><td colspan="12" class="no-data">Brak danych</td></tr>'; return; }
+  tb.innerHTML = data.map((d,i) => {
+    const st = computeStatus(d);
+    return `<tr class="${rowClass(d)}">
     <td class="tbl-check"><input type="checkbox" class="doc-sel" data-id="${d.id}" data-type="s" onchange="updateBulkBar('sprzedazy')"></td>
     <td class="lp-col">${i+1}</td>
-    <td class="td-kontrahent" title="Kliknij, aby filtrować po tym kontrahencie" style="${d.kontrahent?'cursor:pointer;':''}">
+    <td class="td-kontrahent" title="Kliknij, aby filtrować" style="${d.kontrahent?'cursor:pointer;':''}">
       ${d.kontrahent ? `<span onclick="filterByKontrahent('${esc(d.kontrahent)}','sprzedazy')" style="text-decoration:underline dotted;text-underline-offset:3px;">${esc(d.kontrahent)}</span>` : '<span style="opacity:.3">—</span>'}
     </td>
     <td style="color:rgba(255,255,255,.7)">${esc(d.numerDokumentu)||'<span style="opacity:.3">—</span>'}</td>
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWplywu)}</td>
     <td style="color:rgba(255,255,255,.6)">${fmt(d.dataWystawienia)}</td>
     <td class="td-kwota">${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '<span style="opacity:.3">—</span>'}</td>
+    <td class="${terminClass(d)}">${d.terminPlatnosci ? fmt(d.terminPlatnosci) : '<span style="opacity:.25">—</span>'}</td>
+    <td><span class="badge-status ${st}">${statusLabel(st)}</span></td>
+    <td>${d.kategoria ? `<span class="badge-kat" title="${esc(d.kategoria)}">${esc(d.kategoria)}</span>` : '<span style="opacity:.25">—</span>'}</td>
     <td><span class="td-rejestr" style="background:rgba(165,214,167,.15);color:#a5d6a7;">${d.rejestr||'Sprzedaż'}</span>${d.zatwierdzone ? '<span class="badge-approv">✓ zatw.</span>' : ''}</td>
     <td class="tbl-actions">
       <button class="btn-ta" title="${d.fileData?'Uzupełnij AI':'Brak pliku'}" onclick="startAIForDoc('${d.id}','s')">🤖</button>
-      <button class="btn-ta" title="Uzupełnij / edytuj ręcznie" onclick="startManualEntry('sprzedazy','${d.id}')">✏️</button>
-      <button class="btn-ta" title="${d.fileData?'Pobierz plik':'Brak pliku do pobrania'}" onclick="dlFile('${d.id}','s')" ${d.fileData?'':'style="opacity:.3;cursor:default"'}>📥</button>
+      <button class="btn-ta" title="Edytuj ręcznie" onclick="startManualEntry('sprzedazy','${d.id}')">✏️</button>
+      <button class="btn-ta" title="Eksportuj PDF" onclick="exportDocPDF('${d.id}','s')">📄</button>
+      <button class="btn-ta" title="${d.fileData?'Pobierz plik':'Brak pliku'}" onclick="dlFile('${d.id}','s')" ${d.fileData?'':'style="opacity:.3;cursor:default"'}>📥</button>
       <button class="btn-ta btn-ta-del" title="Usuń" onclick="delFile('${d.id}','s')">🗑️</button>
     </td>
-  </tr>`).join('');
+  </tr>`;
+  }).join('');
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1381,35 +1552,101 @@ function applySortToData(data, type) {
 function getYear(dateStr) { return dateStr ? dateStr.substring(0,4) : ''; }
 
 function applyFiltersZakup() {
-  const s = document.getElementById('searchZakup').value.toLowerCase();
-  const m = document.getElementById('monthFilterZakup').value;
-  const y = document.getElementById('yearFilterZakup').value;
-  const filtered = dokumentyZakup.filter(d =>
-    (!s || (d.kontrahent||'').toLowerCase().includes(s)) &&
-    (!m || getMonth(d.dataWplywu) === m) &&
-    (!y || getYear(d.dataWplywu) === y)
-  );
+  const s  = document.getElementById('searchZakup').value.toLowerCase();
+  const m  = document.getElementById('monthFilterZakup').value;
+  const y  = document.getElementById('yearFilterZakup').value;
+  const kt = (document.getElementById('kontrahentPickerZakup')?.value || '').toLowerCase();
+  const kat = (document.getElementById('katFilterZakup')?.value || '').toLowerCase();
+  const st  = document.getElementById('statusFilterZakup')?.value || '';
+  const filtered = dokumentyZakup.filter(d => {
+    const effSt = computeStatus(d);
+    return (!s   || (d.kontrahent||'').toLowerCase().includes(s)) &&
+           (!kt  || (d.kontrahent||'').toLowerCase() === kt) &&
+           (!kat || (d.kategoria||'').toLowerCase() === kat) &&
+           (!st  || effSt === st) &&
+           (!m   || getMonth(d.dataWplywu) === m) &&
+           (!y   || getYear(d.dataWplywu) === y);
+  });
   renderTableZakup(applySortToData(filtered, 'zakup'));
 }
 function applyFiltersSprzedazy() {
-  const s = document.getElementById('searchSprzedazy').value.toLowerCase();
-  const m = document.getElementById('monthFilterSprzedazy').value;
-  const y = document.getElementById('yearFilterSprzedazy').value;
-  const filtered = dokumentySprzedazy.filter(d =>
-    (!s || (d.kontrahent||'').toLowerCase().includes(s)) &&
-    (!m || getMonth(d.dataWplywu) === m) &&
-    (!y || getYear(d.dataWplywu) === y)
-  );
+  const s  = document.getElementById('searchSprzedazy').value.toLowerCase();
+  const m  = document.getElementById('monthFilterSprzedazy').value;
+  const y  = document.getElementById('yearFilterSprzedazy').value;
+  const kt = (document.getElementById('kontrahentPickerSprzedazy')?.value || '').toLowerCase();
+  const kat = (document.getElementById('katFilterSprzedazy')?.value || '').toLowerCase();
+  const st  = document.getElementById('statusFilterSprzedazy')?.value || '';
+  const filtered = dokumentySprzedazy.filter(d => {
+    const effSt = computeStatus(d);
+    return (!s   || (d.kontrahent||'').toLowerCase().includes(s)) &&
+           (!kt  || (d.kontrahent||'').toLowerCase() === kt) &&
+           (!kat || (d.kategoria||'').toLowerCase() === kat) &&
+           (!st  || effSt === st) &&
+           (!m   || getMonth(d.dataWplywu) === m) &&
+           (!y   || getYear(d.dataWplywu) === y);
+  });
   renderTableSprzedazy(applySortToData(filtered, 'sprzedazy'));
 }
+
+function populateKategorieFilters() {
+  const kats = new Set();
+  [...dokumentyZakup, ...dokumentySprzedazy].forEach(d => { if (d.kategoria) kats.add(d.kategoria); });
+  const sorted = Array.from(kats).sort((a,b)=>a.localeCompare(b,'pl'));
+  ['katFilterZakup','katFilterSprzedazy'].forEach(id => {
+    const sel = document.getElementById(id); if (!sel) return;
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">🏷️ Wszystkie kategorie</option>' +
+      sorted.map(k=>`<option value="${k.toLowerCase()}"${cur===k.toLowerCase()?'selected':''}>${k}</option>`).join('');
+  });
+}
+
+function populateKontrahentFilters() {
+  // Collect unique kontrahent names from both document lists + kontrahenciData
+  const names = new Set();
+  dokumentyZakup.forEach(d => { if (d.kontrahent) names.add(d.kontrahent); });
+  dokumentySprzedazy.forEach(d => { if (d.kontrahent) names.add(d.kontrahent); });
+  kontrahenciData.forEach(k => { if (k.nazwa) names.add(k.nazwa); });
+  wyciagiData.forEach(d => { if (d.kontrahent) names.add(d.kontrahent); });
+  const sorted = Array.from(names).sort((a,b) => a.localeCompare(b,'pl'));
+  ['kontrahentPickerZakup','kontrahentPickerSprzedazy','kontrahentPickerWyciagi'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">— Wszyscy kontrahenci —</option>' +
+      sorted.map(n => `<option value="${n.toLowerCase()}"${cur===n.toLowerCase()?'selected':''}>${n}</option>`).join('');
+  });
+}
+
+function renderHomeStats() {
+  const z  = dokumentyZakup.length;
+  const sp = dokumentySprzedazy.length;
+  const zw = [...dokumentyZakup,...dokumentySprzedazy].filter(d=>d.zatwierdzone).length;
+  const kn = kontrahenciData.length;
+  const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+  set('stat-zakup', z);
+  set('stat-sprzedaz', sp);
+  set('stat-zatw', zw);
+  set('stat-kontr', kn);
+}
+
+function navigateTo(pageId) {
+  document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const link = document.querySelector(`.menu-link[data-page="${pageId}"]`);
+  if (link) link.classList.add('active');
+  const page = document.getElementById(pageId + '-page') || document.getElementById(pageId);
+  if (page) page.classList.add('active');
+}
 function applyFiltersWyciagi() {
-  const s = (document.getElementById('searchWyciagi')?.value||'').toLowerCase();
-  const m = document.getElementById('monthFilterWyciagi').value;
-  const y = document.getElementById('yearFilterWyciagi').value;
+  const s  = (document.getElementById('searchWyciagi')?.value||'').toLowerCase();
+  const m  = document.getElementById('monthFilterWyciagi').value;
+  const y  = document.getElementById('yearFilterWyciagi').value;
+  const kt = (document.getElementById('kontrahentPickerWyciagi')?.value||'').toLowerCase();
   const filtered = wyciagiData.filter(d =>
-    (!s || (d.fileName||'').toLowerCase().includes(s)) &&
-    (!m || getMonth(d.addedDate) === m) &&
-    (!y || getYear(d.addedDate) === y)
+    (!s  || (d.fileName||'').toLowerCase().includes(s)) &&
+    (!kt || (d.kontrahent||'').toLowerCase() === kt) &&
+    (!m  || getMonth(d.addedDate) === m) &&
+    (!y  || getYear(d.addedDate) === y)
   );
   renderWyciagi(filtered);
 }
@@ -1700,8 +1937,8 @@ function renderAIForm(r) {
         </div>
       </div>
 
-      <div class="ai-section-title">🗂️ Kategoria</div>
-      <div class="ai-grid">
+      <div class="ai-section-title">🗂️ Kategoria i status płatności</div>
+      <div class="ai-grid four">
         <div class="ai-field">
           <label>Kategoria
             <button type="button" title="Dodaj własną kategorię" onclick="quickAddKategoria()" style="margin-left:6px;background:rgba(100,181,246,.2);border:1px solid rgba(100,181,246,.4);color:#90caf9;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:.8em;line-height:16px;padding:0;vertical-align:middle;">+</button>
@@ -1711,6 +1948,14 @@ function renderAIForm(r) {
         <div class="ai-field">
           <label>Opis kategorii</label>
           <textarea id="f_opisKategorii">${esc(r.opisKategorii??'')}</textarea>
+        </div>
+        <div class="ai-field">
+          <label>Status płatności</label>
+          <select id="f_statusPlatnosci" style="border-color:${(r.statusPlatnosci||'nieoplacona')==='oplacona'?'rgba(76,175,80,.5)':(r.statusPlatnosci==='przeterminowana'?'rgba(239,83,80,.5)':'rgba(255,152,0,.4)')}">
+            <option value="nieoplacona" ${(!r.statusPlatnosci||r.statusPlatnosci==='nieoplacona')?'selected':''}>○ Nieopłacona</option>
+            <option value="oplacona"    ${r.statusPlatnosci==='oplacona'?'selected':''}>✓ Opłacona</option>
+            <option value="przeterminowana" ${r.statusPlatnosci==='przeterminowana'?'selected':''}>⚠ Przeterminowana</option>
+          </select>
         </div>
       </div>
 
@@ -1930,6 +2175,7 @@ function saveAIDoc(zatwierdzone = false) {
     waluta:          document.getElementById('f_waluta').value.trim() || 'PLN',
     kategoria:       document.getElementById('f_kategoria').value,
     opisKategorii:   document.getElementById('f_opisKategorii').value.trim(),
+    statusPlatnosci: document.getElementById('f_statusPlatnosci')?.value || 'nieoplacona',
     kwotaNetto:      document.getElementById('f_kwotaNetto').value,
     kwotaBrutto:     document.getElementById('f_kwotaBrutto').value,
     vat: {
@@ -1979,6 +2225,9 @@ function saveAIDoc(zatwierdzone = false) {
     }
   }
 
+  populateKontrahentFilters();
+  populateKategorieFilters();
+  renderHomeStats();
   closeAiPanel();
   if (zatwierdzone) {
     alert('✅ Dokument zatwierdzony i gotowy do eksportu!');
@@ -1990,6 +2239,81 @@ function saveAIDoc(zatwierdzone = false) {
 // ═══════════════════════════════════════════════════════════
 // FILE ACTIONS
 // ═══════════════════════════════════════════════════════════
+function exportDocPDF(id, typeChar) {
+  const list = typeChar === 'z' ? dokumentyZakup : dokumentySprzedazy;
+  const d = list.find(x => String(x.id) === String(id));
+  if (!d) { alert('Nie znaleziono dokumentu.'); return; }
+  const st = computeStatus(d);
+  const stLabel = statusLabel(st);
+  const stColor = st === 'oplacona' ? '#2e7d32' : st === 'przeterminowana' ? '#c62828' : '#e65100';
+  const row = (label, val) => val ? `<tr><td class="lbl">${label}</td><td>${val}</td></tr>` : '';
+  const vatVal = d.vat ? Object.entries({zw:d.vat.zw,p0:d.vat.p0,p5:d.vat.p5,p8:d.vat.p8,p23:d.vat.p23})
+    .filter(([,v])=>parseFloat(v||0)>0).map(([k,v])=>`${k}: ${parseFloat(v).toFixed(2)} zł`).join(' | ') : '';
+  const html = `<!DOCTYPE html><html lang="pl"><head><meta charset="UTF-8">
+  <title>Dokument — ${d.numerDokumentu||d.fileName}</title>
+  <style>
+    body { font-family: Arial, sans-serif; color: #222; margin: 0; padding: 30px; font-size: 13px; }
+    .header { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid #1a237e; padding-bottom:16px; margin-bottom:20px; }
+    .brand { font-size:22px; font-weight:800; color:#1a237e; } .brand span { color:#d32f2f; }
+    .doc-title { font-size:16px; font-weight:700; color:#333; margin-top:6px; }
+    table { width:100%; border-collapse:collapse; margin-bottom:20px; }
+    td { padding:8px 10px; border-bottom:1px solid #e0e0e0; vertical-align:top; }
+    td.lbl { width:180px; font-weight:700; color:#555; background:#f5f5f5; }
+    .status-badge { display:inline-block; padding:4px 12px; border-radius:20px; font-weight:700; font-size:12px; color:white; background:${stColor}; }
+    .section-title { font-size:13px; font-weight:800; color:#1a237e; text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px; padding-bottom:4px; border-bottom:1px solid #c5cae9; }
+    .footer { margin-top:40px; border-top:1px solid #ccc; padding-top:12px; font-size:11px; color:#888; display:flex; justify-content:space-between; }
+    .amount { font-size:18px; font-weight:800; color:#1a237e; }
+    @media print { body { padding: 10px; } }
+  </style>
+  </head><body>
+  <div class="header">
+    <div><div class="brand">Nexo<span>Docs</span></div><div style="font-size:11px;color:#888;margin-top:2px;">Biuro Rachunkowe Oskar</div></div>
+    <div style="text-align:right"><div class="doc-title">${esc(d.numerDokumentu||'Dokument')}</div>
+    <div style="margin-top:6px"><span class="status-badge">${stLabel}</span></div></div>
+  </div>
+
+  <div class="section-title">Identyfikacja dokumentu</div>
+  <table>
+    ${row('Numer dokumentu', esc(d.numerDokumentu))}
+    ${row('Kontrahent', esc(d.kontrahent))}
+    ${row('Rejestr', esc(d.rejestr))}
+    ${row('Waluta', esc(d.waluta))}
+    ${row('Kategoria', esc(d.kategoria))}
+    ${row('Opis kategorii', esc(d.opisKategorii))}
+  </table>
+
+  <div class="section-title">Daty</div>
+  <table>
+    ${row('Data wpływu', fmt(d.dataWplywu))}
+    ${row('Data wystawienia', fmt(d.dataWystawienia))}
+    ${row('Data sprzedaży', fmt(d.dataSprzedazy))}
+    ${row('Termin płatności', d.terminPlatnosci ? `<strong style="color:${computeStatus(d)==='przeterminowana'?'#c62828':'#2e7d32'}">${fmt(d.terminPlatnosci)}</strong>` : '—')}
+  </table>
+
+  <div class="section-title">Kwoty</div>
+  <table>
+    ${row('Kwota netto', d.kwotaNetto ? parseFloat(d.kwotaNetto).toFixed(2)+' zł' : '')}
+    ${row('Kwota brutto', d.kwotaBrutto ? `<span class="amount">${parseFloat(d.kwotaBrutto).toFixed(2)} zł</span>` : '')}
+    ${vatVal ? row('Rozbicie VAT', vatVal) : ''}
+  </table>
+
+  <div class="section-title">Status</div>
+  <table>
+    ${row('Status płatności', `<span class="status-badge">${stLabel}</span>`)}
+    ${d.zatwierdzone ? row('Zatwierdzono', fmt(d.zatwierdzonaData)||'tak') : ''}
+  </table>
+
+  <div class="footer">
+    <span>Wygenerowano: ${new Date().toLocaleDateString('pl-PL')} | NexoDocs — Biuro Rachunkowe Oskar</span>
+    <span>${esc(d.fileName||'')}</span>
+  </div>
+  <script>window.onload=()=>window.print();<\/script>
+  </body></html>`;
+  const w = window.open('','_blank','width=800,height=900');
+  if (w) { w.document.write(html); w.document.close(); }
+  else alert('Zezwól na wyskakujące okienka, aby wygenerować PDF.');
+}
+
 function dlFile(id, type) {
   const list = type==='z' ? dokumentyZakup : dokumentySprzedazy;
   const d = list.find(x => String(x.id) == String(id));
@@ -2070,12 +2394,16 @@ function addKontrahent() {
   saveKontrahenci();
   ['krNazwa','krNip','krTelefon','krEmail','krAdres'].forEach(id => document.getElementById(id).value='');
   renderKontrahenci();
+  populateKontrahentFilters();
+  renderHomeStats();
 }
 
 function delKontrahent(id) {
   if (!confirm('Usunąć kontrahenta?')) return;
   kontrahenciData = kontrahenciData.filter(k => k.id !== id);
   saveKontrahenci(); renderKontrahenci();
+  populateKontrahentFilters();
+  renderHomeStats();
 }
 
 function renderKontrahenci() {
@@ -2501,6 +2829,8 @@ function bulkDelete(type) {
     applyFiltersSprzedazy();
   }
   clearSelection(type);
+  populateKontrahentFilters();
+  renderHomeStats();
 }
 function bulkExportXML(type) {
   const ids = getSelected(type);
@@ -2734,6 +3064,9 @@ function initApp() {
   renderWyciagi();
   renderKontrahenci();
   renderKadry();
+  populateKontrahentFilters();
+  populateKategorieFilters();
+  renderHomeStats();
 }
 
 // ═══════════════════════════════════════════════════════════
