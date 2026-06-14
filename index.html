@@ -163,10 +163,21 @@
     /* ── ABOUT SECTION ──────────────────────────────────────── */
     .about-section { background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 40px; margin-top: 30px; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 8px 32px rgba(0,0,0,.3); }
     .about-section h2 { margin-bottom: 25px; font-size: 1.8em; color: #64b5f6; text-align: center; }
-    .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 20px; }
+    .about-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
     .about-card { background: rgba(255,255,255,.07); padding: 22px; border-radius: 10px; border-left: 4px solid #64b5f6; }
     .about-card h3 { color: #90caf9; margin-bottom: 8px; font-size: 1em; }
     .about-card p { color: rgba(255,255,255,.8); font-size: .9em; line-height: 1.6; }
+
+    /* ── TABS ─────────────────────────────────────────────── */
+    .tab-bar { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid rgba(255,255,255,.15); }
+    .tab-btn { padding: 12px 26px; background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; font-size: .95em; font-weight: 600; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all .2s; }
+    .tab-btn.active { color: #64b5f6; border-bottom-color: #64b5f6; }
+    .tab-btn:hover:not(.active) { color: rgba(255,255,255,.85); background: rgba(255,255,255,.04); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .export-info-box { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); border-radius: 12px; padding: 24px 28px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .export-info-box h3 { color: #64b5f6; margin-bottom: 6px; }
+    .export-info-box p { color: rgba(255,255,255,.65); font-size: .9em; }
 
     /* ── KONTRAHENCI / KADRY ────────────────────────────────── */
     .kr-toolbar { display: flex; gap: 12px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
@@ -214,6 +225,29 @@
     .export-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
     footer { background: rgba(0,0,0,.3); padding: 20px; text-align: center; font-size: .9em; color: rgba(255,255,255,.8); border-top: 1px solid rgba(255,255,255,.2); margin-top: auto; }
+
+    /* ── AUTH OVERLAY ─────────────────────────────────────── */
+    .auth-overlay { position:fixed; inset:0; z-index:9999; background:linear-gradient(135deg,#0b1a38 0%,#1a3a6c 55%,#0d1e40 100%); display:flex; align-items:center; justify-content:center; padding:20px; }
+    .auth-card { background:rgba(255,255,255,.07); backdrop-filter:blur(24px); border:1px solid rgba(255,255,255,.18); border-radius:22px; padding:42px 40px; width:100%; max-width:430px; box-shadow:0 30px 70px rgba(0,0,0,.55); }
+    .auth-logo { text-align:center; margin-bottom:30px; }
+    .auth-logo h1 { font-size:2.4em; font-weight:800; color:white; letter-spacing:2px; text-shadow:0 2px 8px rgba(0,0,0,.4); }
+    .auth-logo p { color:rgba(255,255,255,.45); font-size:.88em; margin-top:5px; }
+    .auth-tabs { display:flex; border-bottom:2px solid rgba(255,255,255,.12); margin-bottom:26px; }
+    .auth-tab { flex:1; background:none; border:none; color:rgba(255,255,255,.4); cursor:pointer; padding:11px; font-size:.93em; font-weight:700; border-bottom:3px solid transparent; margin-bottom:-2px; transition:all .2s; }
+    .auth-tab.active { color:#64b5f6; border-bottom-color:#64b5f6; }
+    .auth-tab:hover:not(.active) { color:rgba(255,255,255,.75); }
+    .auth-field { margin-bottom:16px; }
+    .auth-field label { display:block; font-size:.78em; font-weight:700; color:rgba(255,255,255,.45); text-transform:uppercase; letter-spacing:.8px; margin-bottom:7px; }
+    .auth-field input { width:100%; padding:13px 15px; border:1px solid rgba(255,255,255,.18); border-radius:10px; background:rgba(255,255,255,.07); color:white; font-size:.95em; font-family:inherit; transition:border-color .2s,background .2s; }
+    .auth-field input:focus { outline:none; border-color:#64b5f6; background:rgba(100,181,246,.09); }
+    .auth-field input::placeholder { color:rgba(255,255,255,.25); }
+    .auth-submit { width:100%; padding:14px; background:linear-gradient(135deg,#1976d2,#1565c0); color:white; border:none; border-radius:10px; font-size:1.02em; font-weight:700; cursor:pointer; margin-top:4px; transition:transform .2s,box-shadow .2s; box-shadow:0 4px 16px rgba(25,118,210,.45); }
+    .auth-submit:hover { transform:translateY(-2px); box-shadow:0 8px 26px rgba(25,118,210,.6); }
+    .auth-msg-err { background:rgba(239,83,80,.13); border:1px solid rgba(239,83,80,.4); color:#ef9a9a; border-radius:8px; padding:10px 13px; font-size:.86em; margin-bottom:14px; }
+    .auth-msg-ok  { background:rgba(76,175,80,.13); border:1px solid rgba(76,175,80,.4); color:#a5d6a7; border-radius:8px; padding:10px 13px; font-size:.86em; margin-bottom:14px; }
+    .auth-user-bar { padding:11px 20px; background:rgba(100,181,246,.1); border-bottom:1px solid rgba(255,255,255,.1); font-size:.85em; color:rgba(255,255,255,.75); font-weight:600; }
+    .sidebar-logout { margin:10px 20px 0; padding:10px 15px; background:rgba(239,83,80,.12); border:1px solid rgba(239,83,80,.28); border-radius:8px; color:#ef9a9a; cursor:pointer; font-size:.86em; font-weight:600; width:calc(100% - 40px); transition:background .3s; }
+    .sidebar-logout:hover { background:rgba(239,83,80,.26); }
 
     /* ══════════════════════════════════════════════════════════
        AI FULL-SCREEN PANEL
@@ -366,7 +400,7 @@
     .btn-modal-cancel { flex: 1; background: rgba(255,255,255,.1); color: white; border: 1px solid rgba(255,255,255,.2); padding: 12px; border-radius: 8px; cursor: pointer; font-size: 1em; }
 
     /* ── RESPONSIVE ──────────────────────────────────────────── */
-    @media (max-width: 1024px) { .home-container { grid-template-columns: 1fr; } }
+    @media (max-width: 1024px) { .home-container { grid-template-columns: 1fr; } .about-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 768px) {
       .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 2px solid rgba(255,255,255,.2); padding: 15px 0; }
       .main-content { margin-left: 0; width: 100%; }
@@ -386,6 +420,43 @@
   </style>
 </head>
 <body>
+
+<!-- ════════════════════════════════════════════════
+     AUTH OVERLAY
+════════════════════════════════════════════════ -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <h1>NexoDocs</h1>
+      <p>Weryfikacja Dokumentów Księgowych</p>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="authTabLogin" onclick="switchAuthTab('login')">Zaloguj się</button>
+      <button class="auth-tab" id="authTabRegister" onclick="switchAuthTab('register')">Zarejestruj się</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="authLoginForm">
+      <div class="auth-field"><label>E-mail</label><input type="email" id="loginEmail" placeholder="twoj@email.pl" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="auth-field"><label>Hasło</label><input type="password" id="loginPassword" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div id="loginMsg" style="display:none"></div>
+      <button class="auth-submit" onclick="doLogin()">→ Zaloguj się</button>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="authRegisterForm" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="auth-field"><label>Imię</label><input type="text" id="regFirstName" placeholder="Jan"></div>
+        <div class="auth-field"><label>Nazwisko</label><input type="text" id="regLastName" placeholder="Kowalski"></div>
+      </div>
+      <div class="auth-field"><label>E-mail</label><input type="email" id="regEmail" placeholder="twoj@email.pl"></div>
+      <div class="auth-field"><label>Hasło</label><input type="password" id="regPassword" placeholder="min. 6 znaków"></div>
+      <div class="auth-field"><label>Potwierdź hasło</label><input type="password" id="regPasswordConfirm" placeholder="powtórz hasło" onkeydown="if(event.key==='Enter')doRegister()"></div>
+      <div id="registerMsg" style="display:none"></div>
+      <button class="auth-submit" onclick="doRegister()">✓ Zarejestruj się</button>
+    </div>
+  </div>
+</div>
 
 <!-- ════════════════════════════════════════════════
      AI FULL-SCREEN PANEL
@@ -427,6 +498,7 @@
      SIDEBAR
 ════════════════════════════════════════════════ -->
 <aside class="sidebar">
+  <div class="auth-user-bar" id="sidebarUser">👤</div>
   <h2>Menu</h2>
   <ul>
     <li><a href="#" class="menu-link active" data-page="home">🏠 Home</a></li>
@@ -441,6 +513,7 @@
   <button class="sidebar-api-btn" onclick="openApiKeyModal()">
     <span class="api-dot" id="apiDot"></span>Klucz API OpenRouter
   </button>
+  <button class="sidebar-logout" onclick="doLogout()">🚪 Wyloguj się</button>
 </aside>
 
 <!-- ════════════════════════════════════════════════
@@ -528,60 +601,82 @@
     <div class="page" id="faktury-zakupu">
       <h2 class="page-title">📄 Faktury Zakupu</h2>
 
-      <!-- AI BANNER -->
-      <div class="ai-banner">
-        <div class="ai-banner-info">
-          <h3>🤖 Uzupełnij AI</h3>
-          <p>Wybierz plik faktury (PDF, JPG, PNG) — AI automatycznie odczyta i uzupełni wszystkie dane dokumentu.</p>
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="showTab('zakup','docs')">📋 Dokumenty</button>
+        <button class="tab-btn" onclick="showTab('zakup','export')">📤 Eksportuj</button>
+      </div>
+
+      <!-- TAB: Dokumenty -->
+      <div class="tab-content active" id="zakup-tab-docs">
+        <!-- AI BANNER -->
+        <div class="ai-banner">
+          <div class="ai-banner-info">
+            <h3>🤖 Uzupełnij AI</h3>
+            <p>Wybierz plik faktury (PDF, JPG, PNG) — AI automatycznie odczyta i uzupełni wszystkie dane dokumentu.</p>
+          </div>
+          <label class="ai-banner-btn" for="aiFileZakup">🤖 Wybierz fakturę i uzupełnij AI</label>
+          <input type="file" id="aiFileZakup" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="startAI(this,'zakup')">
         </div>
-        <label class="ai-banner-btn" for="aiFileZakup">🤖 Wybierz fakturę i uzupełnij AI</label>
-        <input type="file" id="aiFileZakup" accept=".pdf,.jpg,.jpeg,.png" style="display:none"
-          onchange="startAI(this,'zakup')">
+        <!-- KSEF MINI + UPLOAD -->
+        <div class="ksef-mini-row">
+          <button class="ksef-btn-sm green" onclick="openKSeF('zakup')">📥 Pobierz z KSeF</button>
+          <label class="ksef-btn-sm blue" for="uploadDokZakup">📂 Dodaj dokument z komputera</label>
+          <input type="file" id="uploadDokZakup" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="startManual(this,'zakup')">
+        </div>
+        <!-- SEARCH + FILTER -->
+        <div class="search-filter-row">
+          <input type="text" id="searchZakup" placeholder="🔍 Szukaj po kontrahencie...">
+          <select id="monthFilterZakup" onchange="applyFiltersZakup()">
+            <option value="">📅 Wszystkie miesiące</option>
+            <option value="01">Styczeń</option><option value="02">Luty</option>
+            <option value="03">Marzec</option><option value="04">Kwiecień</option>
+            <option value="05">Maj</option><option value="06">Czerwiec</option>
+            <option value="07">Lipiec</option><option value="08">Sierpień</option>
+            <option value="09">Wrzesień</option><option value="10">Październik</option>
+            <option value="11">Listopad</option><option value="12">Grudzień</option>
+          </select>
+          <select id="yearFilterZakup" onchange="applyFiltersZakup()">
+            <option value="">🗓️ Wszystkie lata</option>
+            <option>2020</option><option>2021</option><option>2022</option><option>2023</option>
+            <option>2024</option><option>2025</option><option>2026</option><option>2027</option>
+          </select>
+        </div>
+        <!-- TABLE -->
+        <div class="summary-section">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th class="sortable" id="thZakupLp" onclick="sortTable('zakup','lp')">Lp <span class="si">⇅</span></th>
+                <th class="sortable" id="thZakupKontrahent" onclick="sortTable('zakup','kontrahent')">Kontrahent <span class="si">⇅</span></th>
+                <th class="sortable" id="thZakupNrDok" onclick="sortTable('zakup','numerDokumentu')">Nr dokumentu <span class="si">⇅</span></th>
+                <th class="sortable" id="thZakupDataWplywu" onclick="sortTable('zakup','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
+                <th class="sortable" id="thZakupDataWyst" onclick="sortTable('zakup','dataWystawienia')">Data wystawienia <span class="si">⇅</span></th>
+                <th class="sortable" id="thZakupKwota" onclick="sortTable('zakup','kwotaBrutto')">Kwota brutto <span class="si">⇅</span></th>
+                <th>Rejestr</th><th>Akcje</th>
+              </tr>
+            </thead>
+            <tbody id="summaryZakupTable">
+              <tr><td colspan="8" class="no-data">Brak danych</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <!-- KSEF MINI + UPLOAD -->
-      <div class="ksef-mini-row">
-        <button class="ksef-btn-sm green" onclick="openKSeF('zakup')">📥 Pobierz z KSeF</button>
-        <label class="ksef-btn-sm blue" for="uploadDokZakup">📂 Dodaj dokument z komputera</label>
-        <input type="file" id="uploadDokZakup" accept=".pdf,.jpg,.jpeg,.png" style="display:none"
-          onchange="startManual(this,'zakup')">
-      </div>
-
-      <!-- SEARCH + FILTER -->
-      <div class="search-filter-row">
-        <input type="text" id="searchZakup" placeholder="🔍 Szukaj po kontrahencie...">
-        <select id="monthFilterZakup" onchange="applyFiltersZakup()">
-          <option value="">📅 Wszystkie miesiące</option>
-          <option value="01">Styczeń</option><option value="02">Luty</option>
-          <option value="03">Marzec</option><option value="04">Kwiecień</option>
-          <option value="05">Maj</option><option value="06">Czerwiec</option>
-          <option value="07">Lipiec</option><option value="08">Sierpień</option>
-          <option value="09">Wrzesień</option><option value="10">Październik</option>
-          <option value="11">Listopad</option><option value="12">Grudzień</option>
-        </select>
-        <select id="yearFilterZakup" onchange="applyFiltersZakup()">
-          <option value="">🗓️ Wszystkie lata</option>
-          <option>2020</option><option>2021</option><option>2022</option><option>2023</option>
-          <option>2024</option><option>2025</option><option>2026</option><option>2027</option>
-        </select>
-      </div>
-
-      <!-- TABLE -->
-      <div class="summary-section">
-        <table class="summary-table">
-          <thead>
-            <tr>
-              <th>Lp</th>
-              <th class="sortable" id="thZakupKontrahent" onclick="sortTable('zakup','kontrahent')">Kontrahent <span class="si">⇅</span></th>
-              <th>Nr dokumentu</th>
-              <th class="sortable" id="thZakupDataWplywu" onclick="sortTable('zakup','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
-              <th>Data wystawienia</th><th>Kwota brutto</th><th>Rejestr</th><th>Akcje</th>
-            </tr>
-          </thead>
-          <tbody id="summaryZakupTable">
-            <tr><td colspan="8" class="no-data">Brak danych</td></tr>
-          </tbody>
-        </table>
+      <!-- TAB: Eksportuj -->
+      <div class="tab-content" id="zakup-tab-export">
+        <div class="export-info-box">
+          <div>
+            <h3>📤 Eksport do Comarch Optima</h3>
+            <p>Generuje plik XML zgodny z formatem importu Comarch Optima (FZ — Faktury Zakupu).<br>Plik możesz zaimportować przez: <em>Handel → Faktury Zakupu → Importuj z pliku XML</em>.</p>
+          </div>
+          <button class="export-btn" onclick="exportOptimaXML('zakup')">⬇️ Pobierz XML dla Optima</button>
+        </div>
+        <div class="summary-section">
+          <table class="summary-table">
+            <thead><tr><th>Lp</th><th>Nr dokumentu</th><th>Kontrahent</th><th>Data wystawienia</th><th>Kwota netto</th><th>Kwota brutto</th><th>Waluta</th></tr></thead>
+            <tbody id="exportZakupTable"><tr><td colspan="7" class="no-data">Brak dokumentów</td></tr></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -589,60 +684,82 @@
     <div class="page" id="faktury-sprzedazy">
       <h2 class="page-title">📋 Faktury Sprzedaży</h2>
 
-      <!-- AI BANNER -->
-      <div class="ai-banner">
-        <div class="ai-banner-info">
-          <h3>🤖 Uzupełnij AI</h3>
-          <p>Wybierz plik faktury (PDF, JPG, PNG) — AI automatycznie odczyta i uzupełni wszystkie dane dokumentu.</p>
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="showTab('sprzedazy','docs')">📋 Dokumenty</button>
+        <button class="tab-btn" onclick="showTab('sprzedazy','export')">📤 Eksportuj</button>
+      </div>
+
+      <!-- TAB: Dokumenty -->
+      <div class="tab-content active" id="sprzedazy-tab-docs">
+        <!-- AI BANNER -->
+        <div class="ai-banner">
+          <div class="ai-banner-info">
+            <h3>🤖 Uzupełnij AI</h3>
+            <p>Wybierz plik faktury (PDF, JPG, PNG) — AI automatycznie odczyta i uzupełni wszystkie dane dokumentu.</p>
+          </div>
+          <label class="ai-banner-btn" for="aiFileSprzedazy">🤖 Wybierz fakturę i uzupełnij AI</label>
+          <input type="file" id="aiFileSprzedazy" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="startAI(this,'sprzedazy')">
         </div>
-        <label class="ai-banner-btn" for="aiFileSprzedazy">🤖 Wybierz fakturę i uzupełnij AI</label>
-        <input type="file" id="aiFileSprzedazy" accept=".pdf,.jpg,.jpeg,.png" style="display:none"
-          onchange="startAI(this,'sprzedazy')">
+        <!-- KSEF MINI + UPLOAD -->
+        <div class="ksef-mini-row">
+          <button class="ksef-btn-sm green" onclick="openKSeF('sprzedazy')">📥 Pobierz z KSeF</button>
+          <label class="ksef-btn-sm blue" for="uploadDokSprzedazy">📂 Dodaj dokument z komputera</label>
+          <input type="file" id="uploadDokSprzedazy" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="startManual(this,'sprzedazy')">
+        </div>
+        <!-- SEARCH + FILTER -->
+        <div class="search-filter-row">
+          <input type="text" id="searchSprzedazy" placeholder="🔍 Szukaj po kontrahencie...">
+          <select id="monthFilterSprzedazy" onchange="applyFiltersSprzedazy()">
+            <option value="">📅 Wszystkie miesiące</option>
+            <option value="01">Styczeń</option><option value="02">Luty</option>
+            <option value="03">Marzec</option><option value="04">Kwiecień</option>
+            <option value="05">Maj</option><option value="06">Czerwiec</option>
+            <option value="07">Lipiec</option><option value="08">Sierpień</option>
+            <option value="09">Wrzesień</option><option value="10">Październik</option>
+            <option value="11">Listopad</option><option value="12">Grudzień</option>
+          </select>
+          <select id="yearFilterSprzedazy" onchange="applyFiltersSprzedazy()">
+            <option value="">🗓️ Wszystkie lata</option>
+            <option>2020</option><option>2021</option><option>2022</option><option>2023</option>
+            <option>2024</option><option>2025</option><option>2026</option><option>2027</option>
+          </select>
+        </div>
+        <!-- TABLE -->
+        <div class="summary-section">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th class="sortable" id="thSprzLp" onclick="sortTable('sprzedazy','lp')">Lp <span class="si">⇅</span></th>
+                <th class="sortable" id="thSprzKontrahent" onclick="sortTable('sprzedazy','kontrahent')">Kontrahent <span class="si">⇅</span></th>
+                <th class="sortable" id="thSprzNrDok" onclick="sortTable('sprzedazy','numerDokumentu')">Nr dokumentu <span class="si">⇅</span></th>
+                <th class="sortable" id="thSprzDataWplywu" onclick="sortTable('sprzedazy','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
+                <th class="sortable" id="thSprzDataWyst" onclick="sortTable('sprzedazy','dataWystawienia')">Data wystawienia <span class="si">⇅</span></th>
+                <th class="sortable" id="thSprzKwota" onclick="sortTable('sprzedazy','kwotaBrutto')">Kwota brutto <span class="si">⇅</span></th>
+                <th>Rejestr</th><th>Akcje</th>
+              </tr>
+            </thead>
+            <tbody id="summarySprzedazyTable">
+              <tr><td colspan="8" class="no-data">Brak danych</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <!-- KSEF MINI + UPLOAD -->
-      <div class="ksef-mini-row">
-        <button class="ksef-btn-sm green" onclick="openKSeF('sprzedazy')">📥 Pobierz z KSeF</button>
-        <label class="ksef-btn-sm blue" for="uploadDokSprzedazy">📂 Dodaj dokument z komputera</label>
-        <input type="file" id="uploadDokSprzedazy" accept=".pdf,.jpg,.jpeg,.png" style="display:none"
-          onchange="startManual(this,'sprzedazy')">
-      </div>
-
-      <!-- SEARCH + FILTER -->
-      <div class="search-filter-row">
-        <input type="text" id="searchSprzedazy" placeholder="🔍 Szukaj po kontrahencie...">
-        <select id="monthFilterSprzedazy" onchange="applyFiltersSprzedazy()">
-          <option value="">📅 Wszystkie miesiące</option>
-          <option value="01">Styczeń</option><option value="02">Luty</option>
-          <option value="03">Marzec</option><option value="04">Kwiecień</option>
-          <option value="05">Maj</option><option value="06">Czerwiec</option>
-          <option value="07">Lipiec</option><option value="08">Sierpień</option>
-          <option value="09">Wrzesień</option><option value="10">Październik</option>
-          <option value="11">Listopad</option><option value="12">Grudzień</option>
-        </select>
-        <select id="yearFilterSprzedazy" onchange="applyFiltersSprzedazy()">
-          <option value="">🗓️ Wszystkie lata</option>
-          <option>2020</option><option>2021</option><option>2022</option><option>2023</option>
-          <option>2024</option><option>2025</option><option>2026</option><option>2027</option>
-        </select>
-      </div>
-
-      <!-- TABLE -->
-      <div class="summary-section">
-        <table class="summary-table">
-          <thead>
-            <tr>
-              <th>Lp</th>
-              <th class="sortable" id="thSprzKontrahent" onclick="sortTable('sprzedazy','kontrahent')">Kontrahent <span class="si">⇅</span></th>
-              <th>Nr dokumentu</th>
-              <th class="sortable" id="thSprzDataWplywu" onclick="sortTable('sprzedazy','dataWplywu')">Data wpływu <span class="si">⇅</span></th>
-              <th>Data wystawienia</th><th>Kwota brutto</th><th>Rejestr</th><th>Akcje</th>
-            </tr>
-          </thead>
-          <tbody id="summarySprzedazyTable">
-            <tr><td colspan="8" class="no-data">Brak danych</td></tr>
-          </tbody>
-        </table>
+      <!-- TAB: Eksportuj -->
+      <div class="tab-content" id="sprzedazy-tab-export">
+        <div class="export-info-box">
+          <div>
+            <h3>📤 Eksport do Comarch Optima</h3>
+            <p>Generuje plik XML zgodny z formatem importu Comarch Optima (FS — Faktury Sprzedaży).<br>Plik możesz zaimportować przez: <em>Handel → Faktury Sprzedaży → Importuj z pliku XML</em>.</p>
+          </div>
+          <button class="export-btn" onclick="exportOptimaXML('sprzedazy')">⬇️ Pobierz XML dla Optima</button>
+        </div>
+        <div class="summary-section">
+          <table class="summary-table">
+            <thead><tr><th>Lp</th><th>Nr dokumentu</th><th>Kontrahent</th><th>Data wystawienia</th><th>Kwota netto</th><th>Kwota brutto</th><th>Waluta</th></tr></thead>
+            <tbody id="exportSprzedazyTable"><tr><td colspan="7" class="no-data">Brak dokumentów</td></tr></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -710,6 +827,7 @@
           <input type="text" id="krNip" placeholder="NIP">
           <input type="text" id="krTelefon" placeholder="Telefon">
           <input type="email" id="krEmail" placeholder="E-mail">
+          <input type="text" id="krAdres" placeholder="Adres (ulica, kod, miasto)">
           <button class="kr-btn add" onclick="addKontrahent()">➕ Dodaj</button>
         </div>
       </div>
@@ -720,8 +838,8 @@
         </div>
         <div style="overflow-x:auto;">
           <table class="kr-table">
-            <thead><tr><th>Lp</th><th>Nazwa</th><th>NIP</th><th>Telefon</th><th>E-mail</th><th>Faktury</th><th>Akcje</th></tr></thead>
-            <tbody id="krTableBody"><tr><td colspan="7" class="kr-no-data">Brak kontrahentów</td></tr></tbody>
+            <thead><tr><th>Lp</th><th>Nazwa</th><th>NIP</th><th>Telefon</th><th>E-mail</th><th>Adres</th><th>Faktury</th><th>Akcje</th></tr></thead>
+            <tbody id="krTableBody"><tr><td colspan="8" class="kr-no-data">Brak kontrahentów</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -776,14 +894,17 @@ document.querySelectorAll('.menu-link').forEach(link => {
 // ═══════════════════════════════════════════════════════════
 // DATA
 // ═══════════════════════════════════════════════════════════
-let dokumentyZakup     = JSON.parse(localStorage.getItem('dokumentyZakup'))     || [];
-let dokumentySprzedazy = JSON.parse(localStorage.getItem('dokumentySprzedazy')) || [];
-let wyciagiData        = JSON.parse(localStorage.getItem('wyciagiData'))        || [];
+let currentUser = null;
+const dataKey = k => currentUser ? `${k}_${currentUser.id}` : k;
+
+let dokumentyZakup     = [];
+let dokumentySprzedazy = [];
+let wyciagiData        = [];
 
 // ═══════════════════════════════════════════════════════════
 // API KEY
 // ═══════════════════════════════════════════════════════════
-const getApiKey = () => localStorage.getItem('openrouter_api_key') || '';
+const getApiKey = () => localStorage.getItem(dataKey('openrouter_api_key')) || '';
 function updateApiDot() {
   document.getElementById('apiDot').className = 'api-dot' + (getApiKey() ? ' ok' : '');
 }
@@ -794,13 +915,12 @@ function openApiKeyModal() {
 function saveApiKey() {
   const v = document.getElementById('apiKeyInput').value.trim();
   if (!v.startsWith('sk-or-')) { alert('Klucz OpenRouter musi zaczynać się od "sk-or-"'); return; }
-  localStorage.setItem('openrouter_api_key', v);
+  localStorage.setItem(dataKey('openrouter_api_key'), v);
   updateApiDot();
   closeModal('apiKeyModal');
   alert('✅ Klucz API zapisany!');
 }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-updateApiDot();
 
 // ═══════════════════════════════════════════════════════════
 // HELPERS
@@ -870,9 +990,11 @@ const sortState = {
 function sortTable(type, field) {
   const s = sortState[type];
   if (s.field === field) { s.dir *= -1; } else { s.field = field; s.dir = 1; }
-  // Update header classes
-  const pfx = type === 'zakup' ? { kontrahent:'thZakupKontrahent', dataWplywu:'thZakupDataWplywu' }
-                               : { kontrahent:'thSprzKontrahent',   dataWplywu:'thSprzDataWplywu'  };
+  const pfxMap = {
+    zakup:     { lp:'thZakupLp', kontrahent:'thZakupKontrahent', numerDokumentu:'thZakupNrDok', dataWplywu:'thZakupDataWplywu', dataWystawienia:'thZakupDataWyst', kwotaBrutto:'thZakupKwota' },
+    sprzedazy: { lp:'thSprzLp',  kontrahent:'thSprzKontrahent',  numerDokumentu:'thSprzNrDok',  dataWplywu:'thSprzDataWplywu',  dataWystawienia:'thSprzDataWyst',  kwotaBrutto:'thSprzKwota'  }
+  };
+  const pfx = pfxMap[type];
   Object.entries(pfx).forEach(([f, id]) => {
     const th = document.getElementById(id);
     if (!th) return;
@@ -887,7 +1009,12 @@ function sortTable(type, field) {
 function applySortToData(data, type) {
   const s = sortState[type];
   if (!s.field) return data;
+  if (s.field === 'lp') return s.dir === 1 ? data : [...data].reverse();
+  const numericFields = ['kwotaBrutto', 'kwotaNetto'];
   return [...data].sort((a, b) => {
+    if (numericFields.includes(s.field)) {
+      return (parseFloat(a[s.field]||0) - parseFloat(b[s.field]||0)) * s.dir;
+    }
     const va = (a[s.field] || '').toString().toLowerCase();
     const vb = (b[s.field] || '').toString().toLowerCase();
     return va < vb ? -s.dir : va > vb ? s.dir : 0;
@@ -1269,11 +1396,11 @@ function saveAIDoc() {
     // UPDATE existing doc
     if (aiCurrentType === 'zakup') {
       dokumentyZakup = updateList(dokumentyZakup, aiCurrentDocId, fields);
-      localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
+      localStorage.setItem(dataKey('dokumentyZakup'), JSON.stringify(dokumentyZakup));
       applyFiltersZakup();
     } else {
       dokumentySprzedazy = updateList(dokumentySprzedazy, aiCurrentDocId, fields);
-      localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
+      localStorage.setItem(dataKey('dokumentySprzedazy'), JSON.stringify(dokumentySprzedazy));
       applyFiltersSprzedazy();
     }
   } else {
@@ -1288,11 +1415,11 @@ function saveAIDoc() {
     };
     if (aiCurrentType === 'zakup') {
       dokumentyZakup.push(doc);
-      localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
+      localStorage.setItem(dataKey('dokumentyZakup'), JSON.stringify(dokumentyZakup));
       applyFiltersZakup();
     } else {
       dokumentySprzedazy.push(doc);
-      localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
+      localStorage.setItem(dataKey('dokumentySprzedazy'), JSON.stringify(dokumentySprzedazy));
       applyFiltersSprzedazy();
     }
   }
@@ -1346,11 +1473,11 @@ function startManual(input, type) {
     };
     if (type === 'zakup') {
       dokumentyZakup.push(doc);
-      localStorage.setItem('dokumentyZakup', JSON.stringify(dokumentyZakup));
+      localStorage.setItem(dataKey('dokumentyZakup'), JSON.stringify(dokumentyZakup));
       applyFiltersZakup();
     } else {
       dokumentySprzedazy.push(doc);
-      localStorage.setItem('dokumentySprzedazy', JSON.stringify(dokumentySprzedazy));
+      localStorage.setItem(dataKey('dokumentySprzedazy'), JSON.stringify(dokumentySprzedazy));
       applyFiltersSprzedazy();
     }
     alert('✅ Dokument dodany! Kliknij 🤖 w tabeli, aby uzupełnić dane przez AI.');
@@ -1361,9 +1488,9 @@ function startManual(input, type) {
 // ═══════════════════════════════════════════════════════════
 // KONTRAHENCI
 // ═══════════════════════════════════════════════════════════
-let kontrahenciData = JSON.parse(localStorage.getItem('nexo_kontrahenci') || '[]');
+let kontrahenciData = [];
 
-function saveKontrahenci() { localStorage.setItem('nexo_kontrahenci', JSON.stringify(kontrahenciData)); }
+function saveKontrahenci() { localStorage.setItem(dataKey('nexo_kontrahenci'), JSON.stringify(kontrahenciData)); }
 
 function addKontrahent() {
   const nazwa = document.getElementById('krNazwa').value.trim();
@@ -1373,10 +1500,11 @@ function addKontrahent() {
     nazwa,
     nip:     document.getElementById('krNip').value.trim(),
     telefon: document.getElementById('krTelefon').value.trim(),
-    email:   document.getElementById('krEmail').value.trim()
+    email:   document.getElementById('krEmail').value.trim(),
+    adres:   document.getElementById('krAdres').value.trim()
   });
   saveKontrahenci();
-  ['krNazwa','krNip','krTelefon','krEmail'].forEach(id => document.getElementById(id).value='');
+  ['krNazwa','krNip','krTelefon','krEmail','krAdres'].forEach(id => document.getElementById(id).value='');
   renderKontrahenci();
 }
 
@@ -1389,10 +1517,9 @@ function delKontrahent(id) {
 function renderKontrahenci() {
   const q = (document.getElementById('krSearch')?.value || '').toLowerCase();
   const list = kontrahenciData.filter(k => !q ||
-    k.nazwa.toLowerCase().includes(q) || (k.nip||'').includes(q));
+    k.nazwa.toLowerCase().includes(q) || (k.nip||'').includes(q) || (k.adres||'').toLowerCase().includes(q));
   const tb = document.getElementById('krTableBody');
-  if (!list.length) { tb.innerHTML='<tr><td colspan="7" class="kr-no-data">Brak kontrahentów</td></tr>'; return; }
-  // Count invoices from both tables
+  if (!list.length) { tb.innerHTML='<tr><td colspan="8" class="kr-no-data">Brak kontrahentów</td></tr>'; return; }
   const countInv = nazwa => [...dokumentyZakup,...dokumentySprzedazy]
     .filter(d => (d.kontrahent||'').toLowerCase() === nazwa.toLowerCase()).length;
   tb.innerHTML = list.map((k,i) => `<tr>
@@ -1401,6 +1528,7 @@ function renderKontrahenci() {
     <td>${esc(k.nip||'—')}</td>
     <td>${esc(k.telefon||'—')}</td>
     <td>${esc(k.email||'—')}</td>
+    <td>${esc(k.adres||'—')}</td>
     <td style="text-align:center;">${countInv(k.nazwa)}</td>
     <td><button class="btn btn-danger" onclick="delKontrahent('${k.id}')">🗑️</button></td>
   </tr>`).join('');
@@ -1409,9 +1537,9 @@ function renderKontrahenci() {
 // ═══════════════════════════════════════════════════════════
 // KADRY
 // ═══════════════════════════════════════════════════════════
-let kadryData = JSON.parse(localStorage.getItem('nexo_kadry') || '[]');
+let kadryData = [];
 
-function saveKadry() { localStorage.setItem('nexo_kadry', JSON.stringify(kadryData)); }
+function saveKadry() { localStorage.setItem(dataKey('nexo_kadry'), JSON.stringify(kadryData)); }
 
 function addPracownik() {
   const imie = document.getElementById('kdImie').value.trim();
@@ -1488,7 +1616,7 @@ function importWyciagi(input) {
     const r = new FileReader();
     r.onload = e => {
       wyciagiData.push({ id: Date.now()+'_'+Math.random().toString(36).substr(2,5), fileName: file.name, fileData: e.target.result, addedDate: new Date().toISOString().split('T')[0], size: file.size });
-      localStorage.setItem('wyciagiData', JSON.stringify(wyciagiData));
+      localStorage.setItem(dataKey('wyciagiData'), JSON.stringify(wyciagiData));
       renderWyciagi();
     };
     r.readAsDataURL(file);
@@ -1516,6 +1644,92 @@ function exportWyciagi() {
 }
 
 // ═══════════════════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════════════════
+function showTab(page, tab) {
+  const pageId = page === 'zakup' ? 'faktury-zakupu' : 'faktury-sprzedazy';
+  const pageEl = document.getElementById(pageId);
+  pageEl.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  pageEl.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick').includes("'" + tab + "'"));
+  });
+  document.getElementById(page + '-tab-' + tab).classList.add('active');
+  if (tab === 'export') renderExportTable(page);
+}
+
+function renderExportTable(type) {
+  const docs = type === 'zakup' ? dokumentyZakup : dokumentySprzedazy;
+  const tbId = type === 'zakup' ? 'exportZakupTable' : 'exportSprzedazyTable';
+  const tb = document.getElementById(tbId);
+  if (!tb) return;
+  if (!docs.length) { tb.innerHTML = '<tr><td colspan="7" class="no-data">Brak dokumentów do eksportu</td></tr>'; return; }
+  tb.innerHTML = docs.map((d, i) => `<tr>
+    <td class="lp-col">${i+1}</td>
+    <td>${esc(d.numerDokumentu)||'—'}</td>
+    <td>${esc(d.kontrahent)||'—'}</td>
+    <td>${fmt(d.dataWystawienia)}</td>
+    <td>${d.kwotaNetto ? parseFloat(d.kwotaNetto).toFixed(2)+' zł' : '—'}</td>
+    <td>${d.kwotaBrutto ? parseFloat(d.kwotaBrutto).toFixed(2)+' zł' : '—'}</td>
+    <td>${esc(d.waluta||'PLN')}</td>
+  </tr>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+// EXPORT COMARCH OPTIMA XML
+// ═══════════════════════════════════════════════════════════
+function escXml(v) {
+  return String(v == null ? '' : v)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+}
+
+function exportOptimaXML(type) {
+  const docs = type === 'zakup' ? dokumentyZakup : dokumentySprzedazy;
+  if (!docs.length) { alert('Brak dokumentów do eksportu.'); return; }
+  const tag  = type === 'zakup' ? 'FZ' : 'FS';
+  const today = new Date().toISOString().split('T')[0];
+
+  const xmlDocs = docs.map(d => {
+    const v = d.vat || {};
+    const vatRates = [
+      { stawka:'ZW',  kwota: parseFloat(v.zw||0) },
+      { stawka:'0',   kwota: parseFloat(v.p0||0) },
+      { stawka:'5',   kwota: parseFloat(v.p5||0) },
+      { stawka:'8',   kwota: parseFloat(v.p8||0) },
+      { stawka:'23',  kwota: parseFloat(v.p23||0) }
+    ].filter(r => r.kwota > 0);
+    const vatXml = vatRates.length
+      ? `\n    <PozycjeVAT>${vatRates.map(r =>
+          `\n      <Pozycja stawka="${r.stawka}"><VATKwota>${r.kwota.toFixed(2)}</VATKwota></Pozycja>`
+        ).join('')}\n    </PozycjeVAT>`
+      : '\n    <PozycjeVAT/>';
+
+    return `  <${tag}>
+    <Numer>${escXml(d.numerDokumentu)}</Numer>
+    <DataWystawienia>${escXml(d.dataWystawienia||today)}</DataWystawienia>
+    <DataWplywu>${escXml(d.dataWplywu||today)}</DataWplywu>
+    <DataSprzedazy>${escXml(d.dataSprzedazy||d.dataWystawienia||today)}</DataSprzedazy>
+    <TerminPlatnosci>${escXml(d.terminPlatnosci||today)}</TerminPlatnosci>
+    <Kontrahent>
+      <Nazwa>${escXml(d.kontrahent)}</Nazwa>
+      <NIP/>
+    </Kontrahent>
+    <Waluta>${escXml(d.waluta||'PLN')}</Waluta>
+    <KwotaNetto>${parseFloat(d.kwotaNetto||0).toFixed(2)}</KwotaNetto>
+    <KwotaBrutto>${parseFloat(d.kwotaBrutto||0).toFixed(2)}</KwotaBrutto>
+    <Kategoria>${escXml(d.kategoria)}</Kategoria>
+    <Opis>${escXml(d.opisKategorii)}</Opis>${vatXml}
+  </${tag}>`;
+  }).join('\n');
+
+  const xml = `<?xml version="1.0" encoding="utf-8"?>\n<COMARCH_OPT94 wersja="1.0">\n${xmlDocs}\n</COMARCH_OPT94>`;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([xml], { type: 'application/xml;charset=utf-8' }));
+  a.download = `nexodocs_${type}_optima_${today}.xml`;
+  a.click();
+}
+
+// ═══════════════════════════════════════════════════════════
 // NEXOCHAT AI
 // ═══════════════════════════════════════════════════════════
 let chatHistory = [];
@@ -1538,7 +1752,7 @@ async function sendChat() {
   const text = inp.value.trim();
   if (!text) return;
 
-  const apiKey = localStorage.getItem('openrouter_api_key');
+  const apiKey = localStorage.getItem(dataKey('openrouter_api_key'));
   if (!apiKey || !apiKey.startsWith('sk-or-')) {
     appendChat('bot', '⚠️ Brak klucza API. Przejdź do ustawień AI (🔑) i wpisz klucz OpenRouter (sk-or-...).');
     return;
@@ -1591,12 +1805,106 @@ function clearChat() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// INIT
+// AUTH SYSTEM
 // ═══════════════════════════════════════════════════════════
-document.getElementById('searchWyciagi')?.addEventListener('input', applyFiltersWyciagi);
-renderTableZakup(dokumentyZakup);
-renderTableSprzedazy(dokumentySprzedazy);
-renderWyciagi();
+function simpleHash(str) {
+  let h = 5381;
+  for (let i = 0; i < str.length; i++) { h = ((h << 5) + h) + str.charCodeAt(i); h = h & h; }
+  return h.toString(16);
+}
+function getUsers() { return JSON.parse(localStorage.getItem('nexo_users') || '[]'); }
+function saveUsers(u) { localStorage.setItem('nexo_users', JSON.stringify(u)); }
+
+function switchAuthTab(tab) {
+  document.getElementById('authLoginForm').style.display    = tab === 'login'    ? '' : 'none';
+  document.getElementById('authRegisterForm').style.display = tab === 'register' ? '' : 'none';
+  document.getElementById('authTabLogin').classList.toggle('active',    tab === 'login');
+  document.getElementById('authTabRegister').classList.toggle('active', tab === 'register');
+  ['loginMsg','registerMsg'].forEach(id => { document.getElementById(id).style.display = 'none'; });
+}
+
+function showAuthMsg(id, text, isOk) {
+  const el = document.getElementById(id);
+  el.className = isOk ? 'auth-msg-ok' : 'auth-msg-err';
+  el.textContent = text;
+  el.style.display = '';
+}
+
+function doLogin() {
+  const email = (document.getElementById('loginEmail').value || '').trim().toLowerCase();
+  const pass  =  document.getElementById('loginPassword').value;
+  if (!email || !pass) { showAuthMsg('loginMsg', 'Podaj e-mail i hasło.'); return; }
+  const user = getUsers().find(u => u.email === email && u.passwordHash === simpleHash(pass));
+  if (!user) { showAuthMsg('loginMsg', 'Nieprawidłowy e-mail lub hasło.'); return; }
+  loginSuccess(user);
+}
+
+function doRegister() {
+  const firstName = (document.getElementById('regFirstName').value || '').trim();
+  const lastName  = (document.getElementById('regLastName').value  || '').trim();
+  const email     = (document.getElementById('regEmail').value     || '').trim().toLowerCase();
+  const pass      =  document.getElementById('regPassword').value;
+  const passConf  =  document.getElementById('regPasswordConfirm').value;
+  if (!firstName || !lastName)  { showAuthMsg('registerMsg', 'Podaj imię i nazwisko.'); return; }
+  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) { showAuthMsg('registerMsg', 'Podaj poprawny adres e-mail.'); return; }
+  if (pass.length < 6)          { showAuthMsg('registerMsg', 'Hasło musi mieć minimum 6 znaków.'); return; }
+  if (pass !== passConf)        { showAuthMsg('registerMsg', 'Hasła nie są identyczne.'); return; }
+  const users = getUsers();
+  if (users.find(u => u.email === email)) { showAuthMsg('registerMsg', 'Konto z tym e-mailem już istnieje.'); return; }
+  const user = { id: Date.now().toString(36), email, passwordHash: simpleHash(pass), firstName, lastName };
+  saveUsers([...users, user]);
+  showAuthMsg('registerMsg', '✅ Konto utworzone! Za chwilę przejdziesz do logowania…', true);
+  document.getElementById('loginEmail').value = email;
+  setTimeout(() => switchAuthTab('login'), 2000);
+}
+
+function loginSuccess(user) {
+  currentUser = user;
+  localStorage.setItem('nexo_session', JSON.stringify({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName }));
+  document.getElementById('authOverlay').style.display = 'none';
+  document.getElementById('sidebarUser').textContent = `👤 ${user.firstName} ${user.lastName}`;
+  loadUserData();
+  initApp();
+}
+
+function doLogout() {
+  if (!confirm('Na pewno wylogować się?')) return;
+  localStorage.removeItem('nexo_session');
+  location.reload();
+}
+
+function loadUserData() {
+  dokumentyZakup     = JSON.parse(localStorage.getItem(dataKey('dokumentyZakup')))     || [];
+  dokumentySprzedazy = JSON.parse(localStorage.getItem(dataKey('dokumentySprzedazy'))) || [];
+  wyciagiData        = JSON.parse(localStorage.getItem(dataKey('wyciagiData')))        || [];
+  kontrahenciData    = JSON.parse(localStorage.getItem(dataKey('nexo_kontrahenci'))     || '[]');
+  kadryData          = JSON.parse(localStorage.getItem(dataKey('nexo_kadry'))           || '[]');
+}
+
+function initApp() {
+  updateApiDot();
+  document.getElementById('searchWyciagi')?.addEventListener('input', applyFiltersWyciagi);
+  renderTableZakup(dokumentyZakup);
+  renderTableSprzedazy(dokumentySprzedazy);
+  renderWyciagi();
+  renderKontrahenci();
+  renderKadry();
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT — sprawdź sesję
+// ═══════════════════════════════════════════════════════════
+(function checkSession() {
+  const raw = localStorage.getItem('nexo_session');
+  if (raw) {
+    try {
+      const sess = JSON.parse(raw);
+      const found = getUsers().find(u => u.id === sess.id);
+      if (found) { loginSuccess(found); return; }
+    } catch(e) {}
+  }
+  document.getElementById('authOverlay').style.display = 'flex';
+})();
 </script>
 </body>
 </html>
