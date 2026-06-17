@@ -3017,7 +3017,7 @@ function verifyKeyDown(e, idx) {
   if (e.key === 'Backspace' && !e.target.value && idx > 0)
     document.querySelectorAll('.verify-digits input')[idx - 1].focus();
 }
-function doVerify() {
+async function doVerify() {
   const inputs  = document.querySelectorAll('.verify-digits input');
   const entered = Array.from(inputs).map(i => i.value).join('');
   if (entered.length < 6) { showAuthMsg('verifyMsg', 'Wpisz pełny 6-cyfrowy kod.'); return; }
@@ -3027,8 +3027,21 @@ function doVerify() {
     inputs[0].focus();
     return;
   }
-  const users = getUsers();
-  saveUsers([...users, pendingUser]);
+  try {
+    const res = await fetch('/api/auth/register', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...pendingUser, verified: true })
+    });
+    if (!res.ok) {
+      const data = await res.json();
+      showAuthMsg('verifyMsg', data.error || 'Błąd rejestracji. Spróbuj ponownie.');
+      return;
+    }
+    await refreshCaches();
+  } catch(e) {
+    showAuthMsg('verifyMsg', 'Błąd połączenia z serwerem. Spróbuj ponownie.');
+    return;
+  }
   const savedEmail = pendingUser.email;
   pendingUser = null; verifyCode = null;
   showAuthMsg('verifyMsg', '✅ Konto potwierdzone! Możesz się zalogować.', true);
@@ -3064,18 +3077,21 @@ function openKonto() {
   document.getElementById('kontoNewPassConfirm').value = '';
   document.getElementById('kontoModal').classList.add('open');
 }
-function saveKonto() {
+async function saveKonto() {
   const np  = document.getElementById('kontoNewPass').value;
   const np2 = document.getElementById('kontoNewPassConfirm').value;
   if (!np)            { showAuthMsg('kontoMsg', 'Wpisz nowe hasło.');              return; }
   if (np.length < 6)  { showAuthMsg('kontoMsg', 'Hasło min. 6 znaków.');           return; }
   if (np !== np2)     { showAuthMsg('kontoMsg', 'Hasła nie są identyczne.');        return; }
-  const users = getUsers();
-  const idx   = users.findIndex(u => u.id === currentUser.id);
-  if (idx < 0) return;
-  users[idx].passwordHash = simpleHash(np);
-  saveUsers(users);
-  showAuthMsg('kontoMsg', '✅ Hasło zmienione!', true);
+  try {
+    await fetch(`/api/users/${currentUser.id}`, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passwordHash: simpleHash(np) })
+    });
+    showAuthMsg('kontoMsg', '✅ Hasło zmienione!', true);
+  } catch(e) {
+    showAuthMsg('kontoMsg', 'Błąd zapisywania. Spróbuj ponownie.');
+  }
 }
 function openOferta() {
   document.getElementById('ofertaModal').classList.add('open');
@@ -3216,10 +3232,10 @@ function updateClientCompanyBar(company) {
 
 // ─── Helper: lista właścicieli wzbogacona o dane profilu ──────
 function getEnrichedOwners() {
-  return getUsers()
+  return _usersCache
     .filter(u => u.role === 'owner')
     .map(o => {
-      const profile = JSON.parse(localStorage.getItem('nexo_owner_profile_' + o.id) || 'null');
+      const profile = _ownerProfilesCache[o.id] || JSON.parse(localStorage.getItem('nexo_owner_profile_' + o.id) || 'null');
       return { ...o, companyName: (profile?.nazwa || o.companyName || '').trim() };
     })
     .filter(o => o.companyName);
@@ -3383,10 +3399,33 @@ function simpleHash(str) {
   for (let i = 0; i < str.length; i++) { h = ((h << 5) + h) + str.charCodeAt(i); h = h & h; }
   return h.toString(16);
 }
-function getUsers() { return JSON.parse(localStorage.getItem('nexo_users') || '[]'); }
-function saveUsers(u) { localStorage.setItem('nexo_users', JSON.stringify(u)); }
-function getPendingEmployees() { return JSON.parse(localStorage.getItem('nexo_pending_employees') || '[]'); }
-function savePendingEmployees(a) { localStorage.setItem('nexo_pending_employees', JSON.stringify(a)); }
+// ── Cache użytkowników — ładowane z API serwera ──────────
+let _usersCache   = [];
+let _pendingCache = [];
+let _ownerProfilesCache = {};
+
+async function refreshCaches() {
+  try {
+    const [usersRes, pendingRes, profilesRes] = await Promise.all([
+      fetch('/api/users'),
+      fetch('/api/pending-employees'),
+      fetch('/api/owner-profiles'),
+    ]);
+    if (usersRes.ok)   _usersCache   = await usersRes.json();
+    if (pendingRes.ok) _pendingCache = await pendingRes.json();
+    if (profilesRes.ok) {
+      const list = await profilesRes.json();
+      _ownerProfilesCache = {};
+      for (const p of list) _ownerProfilesCache[p.ownerId] = p;
+    }
+  } catch(e) {}
+}
+
+function getUsers()            { return _usersCache;   }
+function getPendingEmployees() { return _pendingCache;  }
+// saveUsers / savePendingEmployees — mutacje idą przez API (zachowane dla zgodności)
+function saveUsers(_u)            {}
+function savePendingEmployees(_a) {}
 
 // ═══════════════════════════════════════════════════════════
 // OWNER — powiadomienie i zarządzanie pracownikami
@@ -3599,35 +3638,40 @@ function renderPracownicy() {
 let viewingEmployeeId   = null;
 let viewingEmployeeType = 'employee'; // 'employee' | 'client'
 
-function approvePendingEmployee(pendingId) {
-  const all = getPendingEmployees();
-  const emp = all.find(p => p.id === pendingId);
-  if (!emp) return;
-  const users = getUsers();
-  users.push({ ...emp, status: 'approved', companyOwnerId: currentUser.id });
-  saveUsers(users);
-  savePendingEmployees(all.filter(p => p.id !== pendingId));
-  renderPracownicy();
-}
-
-function rejectPendingEmployee(pendingId) {
-  if (!confirm('Odrzucić zgłoszenie tego pracownika?')) return;
-  savePendingEmployees(getPendingEmployees().filter(p => p.id !== pendingId));
-  renderPracownicy();
-}
-
-function removeEmployee(empId, empName) {
-  if (!confirm(`Usunąć pracownika ${empName} z firmy?\nPracownik straci dostęp do panelu pracownika.`)) return;
-  const users = getUsers();
-  const idx = users.findIndex(u => u.id === empId);
-  if (idx >= 0) {
-    users[idx].companyOwnerId = null;
-    users[idx].status = null;
-    saveUsers(users);
+async function approvePendingEmployee(pendingId) {
+  try {
+    await fetch(`/api/pending-employees/${pendingId}/approve`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ownerId: currentUser.id })
+    });
+    await refreshCaches();
+    renderPracownicy();
+  } catch(e) {
+    alert('Błąd zatwierdzania pracownika. Spróbuj ponownie.');
   }
-  // Usuń też z pending jeśli istnieje
-  savePendingEmployees(getPendingEmployees().filter(p => p.userId !== empId && p.id !== empId));
-  renderPracownicy();
+}
+
+async function rejectPendingEmployee(pendingId) {
+  if (!confirm('Odrzucić zgłoszenie tego pracownika?')) return;
+  try {
+    await fetch(`/api/pending-employees/${pendingId}`, { method: 'DELETE' });
+    await refreshCaches();
+    renderPracownicy();
+  } catch(e) {}
+}
+
+async function removeEmployee(empId, empName) {
+  if (!confirm(`Usunąć pracownika ${empName} z firmy?\nPracownik straci dostęp do panelu pracownika.`)) return;
+  try {
+    await fetch(`/api/users/${empId}`, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ companyOwnerId: null, status: null })
+    });
+    const toDelete = _pendingCache.filter(p => p.userId === empId || p.id === empId);
+    for (const p of toDelete) await fetch(`/api/pending-employees/${p.id}`, { method: 'DELETE' });
+    await refreshCaches();
+    renderPracownicy();
+  } catch(e) {}
 }
 
 function viewEmployeeDocs(empId, empName, empType) {
@@ -3701,24 +3745,40 @@ function showAuthMsg(id, text, isOk) {
   el.style.display = '';
 }
 
-function doLogin() {
+async function doLogin() {
   const email = (document.getElementById('loginEmail').value || '').trim().toLowerCase();
   const pass  =  document.getElementById('loginPassword').value;
   if (!email || !pass) { showAuthMsg('loginMsg', 'Podaj e-mail i hasło.'); return; }
-  // Sprawdź oczekujących
-  const pendingEmp = getPendingEmployees().find(p => p.email === email && p.passwordHash === simpleHash(pass));
+  // Sprawdź oczekujących w cache
+  const pendingEmp = _pendingCache.find(p => p.email === email && p.passwordHash === simpleHash(pass));
   if (pendingEmp) {
     document.getElementById('authPendingScreen').style.display = '';
     document.getElementById('authLoginForm').style.display = 'none';
     document.getElementById('pendingCompanyName').textContent = pendingEmp.companyName;
     return;
   }
-  const user = getUsers().find(u => u.email === email && u.passwordHash === simpleHash(pass));
-  if (!user) { showAuthMsg('loginMsg', 'Nieprawidłowy e-mail lub hasło.'); return; }
-  loginSuccess(user);
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, passwordHash: simpleHash(pass) })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      if (data.code === 'NOT_VERIFIED') {
+        showAuthMsg('loginMsg', 'Konto nie jest jeszcze aktywne. Skontaktuj się z biurem.');
+      } else {
+        showAuthMsg('loginMsg', data.error || 'Nieprawidłowy e-mail lub hasło.');
+      }
+      return;
+    }
+    await refreshCaches();
+    loginSuccess(data);
+  } catch(e) {
+    showAuthMsg('loginMsg', 'Błąd połączenia z serwerem. Spróbuj ponownie.');
+  }
 }
 
-function doRegister() {
+async function doRegister() {
   const firstName   = (document.getElementById('regFirstName').value  || '').trim();
   const lastName    = (document.getElementById('regLastName').value   || '').trim();
   const email       = (document.getElementById('regEmail').value      || '').trim().toLowerCase();
@@ -3739,10 +3799,16 @@ function doRegister() {
   if (users.find(u => u.email === email)) { showAuthMsg('registerMsg', 'Konto z tym e-mailem już istnieje.'); return; }
 
   if (role === 'employee') {
-    const pending = getPendingEmployees();
-    if (pending.find(p => p.email === email)) { showAuthMsg('registerMsg', 'Zgłoszenie z tym e-mailem już istnieje.'); return; }
-    const np = { id: Date.now().toString(36), email, passwordHash: simpleHash(pass), firstName, lastName, role: 'employee', companyName, requestedAt: new Date().toISOString(), status: 'pending' };
-    savePendingEmployees([...pending, np]);
+    if (_pendingCache.find(p => p.email === email)) { showAuthMsg('registerMsg', 'Zgłoszenie z tym e-mailem już istnieje.'); return; }
+    if (_usersCache.find(u => u.email === email)) { showAuthMsg('registerMsg', 'Konto z tym e-mailem już istnieje.'); return; }
+    const np = { id: Date.now().toString(36), email, passwordHash: simpleHash(pass), firstName, lastName, name: firstName + ' ' + lastName, role: 'employee', companyName, requestedAt: new Date().toISOString(), status: 'pending' };
+    try {
+      await fetch('/api/pending-employees', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(np)
+      });
+      _pendingCache.push(np);
+    } catch(e) {}
     document.getElementById('authRegisterForm').style.display = 'none';
     document.getElementById('authPendingScreen').style.display = '';
     document.getElementById('pendingCompanyName').textContent = companyName;
@@ -3786,7 +3852,7 @@ function loginSuccess(user) {
       document.getElementById('mojaFirmaMenuItem').style.display = '';
       updateOwnerBadge();
       // Onboarding — pierwsze logowanie właściciela
-      const profile = JSON.parse(localStorage.getItem('nexo_owner_profile_' + user.id) || 'null');
+      const profile = _ownerProfilesCache[user.id] || JSON.parse(localStorage.getItem('nexo_owner_profile_' + user.id) || 'null');
       if (!profile || !profile.nip) {
         setTimeout(() => {
           const el = document.getElementById('ownerOnboardingOverlay');
@@ -3811,7 +3877,7 @@ function loginSuccess(user) {
 /* ── MOJA FIRMA ───────────────────────────────── */
 function renderMojaFirma() {
   if (!currentUser || currentUser.role !== 'owner') return;
-  const profile = JSON.parse(localStorage.getItem('nexo_owner_profile_' + currentUser.id) || 'null') || {};
+  const profile = _ownerProfilesCache[currentUser.id] || JSON.parse(localStorage.getItem('nexo_owner_profile_' + currentUser.id) || 'null') || {};
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
   set('mf-nazwa',   profile.nazwa   || currentUser.companyName || '');
   set('mf-nip',     profile.nip     || '');
@@ -3820,7 +3886,6 @@ function renderMojaFirma() {
   set('mf-email',   profile.email   || '');
   const opisEl = document.getElementById('mf-opis');
   if (opisEl) opisEl.value = profile.opis || '';
-  // Podgląd
   if (profile.nip) renderMojaFirmaPreview(profile);
 }
 
@@ -3840,10 +3905,13 @@ function renderMojaFirmaPreview(p) {
     </div>`;
 }
 
-function deleteCompanyProfile() {
+async function deleteCompanyProfile() {
   if (!confirm('Usunąć profil biura?\nWszystkie dane firmy (NIP, adres, kontakt) zostaną skasowane. Pracownicy i klienci stracą przypisanie do firmy.')) return;
+  try {
+    await fetch(`/api/owner-profiles/${currentUser.id}`, { method: 'DELETE' });
+    await refreshCaches();
+  } catch(e) {}
   localStorage.removeItem('nexo_owner_profile_' + currentUser.id);
-  // Wyczyść formularz
   ['mf-nazwa','mf-nip','mf-adres','mf-telefon','mf-email'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   const opisEl = document.getElementById('mf-opis'); if (opisEl) opisEl.value = '';
   const sec = document.getElementById('mfPreviewSection'); if (sec) sec.style.display = 'none';
@@ -3851,7 +3919,7 @@ function deleteCompanyProfile() {
   if (msgEl) { msgEl.style.color='#a5d6a7'; msgEl.textContent='✓ Profil biura został usunięty.'; msgEl.style.display=''; setTimeout(()=>{ msgEl.style.display='none'; }, 2500); }
 }
 
-function saveMojaFirma() {
+async function saveMojaFirma() {
   const get = id => (document.getElementById(id)?.value || '').trim();
   const nazwa   = get('mf-nazwa');
   const nip     = get('mf-nip');
@@ -3869,17 +3937,29 @@ function saveMojaFirma() {
     return;
   }
   const profile = { nazwa, nip, adres, telefon, email, opis, updatedAt: Date.now() };
-  localStorage.setItem('nexo_owner_profile_' + currentUser.id, JSON.stringify(profile));
-  // Aktualizuj companyName w profilu użytkownika
-  const users = getUsers();
-  const idx = users.findIndex(u => u.id === currentUser.id);
-  if (idx >= 0) { users[idx].companyName = nazwa; saveUsers(users); currentUser.companyName = nazwa; }
-  if (msgEl) { msgEl.style.color='#a5d6a7'; msgEl.textContent='✓ Dane firmy zostały zapisane.'; msgEl.style.display=''; setTimeout(() => { msgEl.style.display='none'; }, 2500); }
-  renderMojaFirmaPreview(profile);
+  try {
+    await Promise.all([
+      fetch(`/api/owner-profiles/${currentUser.id}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profile)
+      }),
+      fetch(`/api/users/${currentUser.id}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyName: nazwa })
+      }),
+    ]);
+    currentUser.companyName = nazwa;
+    localStorage.setItem('nexo_owner_profile_' + currentUser.id, JSON.stringify(profile));
+    await refreshCaches();
+    if (msgEl) { msgEl.style.color='#a5d6a7'; msgEl.textContent='✓ Dane firmy zostały zapisane.'; msgEl.style.display=''; setTimeout(() => { msgEl.style.display='none'; }, 2500); }
+    renderMojaFirmaPreview(profile);
+  } catch(e) {
+    if (msgEl) { msgEl.style.color='#ef9a9a'; msgEl.textContent='Błąd zapisywania. Spróbuj ponownie.'; msgEl.style.display=''; }
+  }
 }
 
 /* ── OWNER ONBOARDING ─────────────────────────── */
-function saveOwnerOnboarding() {
+async function saveOwnerOnboarding() {
   const nazwa   = (document.getElementById('obNazwa')?.value   || '').trim();
   const nip     = (document.getElementById('obNip')?.value     || '').trim();
   const adres   = (document.getElementById('obAdres')?.value   || '').trim();
@@ -3896,11 +3976,21 @@ function saveOwnerOnboarding() {
     return;
   }
   const profile = { nazwa, nip, adres, telefon, email, opis, createdAt: Date.now() };
-  localStorage.setItem('nexo_owner_profile_' + currentUser.id, JSON.stringify(profile));
-  // Aktualizuj też companyName na profilu właściciela
-  const users = getUsers();
-  const idx = users.findIndex(u => u.id === currentUser.id);
-  if (idx >= 0) { users[idx].companyName = nazwa; saveUsers(users); currentUser.companyName = nazwa; }
+  try {
+    await Promise.all([
+      fetch(`/api/owner-profiles/${currentUser.id}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profile)
+      }),
+      fetch(`/api/users/${currentUser.id}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyName: nazwa })
+      }),
+    ]);
+    currentUser.companyName = nazwa;
+    localStorage.setItem('nexo_owner_profile_' + currentUser.id, JSON.stringify(profile));
+    await refreshCaches();
+  } catch(e) {}
   document.getElementById('ownerOnboardingOverlay').style.display = 'none';
   if (msgEl) msgEl.style.display = 'none';
 }
@@ -3926,7 +4016,7 @@ function closeEmpBiuroPanel() {
   if (panel) panel.style.display = 'none';
 }
 
-function saveEmpBiuro() {
+async function saveEmpBiuro() {
   const nazwa = (document.getElementById('ebcNazwa')?.value || '').trim();
   const nip   = (document.getElementById('ebcNip')?.value   || '').trim();
   const msgEl = document.getElementById('ebcMsg');
@@ -3934,19 +4024,25 @@ function saveEmpBiuro() {
     if (msgEl) { msgEl.style.color='#ef9a9a'; msgEl.textContent='Podaj nazwę biura.'; msgEl.style.display=''; }
     return;
   }
-  // Zapisz dane biura pracownika
   localStorage.setItem('nexo_emp_biuro_' + currentUser.id, JSON.stringify({ nazwa, nip }));
-  // Wyślij zgłoszenie do biura (szukamy właściciela o tej nazwie)
-  const pending = getPendingEmployees();
-  const already = pending.find(p => p.userId === currentUser.id && p.companyName === nazwa);
+  const already = _pendingCache.find(p => p.userId === currentUser.id && p.companyName === nazwa);
   if (!already) {
-    pending.push({ userId: currentUser.id, name: currentUser.firstName + ' ' + currentUser.lastName, email: currentUser.email, companyName: nazwa, nip, role: 'employee', requestedAt: Date.now() });
-    savePendingEmployees(pending);
+    const np = { id: Date.now().toString(36), userId: currentUser.id, name: currentUser.firstName + ' ' + currentUser.lastName, firstName: currentUser.firstName, lastName: currentUser.lastName, email: currentUser.email, companyName: nazwa, nip, role: 'employee', requestedAt: new Date().toISOString() };
+    try {
+      await fetch('/api/pending-employees', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(np)
+      });
+      await Promise.all([
+        fetch(`/api/users/${currentUser.id}`, {
+          method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ companyName: nazwa })
+        }),
+        refreshCaches(),
+      ]);
+      currentUser.companyName = nazwa;
+    } catch(e) {}
   }
-  // Aktualizuj companyName w profilu
-  const users = getUsers();
-  const idx = users.findIndex(u => u.id === currentUser.id);
-  if (idx >= 0) { users[idx].companyName = nazwa; saveUsers(users); currentUser.companyName = nazwa; }
   if (msgEl) { msgEl.style.color='#a5d6a7'; msgEl.textContent='✓ Dane zapisane. Zgłoszenie wysłane do biura.'; msgEl.style.display=''; }
   setTimeout(() => closeEmpBiuroPanel(), 1400);
 }
@@ -3981,16 +4077,20 @@ function initApp() {
 // ═══════════════════════════════════════════════════════════
 // INIT — sprawdź sesję
 // ═══════════════════════════════════════════════════════════
-(function checkSession() {
+(async function checkSession() {
+  // Pokaż overlay podczas ładowania
+  document.getElementById('authOverlay').style.display = 'flex';
+  // Załaduj dane z serwera (konta działają na każdym urządzeniu)
+  await refreshCaches();
   const raw = localStorage.getItem('nexo_session');
   if (raw) {
     try {
       const sess = JSON.parse(raw);
-      const found = getUsers().find(u => u.id === sess.id);
+      const found = _usersCache.find(u => u.id === sess.id);
       if (found) { loginSuccess(found); return; }
     } catch(e) {}
   }
-  document.getElementById('authOverlay').style.display = 'flex';
+  // Sesja wygasła lub brak — pozostaw overlay widoczny
 })();
 </script>
 <!-- ONBOARDING OVERLAY (właściciel — pierwsze logowanie) -->
