@@ -3745,25 +3745,44 @@ function showAuthMsg(id, text, isOk) {
   el.style.display = '';
 }
 
+async function apiPost(url, body, retries = 2) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch(url, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      let data = {};
+      try { data = await res.json(); } catch {}
+      return { ok: res.ok, status: res.status, data };
+    } catch(e) {
+      if (attempt < retries) {
+        await new Promise(r => setTimeout(r, 1200));
+      } else {
+        throw e;
+      }
+    }
+  }
+}
+
 async function doLogin() {
   const email = (document.getElementById('loginEmail').value || '').trim().toLowerCase();
   const pass  =  document.getElementById('loginPassword').value;
   if (!email || !pass) { showAuthMsg('loginMsg', 'Podaj e-mail i hasło.'); return; }
   // Sprawdź oczekujących w cache
-  const pendingEmp = _pendingCache.find(p => p.email === email && p.passwordHash === simpleHash(pass));
+  const pendingEmp = (_pendingCache || []).find(p => p.email === email && p.passwordHash === simpleHash(pass));
   if (pendingEmp) {
     document.getElementById('authPendingScreen').style.display = '';
     document.getElementById('authLoginForm').style.display = 'none';
     document.getElementById('pendingCompanyName').textContent = pendingEmp.companyName;
     return;
   }
+  showAuthMsg('loginMsg', '');
+  const btn = document.querySelector('.auth-submit');
+  if (btn) { btn.disabled = true; btn.textContent = 'Łączenie…'; }
   try {
-    const res = await fetch('/api/auth/login', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, passwordHash: simpleHash(pass) })
-    });
-    const data = await res.json();
-    if (!res.ok) {
+    const { ok, data } = await apiPost('/api/auth/login', { email, passwordHash: simpleHash(pass) });
+    if (!ok) {
       if (data.code === 'NOT_VERIFIED') {
         showAuthMsg('loginMsg', 'Konto nie jest jeszcze aktywne. Skontaktuj się z biurem.');
       } else {
@@ -3774,7 +3793,9 @@ async function doLogin() {
     await refreshCaches();
     loginSuccess(data);
   } catch(e) {
-    showAuthMsg('loginMsg', 'Błąd połączenia z serwerem. Spróbuj ponownie.');
+    showAuthMsg('loginMsg', 'Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '→ Zaloguj się'; }
   }
 }
 
