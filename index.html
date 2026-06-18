@@ -3027,20 +3027,20 @@ async function doVerify() {
     inputs[0].focus();
     return;
   }
+  const btn = document.querySelector('#authVerifyScreen .auth-submit');
+  if (btn) { btn.disabled = true; btn.textContent = 'Łączenie…'; }
   try {
-    const res = await fetch('/api/auth/register', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...pendingUser, verified: true })
-    });
-    if (!res.ok) {
-      const data = await res.json();
+    const { ok, data } = await apiPost('/api/auth/register', { ...pendingUser, verified: true });
+    if (!ok) {
       showAuthMsg('verifyMsg', data.error || 'Błąd rejestracji. Spróbuj ponownie.');
       return;
     }
     await refreshCaches();
   } catch(e) {
-    showAuthMsg('verifyMsg', 'Błąd połączenia z serwerem. Spróbuj ponownie.');
+    showAuthMsg('verifyMsg', 'Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.');
     return;
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '✓ Potwierdź konto'; }
   }
   const savedEmail = pendingUser.email;
   pendingUser = null; verifyCode = null;
@@ -3404,21 +3404,26 @@ let _usersCache   = [];
 let _pendingCache = [];
 let _ownerProfilesCache = {};
 
-async function refreshCaches() {
-  try {
-    const [usersRes, pendingRes, profilesRes] = await Promise.all([
-      fetch('/api/users'),
-      fetch('/api/pending-employees'),
-      fetch('/api/owner-profiles'),
-    ]);
-    if (usersRes.ok)   _usersCache   = await usersRes.json();
-    if (pendingRes.ok) _pendingCache = await pendingRes.json();
-    if (profilesRes.ok) {
-      const list = await profilesRes.json();
-      _ownerProfilesCache = {};
-      for (const p of list) _ownerProfilesCache[p.ownerId] = p;
+async function refreshCaches(retries = 2) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const [usersRes, pendingRes, profilesRes] = await Promise.all([
+        fetch('/api/users'),
+        fetch('/api/pending-employees'),
+        fetch('/api/owner-profiles'),
+      ]);
+      if (usersRes.ok)   _usersCache   = await usersRes.json();
+      if (pendingRes.ok) _pendingCache = await pendingRes.json();
+      if (profilesRes.ok) {
+        const list = await profilesRes.json();
+        _ownerProfilesCache = {};
+        for (const p of list) _ownerProfilesCache[p.ownerId] = p;
+      }
+      return;
+    } catch(e) {
+      if (attempt < retries) await new Promise(r => setTimeout(r, 1200));
     }
-  } catch(e) {}
+  }
 }
 
 function getUsers()            { return _usersCache;   }
