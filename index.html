@@ -3030,9 +3030,13 @@ async function doVerify() {
   const btn = document.querySelector('#authVerifyScreen .auth-submit');
   if (btn) { btn.disabled = true; btn.textContent = 'Łączenie…'; }
   try {
-    const { ok, data } = await apiPost('/api/auth/register', { ...pendingUser, verified: true });
+    const { ok, status, data } = await apiPost('/api/auth/register', { ...pendingUser, verified: true });
     if (!ok) {
-      showAuthMsg('verifyMsg', data.error || 'Błąd rejestracji. Spróbuj ponownie.');
+      if (status === 409) {
+        showAuthMsg('verifyMsg', '⚠️ Konto z tym e-mailem już istnieje. Wróć i zaloguj się.');
+      } else {
+        showAuthMsg('verifyMsg', data.error || 'Błąd rejestracji. Spróbuj ponownie.');
+      }
       return;
     }
     await refreshCaches();
